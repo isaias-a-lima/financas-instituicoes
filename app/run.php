@@ -6,6 +6,6 @@ use app\lib\Constantes;
 include Constantes::DEFAUL_CONTROLLER_DIR . "/ControllerModule.php";
 new ControllerModule();
 
-include Constantes::DEFAUL_VIEW_TDIR . "/header.php";
-include Constantes::DEFAUL_VIEW_TDIR . "/body.php";
-include Constantes::DEFAUL_VIEW_TDIR . "/footer.php";
+include Constantes::DEFAUL_VIEW_DIR . "/header.php";
+include Constantes::DEFAUL_VIEW_DIR . "/body.php";
+include Constantes::DEFAUL_VIEW_DIR . "/footer.php";
