@@ -1,4 +1,7 @@
 <?php
+namespace app\model\entities;
+
+use DateTime;
 
 class Instituicao {
     private int $idInstituicao;
