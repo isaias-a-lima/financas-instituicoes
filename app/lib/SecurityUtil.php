@@ -24,7 +24,7 @@ class SecurityUtil {
 
     public static function getHashPassword($password) {
         if (empty($password)) {
-            throw new Exception("Senha é obrigatória.");
+            throw new Exception("A senha é obrigatória.");
         }
         return password_hash($password, PASSWORD_BCRYPT);
     }
