@@ -1,0 +1,23 @@
+body{
+    margin: 0;
+}
+
+header {
+    width: 100%;
+    margin: 0;
+    top:0;
+    left: 0;
+}
+
+header>img {
+    width: 100%;
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #c9e265;
+    padding: 10px;
+    width: 100%;
+}
