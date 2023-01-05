@@ -9,7 +9,9 @@ class SessionController {
     const INSTITUICOES = "instituicoes";
 
     public static function createSession(Usuario $usuario) {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $_SESSION[self::ID_USUARIO] = $usuario->getIdUsuario();
         $_SESSION[self::NOME_USUARIO] = $usuario->getNome();
         $_SESSION[self::INSTITUICOES] = $usuario->getInstituicoes();
@@ -17,10 +19,16 @@ class SessionController {
     }
 
     public static function hasSession() {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         return isset($_SESSION[self::ID_USUARIO]);
     }
 
     public static function getSessionUser() {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (self::hasSession()) {
             $user = new Usuario();
             $user->setIdUsuario($_SESSION[self::ID_USUARIO]);
@@ -32,6 +40,9 @@ class SessionController {
     }
 
     public static function closeSession() {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         session_unset();
         session_destroy();
         return !isset($_SESSION[self::ID_USUARIO]);

@@ -6,7 +6,7 @@ use Exception;
 class SecurityUtil {
 
     public static function sanitizeString($str) {
-        if (empty($str)) {
+        if (!isset($str)) {
             throw new Exception("É obrigatório infomar um texto.");
         }
         $str = filter_var($str, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -14,7 +14,7 @@ class SecurityUtil {
     }
 
     public static function sanitizeInteger($number) {
-        if (empty($number)) {
+        if (!isset($number)) {
             throw new Exception("É obrigatório infomar um número.");
         }
         $number = filter_var($number, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -23,14 +23,14 @@ class SecurityUtil {
     }
 
     public static function getHashPassword($password) {
-        if (empty($password)) {
+        if (!isset($password)) {
             throw new Exception("A senha é obrigatória.");
         }
         return password_hash($password, PASSWORD_BCRYPT);
     }
 
     public static function comparePassword($password, $hash) {
-        if (empty($password) || empty($hash)) {
+        if (!isset($password) || !isset($hash)) {
             throw new Exception("A senha e o hash são parâmetros obrigatórios.");
         }
         return password_verify($password, $hash);

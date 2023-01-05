@@ -1,6 +1,6 @@
 </div>
 <footer>
-    &copy; isaiaslimadev.com
+    isaiaslimadev.com &copy; <?= date('Y')?>
 </footer>
 </body>
 </html>

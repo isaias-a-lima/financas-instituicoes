@@ -5,4 +5,6 @@ class Constantes{
     const DEFAULT_LIB_DIR = "./app/lib";
     const DEFAULT_CONTROLLER_DIR = "./app/controller";
     const DEFAULT_VIEW_DIR = "./app/view";
+    const DEFAULT_MODEL_DIR = "./app/model";
+    const DEFAULT_EXCEPTIONS_DIR = "./app/exceptions";
 }
