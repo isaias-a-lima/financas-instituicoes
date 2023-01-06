@@ -29,11 +29,13 @@ class LoginController {
             if (!empty($usuario) && SecurityUtil::comparePassword($senha, $usuario->getSenha())) {                
                 SessionController::createSession($usuario);
             } else {
+                $usuario = null;
                 throw new Exception("Usuário ou senha inválidos.");
             }
 
             if (SessionController::hasSession()) {
-                header("Location:./?p=2");
+                $url = "Location:./?p=" . RenderController::PAGES['HOME']['cod'];
+                header($url);
             }
         }catch (Exception $e) {
             throw new Exception($e->getMessage());

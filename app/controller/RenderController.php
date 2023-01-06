@@ -4,27 +4,29 @@ namespace app\controller;
 class RenderController {
 
     const PAGES = [
-        [1, "LOGIN", "/login.php"],
-        [2, "HOME", "/home.php"],
-        [3, "USUARIO", "/usuario.php"]
+        "LOGIN"=>["cod"=>1, "page"=>"/login.php"],
+        "HOME"=>["cod"=>2, "page"=>"/home.php"],
+        "USUARIO"=>["cod"=>3, "page"=>"/usuario.php"]
     ];
 
-    public static function rendering(int $page) {
+    public static function rendering(int $codPage) {
         if (SessionController::hasSession()) {
 
-            if ($page == 0) {
+            if ($codPage == 0) {
                 SessionController::closeSession();
-                return self::PAGES[0][2];
+                return self::PAGES['LOGIN']['page'];
             }
 
-            for($iVertical = 0; $iVertical < count(self::PAGES); $iVertical++) {                
-                if(self::PAGES[$iVertical][0] == $page) {
-                    return self::PAGES[$iVertical][2];
+            foreach(self::PAGES as $key => $value) {
+                if ($value['cod'] == $codPage) {
+                    return self::PAGES[$key]['page'];
                 }
             }
-            return self::PAGES[1][2];
+
+            return self::PAGES['HOME']['page'];
         } else {
-            return self::PAGES[0][2];
+            
+            return self::PAGES['LOGIN']['page'];
         }
     }
 }
