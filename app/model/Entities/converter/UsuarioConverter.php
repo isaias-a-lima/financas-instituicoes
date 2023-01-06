@@ -4,12 +4,13 @@ namespace app\model\entities\converter;
 use app\lib\Constantes;
 
 require_once Constantes::DEFAULT_MODEL_DIR . "/entities/Usuario.php";
+require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/ConverterInterface.php";
 
 use app\model\entities\Usuario;
 
-class UsuarioConverter {
+class UsuarioConverter implements ConverterInterface {
     
-    public static function ArrayToUsuario(array $array) {
+    public function assocArrayToObject(array $array) {
         if (isset($array)) {
             $usuario = new Usuario();
             $usuario->setIdUsuario($array['idusuario']);
@@ -20,6 +21,10 @@ class UsuarioConverter {
             $usuario->setInstituicoes([]);
             return $usuario;
         }
-        return false;
+        return null;
+    }
+
+    public function arrayListToObjectList(array $array) {
+
     }
 }

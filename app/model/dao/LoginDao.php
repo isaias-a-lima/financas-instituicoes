@@ -2,40 +2,26 @@
 namespace app\model\dao;
 
 use app\lib\Constantes;
+use app\model\dao\abstracts\DaoPattern;
 use app\model\entities\converter\UsuarioConverter;
 
 require_once Constantes::DEFAULT_MODEL_DIR . "/dao/Conexao.php";
+require_once Constantes::DEFAULT_MODEL_DIR . "/dao/abstracts/DaoPattern.php";
 require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/UsuarioConverter.php";
 
 use Exception;
-use PDO;
 
-class LoginDao {
-
-    private Conexao $conexao;
-
-    public function __construct() {
-        $this->conexao = new Conexao();        
-    }
+class LoginDao extends DaoPattern {
 
     public function getUsuarioByEmail($email) {
-        $conn = $this->conexao->getConn();
-        $result = false;
-        $db = "financas_instituicoes";
+        $db = parent::getDb();
         $sql = "SELECT * FROM $db.usuarios u, $db.usersecurity1 s WHERE u.email = :email";
+        $params = [':email'=>$email];
+        $result = null;
         try {
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(":email", $email);
-            $stmt->execute();
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            if ($stmt->rowCount() > 0) {
-                $result = $stmt->fetchAll();
-                $result = UsuarioConverter::ArrayToUsuario($result[0]);
-            }
+            $result = parent::getOne($sql, $params, new UsuarioConverter());
         }catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }finally {
-            $conn = null;
+            throw new Exception($e);
         }
         return $result;
     }
