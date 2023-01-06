@@ -7,4 +7,5 @@ class Constantes{
     const DEFAULT_VIEW_DIR = "./app/view";
     const DEFAULT_MODEL_DIR = "./app/model";
     const DEFAULT_EXCEPTIONS_DIR = "./app/exceptions";
+    const DEFAULT_MODULES_DIR = "./app/modules";
 }

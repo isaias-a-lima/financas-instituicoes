@@ -1,13 +1,8 @@
 <?php
 namespace app\model\dao;
 
-use app\lib\Constantes;
-use app\model\dao\abstracts\DaoPattern;
+use app\model\dao\patterns\DaoPattern;
 use app\model\entities\converter\UsuarioConverter;
-
-require_once Constantes::DEFAULT_MODEL_DIR . "/dao/Conexao.php";
-require_once Constantes::DEFAULT_MODEL_DIR . "/dao/abstracts/DaoPattern.php";
-require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/UsuarioConverter.php";
 
 use Exception;
 

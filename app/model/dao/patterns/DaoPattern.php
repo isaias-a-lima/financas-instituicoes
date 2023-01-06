@@ -1,5 +1,5 @@
 <?php
-namespace app\model\dao\abstracts;
+namespace app\model\dao\patterns;
 
 use app\model\dao\Conexao;
 use app\model\entities\converter\ConverterInterface;
@@ -30,10 +30,31 @@ class DaoPattern {
             }
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            if ($stmt->rowCount() > 0) {
-                $result = $stmt->fetchAll();
+            if ($result = $stmt->fetchAll()) {
                 $result = $converter->assocArrayToObject($result[0]);
             }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        } finally {
+            $conn = null;
+        }
+        return $result;
+    }
+
+    public function getAll(string $sql, array $params, ConverterInterface $converter) {
+        $result = null;
+        try {
+            $conn = $this->conexao->getConn();
+            $stmt = $conn->prepare($sql);
+            foreach ($params as $key => $value) {
+                $stmt->bindParam($key, $value);
+            }
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll();
+            /* if ($result = $stmt->fetchAll()) {
+                $result = $converter->assocArrayToObject($result[0]);
+            } */
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         } finally {

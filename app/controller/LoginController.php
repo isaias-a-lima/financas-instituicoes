@@ -1,10 +1,6 @@
 <?php
 namespace app\controller;
 
-use app\lib\Constantes;
-
-require_once Constantes::DEFAULT_MODEL_DIR . "/dao/LoginDao.php";
-
 use app\lib\SecurityUtil;
 use app\model\dao\LoginDao;
 use Exception;
