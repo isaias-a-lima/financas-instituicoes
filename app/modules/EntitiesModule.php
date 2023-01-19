@@ -10,5 +10,6 @@ class EntitiesModule {
         require_once Constantes::DEFAULT_MODEL_DIR . "/entities/Usuario.php";
         require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/UsuarioConverter.php";
         require_once Constantes::DEFAULT_MODEL_DIR . "/entities/Instituicao.php";
+        require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/InstituicaoConverter.php";
     }
 }

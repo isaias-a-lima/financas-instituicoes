@@ -3,10 +3,12 @@ body{
 }
 
 header {
+    background-color: skyblue;
     width: 100%;
     margin: 0;
     top:0;
     left: 0;
+    padding: 10px 20px;
 }
 
 header>img {
@@ -17,7 +19,11 @@ header>img {
 footer {
     position: fixed;
     bottom: 0;
-    background-color: #c9e265;
+    background-color: skyblue;
     padding: 10px;
     width: 100%;
+}
+
+.row {
+    margin-top: 20px;
 }

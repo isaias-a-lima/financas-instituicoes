@@ -1,6 +1,7 @@
 <?php
 
 use app\controller\LoginController;
+use app\controller\RenderController;
 
 $error = "";
 
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <section class="row">
     <div class="col-sm-6">
-        <h1>Login</h1>
+        <h1>Digite seus dados para entrar.</h1>
         <?=$error?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <div class="form-group">
@@ -30,7 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="senha">Senha</label>
                 <input class="form-control" type="password" name="senha" id="senha" required />
             </div>
-            <input class="btn btn-default" type="submit" value="Login" />
+            <input class="btn btn-default" type="submit" value="Entrar" />
         </form>
+    </div>    
+</section>
+<section class="row">
+<div class="col-sm-12">
+        <a href="./?p=<?php echo RenderController::PAGES['CADASTRO_USUARIO']['cod'];?>">Ainda não tem cadastro? Clique aqui para cadastrar-se!</a>
     </div>
 </section>

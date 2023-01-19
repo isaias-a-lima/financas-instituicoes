@@ -17,6 +17,6 @@
 
 <body>
     <header>
-        <img src="app/view/images/banner_financas.png" />                    
+        <h1>Controle Financeiro</h1>
     </header>
     <div class="container">

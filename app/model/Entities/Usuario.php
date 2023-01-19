@@ -1,8 +1,6 @@
 <?php
 namespace app\model\entities;
 
-use DateTime;
-
 class Usuario {
 
     private int $idUsuario;
@@ -10,7 +8,7 @@ class Usuario {
     private string $nome;
     private string $email;
     private string $senha;
-    private DateTime $dataCadastro;
+    private string $dataCadastro;
     private array $instituicoes;
 
     public function getIdUsuario() { return $this->idUsuario; }
@@ -26,7 +24,7 @@ class Usuario {
     public function setNome(string $nome) { $this->nome = $nome; }
     public function setEmail(string $email) { $this->email = $email; }
     public function setSenha(string $senha) { $this->senha = $senha; }
-    public function setDataCadastro(DateTime $dataCadastro) { $this->dataCadastro = $dataCadastro; }
+    public function setDataCadastro(string $dataCadastro) { $this->dataCadastro = $dataCadastro; }
     public function setInstituicoes(array $instituicoes) { $this->instituicoes = $instituicoes; }
 
 }

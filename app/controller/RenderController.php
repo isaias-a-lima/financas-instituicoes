@@ -6,11 +6,12 @@ class RenderController {
     const PAGES = [
         "LOGIN"=>["cod"=>1, "page"=>"/login.php"],
         "HOME"=>["cod"=>2, "page"=>"/home.php"],
-        "USUARIO"=>["cod"=>3, "page"=>"/usuario.php"]
+        "CADASTRO_USUARIO"=>["cod"=>3, "page"=>"/cadastro_usuario.php"],
+        "CADASTRO_INSTITUICAO"=>["cod"=>4, "page"=>"/cadastro_instituicao.php"]
     ];
 
     public static function rendering(int $codPage) {
-        if (SessionController::hasSession()) {
+        if (SessionController::hasSession() || self::PAGES['CADASTRO_USUARIO']['cod'] == $codPage) {
 
             if ($codPage == 0) {
                 SessionController::closeSession();
