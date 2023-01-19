@@ -13,8 +13,8 @@ class InstituicaoConverter implements ConverterInterface {
     public function assocArrayToObject(array $array) {
         if (isset($array)) {
             $instituicao = new Instituicao();
-            if (isset($array['idusuario'])) {
-                $instituicao->setIdInstituicao($array['idusuario']);
+            if (isset($array['idinstituicao'])) {
+                $instituicao->setIdInstituicao($array['idinstituicao']);
             }
             $instituicao->setCnpj($array['cnpj']);
             $instituicao->setNome($array['nome']);
