@@ -2,6 +2,10 @@ body{
     margin: 0;
 }
 
+h1, h2, h3 {
+    margin: 0;
+}
+
 header {
     background-color: skyblue;
     width: 100%;
@@ -26,4 +30,9 @@ footer {
 
 .row {
     margin-top: 20px;
+}
+
+.icones {
+    font-size: 14pt;
+    padding-left: 15px;
 }
