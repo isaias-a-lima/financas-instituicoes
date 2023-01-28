@@ -36,3 +36,7 @@ footer {
     font-size: 14pt;
     padding-left: 15px;
 }
+
+.alert {
+    margin: 10px 0;
+}

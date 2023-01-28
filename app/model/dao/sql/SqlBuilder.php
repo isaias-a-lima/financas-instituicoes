@@ -30,7 +30,7 @@ class SqlBuilder {
     }
 
     public function UPDATE(string $table) {
-        $this->type = "UPDATE $table SET ";
+        $this->type = "UPDATE $this->dataBase.$table SET ";
         $this->sql = $this->type;
         return $this;
     }
@@ -64,17 +64,17 @@ class SqlBuilder {
     }
 
     public function INNERJOIN(string $table) {
-        $this->sql .= "INNER JOIN $table ";
+        $this->sql .= "INNER JOIN $this->dataBase.$table ";
         return $this;
     }
 
     public function LEFTJOIN(string $table) {
-        $this->sql .= "LEFT JOIN $table ";
+        $this->sql .= "LEFT JOIN $this->dataBase.$table ";
         return $this;
     }
 
     public function RIGHTJOIN(string $table) {
-        $this->sql .= "RIGHT JOIN $table ";
+        $this->sql .= "RIGHT JOIN $this->dataBase.$table ";
         return $this;
     }
 

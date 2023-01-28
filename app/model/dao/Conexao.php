@@ -8,23 +8,23 @@ use RuntimeException;
 
 class Conexao {
 
-    private $servername;
-    private $dbname;
-    private $username;
+    private $serverName;
+    private $dbName;
+    private $userName;
     private $password;
     private $conn;
 
     public function __construct() {    
             
-        $this->servername = "localhost";
-        $this->dbname = "financas_instituicoes";
-        $this->username = "teste";
+        $this->serverName = "localhost";
+        $this->dbName = "financas_instituicoes";
+        $this->userName = "teste";
         $this->password = "teste";       
     }
 
     public function getConn() {
         try {
-            $this->conn = new PDO("mysql:host=$this->servername;$this->dbname", $this->username, $this->password);
+            $this->conn = new PDO("mysql:host=$this->serverName;$this->dbName", $this->userName, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);            
         } catch (PDOException $e) {
             throw new RuntimeException($e->getMessage());
@@ -34,5 +34,10 @@ class Conexao {
 
     public function closeConn() {
         $this->conn == null;
+        return $this->conn;
+    }
+
+    public function getDbName() {
+        return $this->dbName;
     }
 }

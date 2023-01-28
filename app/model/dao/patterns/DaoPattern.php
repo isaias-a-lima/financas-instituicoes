@@ -1,23 +1,18 @@
 <?php
 namespace app\model\dao\patterns;
 
-use app\model\dao\Conexao;
+use app\model\dao\sql\Query;
+use app\model\dao\sql\SqlConsts;
 use app\model\entities\converter\ConverterInterface;
+use app\model\entities\converter\UsuarioConverter;
 use Exception;
-use PDO;
 
 class DaoPattern {
 
-    private Conexao $conexao;
-    protected string $database;
+    private Query $query;
 
     public function __construct() {
-        $this->conexao = new Conexao();
-        $this->database = "financas_instituicoes";
-    }
-
-    public function getDb() {
-        return $this->database;
+        $this->query = new Query();
     }
 
     public function getOne(string $sql, array $params, ConverterInterface $converter) {
@@ -25,29 +20,13 @@ class DaoPattern {
         $result = null;
 
         try {
-
-            $conn = $this->conexao->getConn();
-
-            $stmt = $conn->prepare($sql);
-
-            if (isset($params) && count($params) > 0) {
-                for($i=0; $i < count($params); $i++) {
-                    $stmt->bindParam($params[$i][0], $params[$i][1]);
-                }
-            }
-
-            $stmt->execute();
-
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-            if ($result = $stmt->fetchAll()) {
-                $result = $converter->assocArrayToObject($result[0]);
+            $result = $this->query->createQuery($sql, $params, SqlConsts::SELECT, $converter);
+            if(is_array($result)) {
+                $result = $result[0];
             }
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
-        } finally {
-            $conn = null;
         }
 
         return $result;
@@ -55,31 +34,13 @@ class DaoPattern {
 
     public function getAll(string $sql, array $params, ConverterInterface $converter) {
 
-        $result = null;
+        $result = null;        
         
         try {
-            $conn = $this->conexao->getConn();
-
-            $stmt = $conn->prepare($sql);
-
-            if (isset($params) && count($params) > 0) {
-                for($i=0; $i < count($params); $i++) {
-                    $stmt->bindParam($params[$i][0], $params[$i][1]);
-                }
-            }
-
-            $stmt->execute();
-
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            
-            if ($result = $stmt->fetchAll()) {
-                $result = $converter->arrayListToObjectList($result);
-            }
+            $result = $this->query->createQuery($sql, $params, SqlConsts::SELECT, $converter);
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
-        } finally {
-            $conn = null;
         }
 
         return $result;
@@ -90,25 +51,29 @@ class DaoPattern {
         $result = null;
 
         try {
-            $conn = $this->conexao->getConn();
-
-            $stmt = $conn->prepare($sql);
-
-            if (isset($params) && count($params) > 0) {
-                for($i=0; $i < count($params); $i++) {
-                    $stmt->bindParam($params[$i][0], $params[$i][1]);
-                }
-            }
-
-            $stmt->execute();
-            $result = $conn->lastInsertId();
+            $result = $this->query->createSave($sql, $params, SqlConsts::INCLUDE);
 
         } catch (Exception $e) {
             throw new Exception($e);
-        } finally {
-            $conn = null;
+        } 
+
+        return $result;
+    }
+
+    public function update(string $sql, array $params) {
+        $result = null;
+
+        try {
+            $result = $this->query->createQuery($sql, $params, SqlConsts::UPDATE, null);
+
+        } catch (Exception $e) {
+            throw new Exception($e);
         }
 
         return $result;
+    }
+
+    protected function getDbName() {
+        return $this->query->getDbName();
     }
 }

@@ -4,6 +4,7 @@ namespace app\controller;
 use app\lib\SecurityUtil;
 use app\model\dao\LoginDao;
 use Exception;
+use RuntimeException;
 
 class LoginController {
 

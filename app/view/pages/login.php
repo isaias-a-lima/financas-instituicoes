@@ -2,6 +2,7 @@
 
 use app\controller\LoginController;
 use app\controller\RenderController;
+use app\exceptions\ExceptionUtil;
 
 $error = "";
 

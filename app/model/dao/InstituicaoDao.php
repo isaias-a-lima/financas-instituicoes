@@ -12,7 +12,7 @@ class InstituicaoDao extends DaoPattern {
     public function getAllInstituicoes($idUsuarioResp) {
 
         $sql = SqlBuilder::build()->
-            DATABASE(parent::getDb())->
+            DATABASE(parent::getDbName())->
             SELECT()->addColum("*")->FROM("instituicoes inst")->
             WHERE("inst.idusuarioresp = :idusuarioresp")->
             ORDERBY("inst.nome")->
@@ -36,7 +36,7 @@ class InstituicaoDao extends DaoPattern {
     public function saveInstituicao(Instituicao $instituicao) {
         
         $sql = SqlBuilder::build()->
-            DATABASE(parent::getDb())->
+            DATABASE(parent::getDbName())->
             INSERT("instituicoes")->
             addColum("cnpj")->
             addColum("nome")->

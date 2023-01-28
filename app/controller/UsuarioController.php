@@ -24,8 +24,8 @@ class UsuarioController {
 
             if (isset($result) && $result !== false) {
                 $codPage = RenderController::PAGES['LOGIN']['cod'];
-                $a = "<a href='./?p=$codPage'>Clique aqui para entrar.</a>";
-                $msg = "Usuário cadastrado com sucesso! $a";
+                $link = "<a href='./?p=$codPage'>Clique aqui para entrar.</a>";
+                $msg = "Usuário cadastrado com sucesso! $link";
                 throw new Exception($msg);
             }
 

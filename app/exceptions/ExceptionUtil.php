@@ -9,7 +9,7 @@ class ExceptionUtil {
         $file = $e->getFile();
         $line = $e->getLine();
         $code = $e->getCode();
-        $message = $e->getMessage();
+        $message = substr($e->getMessage(), 0, strpos($e->getMessage(), "in"));
         return "Exception throw in $file on line $line: [Code $code] $message";
     }
 
