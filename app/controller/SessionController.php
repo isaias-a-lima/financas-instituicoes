@@ -7,29 +7,46 @@ class SessionController {
     const ID_USUARIO = "idUsuario";
     const NOME_USUARIO = "nomeUsuario";
     const INSTITUICOES = "instituicoes";
+    const SESSION_NOT_STARTED = false;
+    const SESSION_STARTED = true;
+    
+    private $sessionState = self::SESSION_NOT_STARTED;
+    private static $instance;
 
-    public static function createSession(Usuario $usuario) {
-        if (!isset($_SESSION)) {
-            session_start();
+    public static function getInstance() {
+        if (!isset(self::$instance)) {
+            self::$instance = new self;
         }
+
+        self::$instance->startSession();
+
+        return self::$instance;
+    }
+
+    public function startSession() {
+        if ($this->sessionState == self::SESSION_NOT_STARTED) {
+            $this->sessionState = session_start();
+        }
+
+        return $this->sessionState;
+    }
+
+    public function createSession(Usuario $usuario) {
+        if ($this->sessionState == self::SESSION_NOT_STARTED) {
+            $this->startSession();
+        }        
         $_SESSION[self::ID_USUARIO] = $usuario->getIdUsuario();
         $_SESSION[self::NOME_USUARIO] = $usuario->getNome();
-        $_SESSION[self::INSTITUICOES] = $usuario->getInstituicoes();
-        return isset($_SESSION[self::ID_USUARIO]);
+        $_SESSION[self::INSTITUICOES] = $usuario->getInstituicoes();        
+        return $this->sessionState;
     }
 
-    public static function hasSession() {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-        return isset($_SESSION[self::ID_USUARIO]);
+    public function hasSession($sessionName) {
+        return $this->sessionState && isset($_SESSION[$sessionName]);
     }
 
-    public static function getSessionUser() {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-        if (self::hasSession()) {
+    public function getSessionUser() {
+        if ($this->sessionState) {
             $user = new Usuario();
             $user->setIdUsuario($_SESSION[self::ID_USUARIO]);
             $user->setNome($_SESSION[self::NOME_USUARIO]);
@@ -39,12 +56,12 @@ class SessionController {
         return false;
     }
 
-    public static function closeSession() {
-        if (!isset($_SESSION)) {
-            session_start();
+    public function closeSession() {
+        if ($this->sessionState) {
+            $this->sessionState = !session_destroy();
+            unset($_SESSION);
+            return !$this->sessionState;
         }
-        session_unset();
-        session_destroy();
-        return !isset($_SESSION[self::ID_USUARIO]);
+        return false;
     }
 }

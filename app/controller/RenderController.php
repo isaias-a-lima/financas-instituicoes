@@ -12,11 +12,18 @@ class RenderController {
         "RESETAR_SENHA"=>["cod"=>6, "page"=>"/resetar_senha.php"]
     ];
 
-    public static function rendering(int $codPage) {
-        if (SessionController::hasSession() || self::PAGES['CADASTRO_USUARIO']['cod'] == $codPage) {
+    private SessionController $sessao;
+
+    public function __construct()
+    {
+        $this->sessao = SessionController::getInstance();
+    }
+
+    public function rendering(int $codPage) {
+        if ($this->sessao->hasSession($this->sessao::ID_USUARIO) || self::PAGES['CADASTRO_USUARIO']['cod'] == $codPage) {
 
             if ($codPage == 0) {
-                SessionController::closeSession();
+                $this->sessao->closeSession();
                 return self::PAGES['LOGIN']['page'];
             }
 
@@ -29,7 +36,7 @@ class RenderController {
             return self::PAGES['HOME']['page'];
         } else {
             if ($codPage == self::PAGES['RESETAR_SENHA']['cod']) {
-                SessionController::closeSession();
+                $this->sessao->closeSession();
                 return self::PAGES['RESETAR_SENHA']['page'];
             }
             return self::PAGES['LOGIN']['page'];

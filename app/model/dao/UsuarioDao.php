@@ -32,6 +32,32 @@ class UsuarioDao extends DaoPattern {
         return $result;
     }
 
+    public function getUsuarioByRgAndEmail(string $rg, string $email) {
+        
+        $sql = SqlBuilder::build()->
+        DATABASE(parent::getDbName())->
+        SELECT()->addColum("*")->
+        FROM("usuarios u")->        
+        WHERE("u.rg = :rg")->
+        AND("u.email = :email")->
+        getSql();
+
+        $params = [
+            [':rg', $rg],
+            [':email', $email]
+        ];
+
+        $result = false;
+
+        try {
+            $result = parent::getOne($sql, $params, new UsuarioConverter());
+        }catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        return $result;
+    }
+
     public function getUsuarioById(int $idUsuario) {
         $result = false;
 
@@ -160,6 +186,30 @@ class UsuarioDao extends DaoPattern {
 
         } catch (Exception $e) {
             throw new Exception($e);
+        }
+
+        return $result;
+    }
+
+    public function updateSenha(int $idUsuario, string $senha) {
+        $result = false;
+
+        $sql = SqlBuilder::build()->
+            DATABASE(parent::getDbName())->
+            UPDATE("usersecurity1")->
+            addColum("senha = :senha")->           
+            WHERE("idusuario = :idusuario")->
+            getSql();
+
+        $params = [
+            [":idusuario", $idUsuario],
+            [":senha", $senha]
+        ];
+        try{
+            $result = parent::update($sql, $params);
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
 
         return $result;

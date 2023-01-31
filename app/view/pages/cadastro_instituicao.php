@@ -7,10 +7,12 @@ use app\model\entities\Instituicao;
 
 $error = "";
 
-$usuario = SessionController::getSessionUser();
+$sessao = SessionController::getInstance();
+
+$usuario = $sessao->getSessionUser();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+
     try {
 
         $instituicao = new Instituicao();
@@ -23,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $controller = new InstituicaoController();
         $controller->saveInstituicao($instituicao);
-        
     } catch (Exception $e) {
         $msg = $e->getMessage();
         $error = "<div class='alert alert-danger'>$msg</div>";
@@ -31,15 +32,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 ?>
-<div class="row">
-    <div class="col-sm-12">
-        <a href="./?p=<?=RenderController::PAGES['HOME']['cod']?>" class="btn btn-default">Voltar</a>
-    </div>
-</div>
 <section class="row">
+    <div class="col-md-12">
+        <ul class="pager">
+            <li class="previous"><a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>" class="btn btn-default">Voltar</a></li>
+        </ul>
+    </div>
     <div class="col-sm-6">
-        <h1>Cadastro de instituição</h1>
-        <?=$error?>
+        <h2>Cadastro de instituição</h2>
+        <?= $error ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <div class="form-group">
                 <label for="cnpj">CNPJ da instituição</label>
@@ -57,12 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="emailcontab">E-mail da contabilidade</label>
                 <input class="form-control" type="mail" name="emailcontab" id="emailcontab" required />
             </div>
-            <div class="form-group">
-                <label for="usuarioresp">Usuário responsável</label>
-                <input class="form-control" type="text" id="usuarioresp" value="<?=$usuario->getNome()?>" readonly />
-                <input class="form-control" type="hidden" name="idusuarioresp" id="idusuarioresp" value="<?=$usuario->getIdUsuario()?>" required />
-            </div>
+            <input class="form-control" type="hidden" name="idusuarioresp" id="idusuarioresp" value="<?= $usuario->getIdUsuario() ?>" required />            
             <input class="btn btn-primary" type="submit" value="Salvar" />
         </form>
     </div>
 </section>
+<p>&nbsp;</p>

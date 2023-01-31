@@ -8,7 +8,7 @@ use app\model\entities\Usuario;
 $error = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+
     try {
 
         $usuario = new Usuario();
@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $usuarioController = new UsuarioController();
         $usuarioController->saveUsuario($usuario);
-        
     } catch (Exception $e) {
         $msg = $e->getMessage();
         $error = "<div class='alert alert-danger'>$msg</div>";
@@ -31,14 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 ?>
 <div class="row">
-    <div class="col-sm-12">
-        <a href="./?p=<?=RenderController::PAGES['HOME']['cod']?>" class="btn btn-default">Voltar</a>
+    <div class="col-md-12">
+        <ul class="pager">
+            <li class="previous"><a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>" class="btn btn-default">Voltar</a></li>
+        </ul>
     </div>
 </div>
 <section class="row">
     <div class="col-sm-6">
         <h1>Cadastro de usuário</h1>
-        <?=$error?>
+        <?= $error ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <div class="form-group">
                 <label for="rg">RG</label>

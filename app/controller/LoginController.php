@@ -4,14 +4,15 @@ namespace app\controller;
 use app\lib\SecurityUtil;
 use app\model\dao\LoginDao;
 use Exception;
-use RuntimeException;
 
 class LoginController {
 
     private LoginDao $loginDao;
+    private SessionController $sessao;
 
     public function __construct() {
         $this->loginDao = new LoginDao();
+        $this->sessao = SessionController::getInstance();
     }
 
     public function login($email, $senha) {        
@@ -24,15 +25,15 @@ class LoginController {
             $usuario = $this->loginDao->getUsuarioByEmail($email);
            
             if (!empty($usuario) && SecurityUtil::comparePassword($senha, $usuario->getSenha())) {                
-                SessionController::createSession($usuario);
+                $this->sessao->createSession($usuario);
             } else {
                 $usuario = null;
                 throw new Exception("Usuário ou senha inválidos.");
             }
 
-            if (SessionController::hasSession()) {
-                $url = "Location:./?p=" . RenderController::PAGES['HOME']['cod'];
-                header($url);
+            if ($this->sessao->hasSession($this->sessao::ID_USUARIO)) {
+                $codPage = RenderController::PAGES['HOME']['cod'];                
+                echo "<script>location.replace('./?p=$codPage');</script>";
             }
         }catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -40,6 +41,6 @@ class LoginController {
     }
 
     public function logout() {
-        SessionController::closeSession();
+        $this->sessao->closeSession();
     }
 }

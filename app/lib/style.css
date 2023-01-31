@@ -3,7 +3,7 @@ body{
 }
 
 h1, h2, h3 {
-    margin: 10px 0;
+    margin: 0 0 10px 0;
 }
 
 header {
@@ -26,10 +26,6 @@ footer {
     background-color: skyblue;
     padding: 10px;
     width: 100%;
-}
-
-.row {
-    margin-top: 20px;
 }
 
 .icones {

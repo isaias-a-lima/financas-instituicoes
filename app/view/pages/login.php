@@ -2,9 +2,10 @@
 
 use app\controller\LoginController;
 use app\controller\RenderController;
-use app\exceptions\ExceptionUtil;
+use app\lib\SecurityUtil;
 
-$error = "";
+$error = isset($_GET['msg']) ? SecurityUtil::sanitizeString($_GET['msg']) : "";
+$error = !empty($error) ? "<div class='alert alert-danger'>$error</div>" : "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = isset($_POST['email']) ? $_POST['email'] : '';
@@ -22,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <section class="row">
     <div class="col-sm-6">
         <h1>Digite seus dados para entrar.</h1>
-        <?=$error?>
+        <?= $error ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <div class="form-group">
                 <label for="email">E-mail</label>
@@ -34,10 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <input class="btn btn-default" type="submit" value="Entrar" />
         </form>
-    </div>    
+    </div>
 </section>
 <section class="row">
-<div class="col-sm-12">
-        <a href="./?p=<?php echo RenderController::PAGES['CADASTRO_USUARIO']['cod'];?>">Ainda não tem cadastro? Clique aqui para cadastrar-se!</a>
+    <div class="col-sm-12">
+        <a href="./?p=<?php echo RenderController::PAGES['CADASTRO_USUARIO']['cod']; ?>">Ainda não tem cadastro? Clique aqui para cadastrar-se!</a><br>
+        <a href="./?p=<?php echo RenderController::PAGES['RESETAR_SENHA']['cod']; ?>">Esqueci minha senha!</a>
     </div>
 </section>

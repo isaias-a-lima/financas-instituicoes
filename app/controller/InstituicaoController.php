@@ -25,7 +25,7 @@ class InstituicaoController {
             if (isset($result) && $result !== false) {
                 $codPage = RenderController::PAGES['HOME']['cod'];
                 $msg = "Instituição cadastrada com sucesso.";
-                header("Location:./?p=$codPage&msg=$msg");
+                echo "<script>location.replace('./?p=$codPage&msg=$msg');</script>";                
             }
 
         } catch (Exception $e) {

@@ -2,7 +2,9 @@
 
 use app\controller\SessionController;
 
-$usuario = SessionController::getSessionUser();
+$sessao = SessionController::getInstance();
+
+$usuario = $sessao->getSessionUser();
 
 $exit = "<a href='./?p=0' title='Sair' alt='Sair' class='icones'><span class='glyphicon glyphicon-log-out'></span></a>";
 $edit = "<a href='./?p=5&usuario=" .$usuario->getIdUsuario() . "' title='Editar meus dados' alt='Editar meus dados' class='icones'><span class='glyphicon glyphicon-edit'></span></a>";

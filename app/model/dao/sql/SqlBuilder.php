@@ -90,7 +90,7 @@ class SqlBuilder {
     }
     
     public function AND(string $condition) {
-        $this->sql .= "AND $condition ";
+        $this->sql .= " AND $condition ";
         return $this;
     }
 
