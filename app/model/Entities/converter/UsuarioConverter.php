@@ -14,9 +14,12 @@ class UsuarioConverter implements ConverterInterface {
         if (isset($array)) {
             $usuario = new Usuario();
             $usuario->setIdUsuario($array['idusuario']);
+            $usuario->setRg($array['rg']);
             $usuario->setNome($array['nome']);
             $usuario->setEmail($array['email']);
-            $usuario->setSenha($array['senha']);
+            if (isset($array['senha'])) {
+                $usuario->setSenha($array['senha']);
+            }
             //TODO
             $usuario->setInstituicoes([]);
             return $usuario;

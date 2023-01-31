@@ -85,6 +85,7 @@ class SqlBuilder {
 
     public function WHERE(string $condition) {
         $this->sql .= "WHERE $condition ";
+        $this->sql = str_replace(", WHERE", " WHERE", $this->sql);
         return $this;
     }
     

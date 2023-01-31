@@ -32,6 +32,42 @@ class UsuarioDao extends DaoPattern {
         return $result;
     }
 
+    public function getUsuarioById(int $idUsuario) {
+        $result = false;
+
+        try {
+            if (!isset($idUsuario)) {
+                throw new Exception("Nenhum usuário selecionado.");
+            }
+            
+            $sql = SqlBuilder::build()->
+                DATABASE(parent::getDbName())->
+                SELECT()->
+                addColum("u.idusuario")->
+                addColum("u.rg")->
+                addColum("u.nome")->
+                addColum("u.email")->
+                addColum("u.datacadastro")->
+                addColum("us.senha")->
+                FROM("usuarios u")->
+                INNERJOIN("usersecurity1 us")->
+                ON("us.idusuario = u.idusuario")->
+                WHERE("u.idusuario = :idusuario")->
+                getSql();
+                
+            $params = [
+                [":idusuario", $idUsuario]
+            ];
+
+            $result = parent::getOne($sql, $params, new UsuarioConverter());
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
+        return $result;
+    }
+
     public function getAllUsuarios() {
 
         $sql = SqlBuilder::build()->
@@ -96,6 +132,36 @@ class UsuarioDao extends DaoPattern {
         }catch (Exception $e) {
             throw new Exception($e);
         }
+        return $result;
+    }
+
+    public function updateUsuario(Usuario $usuario) {
+
+        $result = false;
+        
+        $sql = SqlBuilder::build()->
+            DATABASE(parent::getDbName())->
+            UPDATE("usuarios")->
+            addColum("rg = :rg")->
+            addColum("nome = :nome")->
+            addColum("email = :email")->
+            WHERE("idusuario = :idusuario")->
+            getSql();
+
+        $params = [
+            [":idusuario", $usuario->getIdUsuario()],
+            [":rg", $usuario->getRg()],
+            [":nome", $usuario->getNome()],
+            [":email", $usuario->getEmail()]
+        ];
+        
+        try {
+            $result = parent::update($sql, $params);
+
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+
         return $result;
     }
 

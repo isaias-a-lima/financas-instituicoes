@@ -15,13 +15,13 @@ class DaoPattern {
         $this->query = new Query();
     }
 
-    public function getOne(string $sql, array $params, ConverterInterface $converter) {
+    protected function getOne(string $sql, array $params, ConverterInterface $converter) {
 
         $result = null;
 
         try {
             $result = $this->query->createQuery($sql, $params, SqlConsts::SELECT, $converter);
-            if(is_array($result)) {
+            if(is_array($result) && count($result) > 0) {
                 $result = $result[0];
             }
 
@@ -64,7 +64,7 @@ class DaoPattern {
         $result = null;
 
         try {
-            $result = $this->query->createQuery($sql, $params, SqlConsts::UPDATE, null);
+            $result = $this->query->createSave($sql, $params, SqlConsts::UPDATE);
 
         } catch (Exception $e) {
             throw new Exception($e);

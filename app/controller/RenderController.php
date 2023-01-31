@@ -7,7 +7,9 @@ class RenderController {
         "LOGIN"=>["cod"=>1, "page"=>"/login.php"],
         "HOME"=>["cod"=>2, "page"=>"/home.php"],
         "CADASTRO_USUARIO"=>["cod"=>3, "page"=>"/cadastro_usuario.php"],
-        "CADASTRO_INSTITUICAO"=>["cod"=>4, "page"=>"/cadastro_instituicao.php"]
+        "CADASTRO_INSTITUICAO"=>["cod"=>4, "page"=>"/cadastro_instituicao.php"],
+        "EDITAR_USUARIO"=>["cod"=>5, "page"=>"/editar_usuario.php"],
+        "RESETAR_SENHA"=>["cod"=>6, "page"=>"/resetar_senha.php"]
     ];
 
     public static function rendering(int $codPage) {
@@ -26,7 +28,10 @@ class RenderController {
 
             return self::PAGES['HOME']['page'];
         } else {
-            
+            if ($codPage == self::PAGES['RESETAR_SENHA']['cod']) {
+                SessionController::closeSession();
+                return self::PAGES['RESETAR_SENHA']['page'];
+            }
             return self::PAGES['LOGIN']['page'];
         }
     }
