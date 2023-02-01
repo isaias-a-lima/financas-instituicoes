@@ -40,9 +40,7 @@ class InstituicaoController {
             <tr>
                 <th>Instituição</th>
                 <th>CNPJ</th>
-                <th>E-mail</th>
-                <th>E-mail contador</th>
-                <th>Data cadastro</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
@@ -54,16 +52,11 @@ class InstituicaoController {
             for ($i=0; $i < count($result); $i++) {
                 $nome = $result[$i]->getNome();
                 $cnpj = $result[$i]->getCnpj();
-                $email = $result[$i]->getEmail();
-                $emailContab = $result[$i]->getEmailContab();
-                $dataCadastro = $result[$i]->getDataCadastro();
                 $html .= "
                 <tr>
                     <td>$nome</td>
                     <td>$cnpj</td>
-                    <td>$email</td>
-                    <td>$emailContab</td>
-                    <td>$dataCadastro</td>
+                    <td><span class='glyphicon glyphicon-edit'></span></td>
                 </tr>
                 ";
             }

@@ -88,26 +88,33 @@ class UsuarioController {
             $usuario = $this->usuarioDao->getUsuarioByEmail($email);
 
             if (is_object($usuario) && null != $usuario->getEmail()) {
+                $subject = "Tesouraria Virtual - Resetar senha";
                 $message = "
                     <html>
                     <head>
-                    <title>Resetar senha</title>
+                    <title>$subject</title>
                     </head>
                     <body>
-                        <h2>Resetar senha</h2>
+                        <h2>$subject</h2>
                         <p>
                             Clique no link abaixo para resetar a sua senha.<br>
-                            Você será redirecionado para a página de resete.
+                            Você será redirecionado para a página de reset.
                         </p>
-                        <a href='http://localhost/financas-instituicoes/?p=6&step=2'>Clique aqui para resetar sua senha.</a>
+                        <a href='https://ikdesigns.com.br/tesouraria/?p=6&step=2'>Clique aqui para resetar sua senha.</a>
                         <p>
-                            Se você não solicitou este isso favor ignorar.
+                            Se você não solicitou isso favor ignorar.
                         </p>
                     </body>
                     </html>
                 ";
-                $emailUtil = new EmailUtil($usuario->getEmail(), "Resetar senha", $message);
-                $result = $emailUtil->sendMail();
+                $emailUtil = new EmailUtil($usuario->getEmail(), $subject, $message);                
+                if ($emailUtil->sendMail()) {
+                    $msg = "E-mail enviado com sucesso.";
+                    $link = "./?p=1&msg=$msg";
+                    echo "<script>location.replace('$link');</script>";
+                } else {
+                    throw new Exception("E-mail não enviado.");
+                }
             }
 
         } catch (Exception $e) {
