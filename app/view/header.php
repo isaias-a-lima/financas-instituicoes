@@ -17,6 +17,9 @@
 
 <body>
     <header>
-        <h1>Controle Financeiro</h1>
+        <h2>
+            <span class="glyphicon glyphicon-stats"></span>
+            Tesouraria Virtual
+        </h2>
     </header>
     <div class="container">

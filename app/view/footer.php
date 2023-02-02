@@ -1,6 +1,6 @@
 </div>
 <footer>
-    isaiaslimadev.com &copy; <?= date('Y')?>
+    iKDesigns - Isaias Lima &copy; <?= date('Y')?>
 </footer>
 </body>
 </html>

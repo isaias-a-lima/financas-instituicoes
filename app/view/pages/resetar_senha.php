@@ -37,7 +37,7 @@ if ($step == 2) {
 ?>
 <section class="row">
     <div class="col-sm-6">
-        <h2>Resetar senha</h2>
+        <h3>Resetar senha</h3>
         <?=$error?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <input type="hidden" name="step" value="2" />
@@ -69,7 +69,7 @@ if ($step == 2) {
 </div>
 <section class="row">
     <div class="col-sm-6">
-        <h2>Resetar senha</h2>
+        <h3>Resetar senha</h3>
         <?=$error?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <input type="hidden" name="step" value="1" />

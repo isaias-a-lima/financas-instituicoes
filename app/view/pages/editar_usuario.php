@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </div>
 <section class="row">
     <div class="col-sm-6">
-        <h2>Meus dados</h2>
+        <h3>Meus dados</h3>
         <?= $error ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <input type="hidden" id="id-usuario" name="id-usuario" value="<?= $usuario->getIdUsuario() ?>">

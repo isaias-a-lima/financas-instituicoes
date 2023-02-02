@@ -13,7 +13,7 @@ $instituicaoController = new InstituicaoController();
 ?>
 <section class="row">
     <div class="col-md-12">
-        <h2>
+        <h3>
             Instituições
             <a href="./?p=<?= RenderController::PAGES['CADASTRO_INSTITUICAO']['cod'] ?>" 
                 title="Incluir nova instituição" 
@@ -21,7 +21,7 @@ $instituicaoController = new InstituicaoController();
                 class="icones">
                 <span class="glyphicon glyphicon-plus"></span>
             </a>
-        </h2>
+        </h3>
     </div>
 </section>
 

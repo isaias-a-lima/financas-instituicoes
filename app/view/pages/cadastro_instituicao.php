@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </ul>
     </div>
     <div class="col-sm-6">
-        <h2>Cadastro de instituição</h2>
+        <h3>Cadastro de instituição</h3>
         <?= $error ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <div class="form-group">

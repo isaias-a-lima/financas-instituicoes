@@ -35,15 +35,16 @@ class InstituicaoController {
 
     public function renderizeAllInstituicoes($idUsuarioResp) {
         $html = "
-        <table class='table table-hover table-responsive'>
-        <thead>
-            <tr>
-                <th>Instituição</th>
-                <th>CNPJ</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody>
+            <div class='table-responsive'>
+            <table class='table table-hover'>
+            <thead>
+                <tr>
+                    <th>Instituição</th>
+                    <th>CNPJ</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
         ";
         try {
 
@@ -69,6 +70,7 @@ class InstituicaoController {
             $html .= "
             </tbody>
             </table>
+            </div>
             ";
         }
 
