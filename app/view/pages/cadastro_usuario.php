@@ -2,6 +2,7 @@
 
 use app\controller\RenderController;
 use app\controller\UsuarioController;
+use app\exceptions\ExceptionUtil;
 use app\lib\SecurityUtil;
 use app\model\entities\Usuario;
 
@@ -23,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $usuarioController = new UsuarioController();
         $usuarioController->saveUsuario($usuario);
     } catch (Exception $e) {
-        $msg = $e->getMessage();
+        $msg = ExceptionUtil::handleError($e);
         $error = "<div class='alert alert-danger'>$msg</div>";
     }
 }

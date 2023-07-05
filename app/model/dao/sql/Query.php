@@ -76,7 +76,7 @@ class Query
 
             $result = $sqlConst == SqlConsts::INCLUDE ? $conn->lastInsertId() : $stmt->rowCount();
 
-        } catch (exception $e) {
+        } catch (Exception $e) {
             throw new Exception($e);
         } finally {
             $conn = $this->conexao->closeConn();

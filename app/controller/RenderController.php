@@ -19,6 +19,9 @@ class RenderController {
         $this->sessao = SessionController::getInstance();
     }
 
+    /**
+     * Renderizar páginas. O parâmetro codPage está associado a const PAGES e define qual página deve ser renderizada.
+     */
     public function rendering(int $codPage) {
         if ($this->sessao->hasSession($this->sessao::ID_USUARIO) || self::PAGES['CADASTRO_USUARIO']['cod'] == $codPage) {
 

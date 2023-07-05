@@ -1,9 +1,16 @@
 <?php
 namespace app\exceptions;
 
+use app\controller\RenderController;
 use Exception;
 
 class ExceptionUtil {
+
+    const RESETAR = RenderController::PAGES['RESETAR_SENHA']['cod'];
+
+    const MESSAGES = [
+        "1062"=>"Usuário já cadastrado. Caso tenha esquecido sua senha <a href='?p=6'>clique aqui para resetar</a>."
+    ];
 
     public static function getError(Exception $e) {
         $file = $e->getFile();
@@ -15,6 +22,12 @@ class ExceptionUtil {
 
     public static function getMessageError(Exception $e) {        
         return $e->getMessage();
+    }
+
+    public static function handleError(Exception $e) {
+        if (strpos($e->getMessage(), "violation: 1062") >= 0) {
+            return self::MESSAGES["1062"];
+        }
     }
 
 }
