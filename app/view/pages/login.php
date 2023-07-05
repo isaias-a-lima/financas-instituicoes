@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <section class="row">
     <div class="col-sm-6">
-        <h3>Digite seus dados para entrar.</h3>
+        <h3>Entrar</h3>
         <?= $error ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <div class="form-group">
