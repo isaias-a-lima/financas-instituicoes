@@ -33,6 +33,24 @@ class InstituicaoController {
         }
     }
 
+    public function updateInstituicao(Instituicao $instituicao) {
+        try {
+            if(!isset($instituicao)) {
+                throw new Exception("Instituição é obrigatória.");
+            }
+
+            $result = $this->instituicaoDao->updateInstituicao($instituicao);
+
+            if (isset($result) && $result !== false) {
+                $codPage = RenderController::PAGES['HOME']['cod'];
+                $msg = "Dados alterados com sucesso.";
+                echo "<script>location.replace('./?p=$codPage&msg=$msg');</script>";
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
     public function renderizeAllInstituicoes($idUsuarioResp) {
         $html = "
             <div class='table-responsive'>
@@ -50,6 +68,10 @@ class InstituicaoController {
 
             $result = $this->instituicaoDao->getAllInstituicoes($idUsuarioResp);
 
+            $pagina = RenderController::PAGES['EDITAR_INSTITUICAO']['cod'];
+
+            $info = "Editar dados da instituição";
+
             for ($i=0; $i < count($result); $i++) {
                 $idInstituicao = $result[$i]->getIdInstituicao();
                 $nome = $result[$i]->getNome();
@@ -58,7 +80,7 @@ class InstituicaoController {
                 <tr>
                     <td>$nome</td>
                     <td>$cnpj</td>
-                    <td><a href='./?p=7&id=$idInstituicao'><span class='glyphicon glyphicon-edit'></span></a></td>
+                    <td><a href='./?p=$pagina&id=$idInstituicao' title='$info' alt='$info'><span class='glyphicon glyphicon-edit'></span></a></td>
                 </tr>
                 ";
             }
@@ -87,17 +109,6 @@ class InstituicaoController {
         }
     }
 
-    public function updateInstituicao(Instituicao $instituicao) {
-        try {
-            $result = $this->instituicaoDao->updateInstituicao($instituicao);
-            if (isset($result) && $result !== false) {
-                $codPage = RenderController::PAGES['HOME']['cod'];
-                $msg = "Dados alterados com sucesso.";
-                echo "<script>location.replace('./?p=$codPage&msg=$msg');</script>";
-            }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
+    
 
 }
