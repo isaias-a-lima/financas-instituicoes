@@ -51,13 +51,14 @@ class InstituicaoController {
             $result = $this->instituicaoDao->getAllInstituicoes($idUsuarioResp);
 
             for ($i=0; $i < count($result); $i++) {
+                $idInstituicao = $result[$i]->getIdInstituicao();
                 $nome = $result[$i]->getNome();
                 $cnpj = $result[$i]->getCnpj();
                 $html .= "
                 <tr>
                     <td>$nome</td>
                     <td>$cnpj</td>
-                    <td><span class='glyphicon glyphicon-edit'></span></td>
+                    <td><a href='./?p=7&id=$idInstituicao'><span class='glyphicon glyphicon-edit'></span></a></td>
                 </tr>
                 ";
             }
@@ -75,6 +76,28 @@ class InstituicaoController {
         }
 
         return $html;
+    }
+
+    public function getById($idInstituicao) : Instituicao {
+        try {
+            $instituicao = $this->instituicaoDao->getById($idInstituicao);
+            return $instituicao;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function updateInstituicao(Instituicao $instituicao) {
+        try {
+            $result = $this->instituicaoDao->updateInstituicao($instituicao);
+            if (isset($result) && $result !== false) {
+                $codPage = RenderController::PAGES['HOME']['cod'];
+                $msg = "Dados alterados com sucesso.";
+                echo "<script>location.replace('./?p=$codPage&msg=$msg');</script>";
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
 }

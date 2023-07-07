@@ -70,4 +70,57 @@ class InstituicaoDao extends DaoPattern {
         return $result;
     }
 
+    public function getById($idInstituicao) {
+        $sql = SqlBuilder::build()->
+            DATABASE(parent::getDbName())->
+            SELECT()->addColum("*")->FROM("instituicoes inst")->
+            WHERE("inst.idinstituicao = :idinstituicao")->
+            getSql();
+
+        $params = [
+            [":idinstituicao", $idInstituicao]
+        ];
+
+        $result = null;
+
+        try {
+            $result = parent::getOne($sql, $params, new InstituicaoConverter());
+        }catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        return $result;
+    }
+
+    public function updateInstituicao(Instituicao $instituicao) {
+    
+        $sql = SqlBuilder::build()->
+        DATABASE(parent::getDbName())->
+        UPDATE("instituicoes")->
+        addColum("cnpj = :cnpj")->
+        addColum("nome = :nome")->
+        addColum("email = :email")->
+        addColum("emailcontab = :emailcontab")->
+        WHERE("idinstituicao = :idinstituicao")->
+        getSql();
+
+        $params = [
+            [":cnpj", $instituicao->getCnpj()],
+            [":nome", $instituicao->getNome()],
+            [":email", $instituicao->getEmail()],
+            [":emailcontab", $instituicao->getEmailContab()],
+            [":idinstituicao", $instituicao->getIdInstituicao()]
+        ];
+
+        $result = null;
+
+        try {
+            $result = parent::update($sql, $params);
+        }catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        return $result;
+    }
+
 }

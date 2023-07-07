@@ -20,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $usuario->setSenha($senha);
         $usuario->setDataCadastro(date('Ymd'));
 
-
         $usuarioController = new UsuarioController();
         $usuarioController->saveUsuario($usuario);
     } catch (Exception $e) {

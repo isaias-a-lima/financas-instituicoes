@@ -4,7 +4,6 @@ namespace app\model\dao\patterns;
 use app\model\dao\sql\Query;
 use app\model\dao\sql\SqlConsts;
 use app\model\entities\converter\ConverterInterface;
-use app\model\entities\converter\UsuarioConverter;
 use Exception;
 
 class DaoPattern {
