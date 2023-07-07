@@ -5,6 +5,7 @@ use app\controller\RenderController;
 use app\controller\SessionController;
 use app\lib\SecurityUtil;
 use app\model\entities\Instituicao;
+use app\model\entities\Usuario;
 
 $error = "";
 
@@ -23,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $instituicao->setEmail(isset($_POST['email']) ? $_POST['email'] : null);
         $instituicao->setEmailContab(isset($_POST['emailcontab']) ? $_POST['emailcontab'] : null);
         $instituicao->setDataCadastro(isset($_POST['datacadastro']) ? $_POST['datacadastro'] : null);
-        $instituicao->setIdUsuarioResp(isset($_POST['idusuarioresp']) ? $_POST['idusuarioresp'] : null);
 
         $controller = new InstituicaoController();
         $controller->updateInstituicao($instituicao);
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="datacadastro">Data de cadastro</label>
                 <input class="form-control" type="date" name="datacadastro" id="datacadastro" value="<?=$instituicao->getDataCadastro()?>" readonly />
             </div>
-            <input type="hidden" name="idusuarioresp" id="idusuarioresp" value="<?=$instituicao->getIdUsuarioResp()?>" />            
+            
             <input class="btn btn-primary" type="submit" value="Salvar" />
         </form>
     </div>

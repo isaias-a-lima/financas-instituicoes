@@ -11,7 +11,7 @@ $edit = "<a href='./?p=5&usuario=" .$usuario->getIdUsuario() . "' title='Editar 
 $welcome = "<p>Bem vindo(a) " . $usuario->getNome() . $edit . $exit . "</p>";
 
 $msg = isset($_GET['msg']) ? $_GET['msg'] : null;
-$error = isset($msg) ? "<div class='alert alert-success'>$msg</div>" : "";
+$error = isset($msg) ? "<div id='errorMsg' class='alert alert-success'>$msg</div>" : "";
 
 ?>
 
@@ -28,3 +28,9 @@ $error = isset($msg) ? "<div class='alert alert-success'>$msg</div>" : "";
 </section>
 
 <?php include "instituicoes.php"; ?>
+
+<script>    
+    $(document).ready(function(){
+        $("#errorMsg").fadeOut(5000);
+    });
+</script>

@@ -4,6 +4,7 @@ use app\controller\InstituicaoController;
 use app\controller\RenderController;
 use app\controller\SessionController;
 use app\model\entities\Instituicao;
+use app\model\entities\Usuario;
 
 $error = "";
 
@@ -21,7 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $instituicao->setEmail(isset($_POST['email']) ? $_POST['email'] : null);
         $instituicao->setEmailContab(isset($_POST['emailcontab']) ? $_POST['emailcontab'] : null);
         $instituicao->setDataCadastro(date('Ymd'));
-        $instituicao->setIdUsuarioResp($usuario->getIdUsuario());
+        $titular = new Usuario();
+        $titular->setIdUsuario($usuario->getIdUsuario());
+        $instituicao->setTitular($titular);
 
         $controller = new InstituicaoController();
         $controller->saveInstituicao($instituicao);

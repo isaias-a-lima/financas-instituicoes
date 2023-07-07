@@ -51,7 +51,16 @@ class InstituicaoController {
         }
     }
 
-    public function renderizeAllInstituicoes($idUsuarioResp) {
+    public function getById($idInstituicao) : Instituicao {
+        try {
+            $instituicao = $this->instituicaoDao->getById($idInstituicao);
+            return $instituicao;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function renderizeAllInstituicoes($idUsuario) {
         $html = "
             <div class='table-responsive'>
             <table class='table table-hover'>
@@ -66,21 +75,29 @@ class InstituicaoController {
         ";
         try {
 
-            $result = $this->instituicaoDao->getAllInstituicoes($idUsuarioResp);
+            $result = $this->instituicaoDao->getAllInstituicoes($idUsuario);
 
-            $pagina = RenderController::PAGES['EDITAR_INSTITUICAO']['cod'];
+            $pEditar = RenderController::PAGES['EDITAR_INSTITUICAO']['cod'];
 
-            $info = "Editar dados da instituição";
+            $infoEditar = "Editar dados da instituição";
+            $infoAddUser = "Adicionar usuários à instituição";
 
             for ($i=0; $i < count($result); $i++) {
                 $idInstituicao = $result[$i]->getIdInstituicao();
                 $nome = $result[$i]->getNome();
                 $cnpj = $result[$i]->getCnpj();
+                $idTitular = $result[$i]->getTitular()->getIdUsuario();
+                $isTitular = $idUsuario == $idTitular;
+                $cssDisplay = $isTitular ? "inline" : "none";
                 $html .= "
                 <tr>
                     <td>$nome</td>
                     <td>$cnpj</td>
-                    <td><a href='./?p=$pagina&id=$idInstituicao' title='$info' alt='$info'><span class='glyphicon glyphicon-edit'></span></a></td>
+                    <td>
+                        <a href='#' style='display:$cssDisplay' title='$infoAddUser' alt='$infoAddUser'><span class='glyphicon glyphicon-user'></span></a>
+                        &nbsp;
+                        <a href='./?p=$pEditar&id=$idInstituicao' style='display:$cssDisplay' title='$infoEditar' alt='$infoEditar'><span class='glyphicon glyphicon-edit'></span></a>                        
+                    </td>
                 </tr>
                 ";
             }
@@ -99,16 +116,5 @@ class InstituicaoController {
 
         return $html;
     }
-
-    public function getById($idInstituicao) : Instituicao {
-        try {
-            $instituicao = $this->instituicaoDao->getById($idInstituicao);
-            return $instituicao;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
-    
 
 }

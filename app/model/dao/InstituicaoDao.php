@@ -9,17 +9,23 @@ use Exception;
 
 class InstituicaoDao extends DaoPattern {
 
-    public function getAllInstituicoes($idUsuarioResp) {
+    public function getAllInstituicoes($idUsuario) {
 
         $sql = SqlBuilder::build()->
             DATABASE(parent::getDbName())->
-            SELECT()->addColum("*")->FROM("instituicoes inst")->
-            WHERE("inst.idusuarioresp = :idusuarioresp")->
-            ORDERBY("inst.nome")->
+            SELECT()->addColum("i.idinstituicao")->addColum("i.cnpj")->addColum("i.nome")->
+            addColum("i.email")->addColum("i.emailcontab")->addColum("i.datacadastro")->
+            addColum("i.idusuarioresp")->
+            addColum("ui.idusuario")->
+            addColum("ui.funcao")->
+            FROM("instituicoes i")->INNERJOIN("usuarios_instituicoes ui")->
+            ON("ui.idinstituicao = i.idinstituicao")->
+            WHERE("ui.idusuario = :idusuario")->
+            ORDERBY("i.nome")->
             getSql();
 
         $params = [
-            [":idusuarioresp", $idUsuarioResp]
+            [":idusuario", $idUsuario]
         ];
 
         $result = null;
@@ -53,7 +59,7 @@ class InstituicaoDao extends DaoPattern {
             [':email', $instituicao->getEmail()],
             [':emailcontab', $instituicao->getEmailContab()],
             [':datacadastro', $instituicao->getDataCadastro()],
-            [':idusuarioresp', $instituicao->getIdUsuarioResp()]
+            [':idusuarioresp', $instituicao->getTitular()->getIdUsuario()]
         ];
 
         $result = false;
@@ -62,11 +68,43 @@ class InstituicaoDao extends DaoPattern {
             $lastId = parent::save($sql, $params);
 
             if (isset($lastId) && $lastId !== false) {
+                $this->saveUsuariosInstituicao($instituicao->getTitular()->getIdUsuario(), $lastId, null);
                 $result = (int) $lastId;
             }
         }catch (Exception $e) {
             throw new Exception($e);
         }
+        return $result;
+    }
+
+    public function saveUsuariosInstituicao(int $idUsuario, int $idInstituicao, $funcao) {
+
+        $sql = SqlBuilder::build()->
+            DATABASE(parent::getDbName())->
+            INSERT("usuarios_instituicoes")->
+            addColum("idusuario")->
+            addColum("idinstituicao")->
+            addColum("funcao")->
+            INSERTVALUES(":idusuario, :idinstituicao, :funcao")->
+            getSql();
+
+        $params = [
+            [":idusuario", $idUsuario],
+            [":idinstituicao", $idInstituicao],
+            [":funcao", (isset($funcao) ? $funcao : "Titular")]
+        ];
+
+        $result = false;
+
+        try {
+            $result = parent::save($sql, $params);
+            if (isset($lastId) && $lastId !== false) {
+                $result = (int) $lastId;
+            }
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+
         return $result;
     }
 

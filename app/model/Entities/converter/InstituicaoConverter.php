@@ -7,6 +7,7 @@ require_once Constantes::DEFAULT_MODEL_DIR . "/entities/Instituicao.php";
 require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/ConverterInterface.php";
 
 use app\model\entities\Instituicao;
+use app\model\entities\Usuario;
 
 class InstituicaoConverter implements ConverterInterface {
     
@@ -23,7 +24,9 @@ class InstituicaoConverter implements ConverterInterface {
                 $instituicao->setEmailContab($array['emailcontab']);
             }
             $instituicao->setDataCadastro($array['datacadastro']);
-            $instituicao->setIdUsuarioResp($array['idusuarioresp']);
+            $titular = new Usuario();
+            $titular->setIdUsuario($array['idusuarioresp']);
+            $instituicao->setTitular($titular);
             return $instituicao;
         }
         return null;
