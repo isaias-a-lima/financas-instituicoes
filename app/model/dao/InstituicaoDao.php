@@ -97,7 +97,7 @@ class InstituicaoDao extends DaoPattern {
         $result = false;
 
         try {
-            $result = parent::save($sql, $params);
+            $lastId = parent::save($sql, $params);
             if (isset($lastId) && $lastId !== false) {
                 $result = (int) $lastId;
             }

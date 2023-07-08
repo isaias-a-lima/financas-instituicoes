@@ -51,6 +51,14 @@ class InstituicaoController {
         }
     }
 
+    public function saveUsuariosInstituicao(int $idUsuario, int $idInstituicao, $funcao) {
+        try {
+            return $this->instituicaoDao->saveUsuariosInstituicao($idUsuario, $idInstituicao, $funcao);            
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
     public function getById($idInstituicao) : Instituicao {
         try {
             $instituicao = $this->instituicaoDao->getById($idInstituicao);
@@ -94,7 +102,7 @@ class InstituicaoController {
                     <td>$nome</td>
                     <td>$cnpj</td>
                     <td>
-                        <a href='#' style='display:$cssDisplay' title='$infoAddUser' alt='$infoAddUser'><span class='glyphicon glyphicon-user'></span></a>
+                        <a href='#' onclick='openUserModal($idInstituicao)' style='display:$cssDisplay' title='$infoAddUser' alt='$infoAddUser'><span class='glyphicon glyphicon-user'></span></a>
                         &nbsp;
                         <a href='./?p=$pEditar&id=$idInstituicao' style='display:$cssDisplay' title='$infoEditar' alt='$infoEditar'><span class='glyphicon glyphicon-edit'></span></a>                        
                     </td>
