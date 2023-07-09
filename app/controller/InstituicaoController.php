@@ -74,9 +74,9 @@ class InstituicaoController {
             <table class='table table-hover'>
             <thead>
                 <tr>
-                    <th>Instituição</th>
-                    <th>CNPJ</th>
-                    <th>&nbsp;</th>
+                    <th>Nome</th>
+                    <th>Opções</th>
+                    <th>Faturas</th>
                 </tr>
             </thead>
             <tbody>
@@ -100,11 +100,21 @@ class InstituicaoController {
                 $html .= "
                 <tr>
                     <td>$nome</td>
-                    <td>$cnpj</td>
                     <td>
+                        <a href='#' class='text-primary' title='Entradas' alt='Entradas'><span class='glyphicon glyphicon-plus-sign'></span></a>
+
+                        <a href='#' class='text-danger' title='Saídas' alt='Saídas'><span class='glyphicon glyphicon-minus-sign'></span></a>
+
+                        <a href='#' class='text-success' title='Relatórios' alt='Relatórios'><span class='glyphicon glyphicon-stats'></span></a>
+                        
+                        <a href='#' class='text-warning' title='Contas a pagar' alt='Entradas'><span class='glyphicon glyphicon-usd'></span></a>
+                        
                         <a href='#' onclick='openUserModal($idInstituicao)' style='display:$cssDisplay' title='$infoAddUser' alt='$infoAddUser'><span class='glyphicon glyphicon-user'></span></a>
-                        &nbsp;
+                        
                         <a href='./?p=$pEditar&id=$idInstituicao' style='display:$cssDisplay' title='$infoEditar' alt='$infoEditar'><span class='glyphicon glyphicon-edit'></span></a>                        
+                    </td>
+                    <td>
+                        <a href='#' title='Faturas' alt='Faturas'><span class='glyphicon glyphicon-barcode'></span></a>
                     </td>
                 </tr>
                 ";

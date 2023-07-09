@@ -43,3 +43,8 @@ footer {
 .alert {
     margin: 10px 0;
 }
+
+td>a {
+    padding: 5px;
+    color: black;
+}
