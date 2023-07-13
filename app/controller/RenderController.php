@@ -11,6 +11,8 @@ class RenderController {
         "EDITAR_USUARIO"=>["cod"=>5, "page"=>"/editar_usuario.php"],
         "RESETAR_SENHA"=>["cod"=>6, "page"=>"/resetar_senha.php"],
         "EDITAR_INSTITUICAO"=>["cod"=>7, "page"=>"/editar_instituicao.php"],
+        "CADASTRO_ENTRADA"=>["cod"=>8, "page"=>"/cadastro_entrada.php"],
+        "LISTAR_ENTRADAS"=>["cod"=>9, "page"=>"/listar_entradas.php"]
     ];
 
     private SessionController $sessao;

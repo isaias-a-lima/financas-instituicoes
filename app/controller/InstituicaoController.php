@@ -86,6 +86,7 @@ class InstituicaoController {
             $result = $this->instituicaoDao->getAllInstituicoes($idUsuario);
 
             $pEditar = RenderController::PAGES['EDITAR_INSTITUICAO']['cod'];
+            $pEntradas = RenderController::PAGES['LISTAR_ENTRADAS']['cod'];
 
             $infoEditar = "Editar dados da instituição";
             $infoAddUser = "Adicionar usuários à instituição";
@@ -101,7 +102,7 @@ class InstituicaoController {
                 <tr>
                     <td>$nome</td>
                     <td>
-                        <a href='#' class='text-primary' title='Entradas' alt='Entradas'><span class='glyphicon glyphicon-plus-sign'></span></a>
+                        <a href='./?p=$pEntradas&id=$idInstituicao' class='text-primary' title='Entradas' alt='Entradas'><span class='glyphicon glyphicon-plus-sign'></span></a>
 
                         <a href='#' class='text-danger' title='Saídas' alt='Saídas'><span class='glyphicon glyphicon-minus-sign'></span></a>
 
