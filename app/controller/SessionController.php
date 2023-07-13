@@ -23,6 +23,10 @@ class SessionController {
         return self::$instance;
     }
 
+    public function getSessionState() {
+        return $this->sessionState;
+    }
+
     public function startSession() {
         if ($this->sessionState == self::SESSION_NOT_STARTED) {
             $this->sessionState = session_start();
