@@ -19,10 +19,10 @@
 
 <body>
     <header>
-        <h2>
+        <h1>
             <span class="glyphicon glyphicon-stats"></span>
             Tesouraria Prática
-        </h2>
+        </h1>
     </header>
     <div class="container">
 

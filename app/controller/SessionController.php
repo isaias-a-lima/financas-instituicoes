@@ -49,7 +49,7 @@ class SessionController {
         return $this->sessionState && isset($_SESSION[$sessionName]);
     }
 
-    public function getSessionUser() {
+    public function getSessionUser(): Usuario {
         if ($this->sessionState) {
             $user = new Usuario();
             $user->setIdUsuario($_SESSION[self::ID_USUARIO]);

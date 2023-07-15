@@ -1,15 +1,21 @@
 <?php
 
 use app\controller\EntradaController;
+use app\controller\InstituicaoController;
 use app\controller\RenderController;
 
+$p = isset($_GET['p']) ? $_GET['p'] : '2';
 $idInstituicao = isset($_GET['id']) ? $_GET['id'] : '';
 
-$mkInicio = mktime(0,0,0,date("m"),1,date("Y"));
+$mkInicio = mktime(0, 0, 0, date("m"), 1, date("Y"));
 $mkFim = mktime(0, 0, 0, date("m"), date("t"), date("Y"));
 
-$dataInicio = date("Y-m-d", $mkInicio);
-$dataFim = date("Y-m-d", $mkFim);
+$dataInicio = isset($_GET['dataInicio']) ? $_GET['dataInicio'] : date("Y-m-d", $mkInicio);
+$dataFim = isset($_GET['dataFim']) ? $_GET['dataFim'] : date("Y-m-d", $mkFim);
+
+$instituicaoController = new InstituicaoController();
+
+$instituicao = $instituicaoController->getById($idInstituicao);
 
 $entradaController = new EntradaController();
 
@@ -18,14 +24,40 @@ $entradaController = new EntradaController();
 
 <?php include "./app/view/sessionInfo.php"; ?>
 
-<ul class="pager">
-    <li class="previous"><a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>" class="btn btn-default">Voltar</a></li>    
-</ul>
+<section class="row">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>"><span class="glyphicon glyphicon-arrow-left"></span> Voltar</a></li>
+            <li class="active"><?= $instituicao->getNome() ?></li>
+            <li><strong>Entradas</strong></li>
+        </ol>
+    </div>
+</section>
 
-<h3>
-    Entradas 
-    <a href="./p=<?= RenderController::PAGES['CADASTRO_ENTRADA']['cod'] ?>" class="icones" title="Adicionar entradas" alt="Adicionar entradas"><span class="glyphicon glyphicon-plus"></span></a>
-</h3>
-Período: <?=$dataInicio?> - <?=$dataFim?>
+<section class="row">
 
-<?php echo $entradaController->getByInstituicao($idInstituicao, $dataInicio, $dataFim); ?>
+    <div class="col-md-6 espaco-padrao">
+        <div class="input-group">
+            <input type="hidden" id="id" value="<?=$idInstituicao?>" />
+            <input type="hidden" id="p" value="<?=$p?>" />
+            <input class="form-control" type="date" id="dataInicio" style="width: 50%;" value="<?= $dataInicio ?>" />
+            <input class="form-control" type="date" id="dataFim" style="width: 50%;" value="<?= $dataFim ?>" />
+            <div class="input-group-btn">
+                <button id="btn-periodo" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 espaco-padrao">
+        <a href="./?p=<?= RenderController::PAGES['CADASTRO_ENTRADA']['cod'] ?>&id=<?= $idInstituicao ?>" class="btn btn-default" title="Adicionar entradas" alt="Adicionar entradas">
+            <span class="glyphicon glyphicon-plus"></span> Adicionar Entrada
+        </a>
+    </div>
+</section>
+
+<section class="row">
+    <div class="col-md-12">
+        <?php echo $entradaController->getByInstituicao($idInstituicao, $dataInicio, $dataFim); ?>
+    </div>
+</section>
+<script src="./app/view/js/listar_entradas.js"></script>
