@@ -104,6 +104,8 @@ class InstituicaoController {
                     <td>
                         <a href='./?p=$pEntradas&id=$idInstituicao' class='text-primary' title='Entradas' alt='Entradas'><span class='glyphicon glyphicon-plus-sign'></span></a>
 
+                        <a href=''><span class='glyphicon glyphicon-dashboard'></span></a>
+
                         <a href='#' class='text-danger' title='Saídas' alt='Saídas'><span class='glyphicon glyphicon-minus-sign'></span></a>
 
                         <a href='#' class='text-success' title='Relatórios' alt='Relatórios'><span class='glyphicon glyphicon-stats'></span></a>

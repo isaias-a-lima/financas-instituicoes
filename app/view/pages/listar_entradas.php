@@ -27,9 +27,16 @@ $entradaController = new EntradaController();
 <section class="row">
     <div class="col-md-12">
         <ol class="breadcrumb">
-            <li><a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>"><span class="glyphicon glyphicon-arrow-left"></span> Voltar</a></li>
+            <li>
+                <a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Home
+                </a>
+            </li>
+            <li>
+                <a href="./?p=<?= RenderController::PAGES['LISTAR_INSTITUICOES']['cod'] ?>">Instituições</a>
+            </li>
             <li class="active"><?= $instituicao->getNome() ?></li>
-            <li><strong>Entradas</strong></li>
+            <li class="active">Entradas</li>
         </ol>
     </div>
 </section>
@@ -38,8 +45,8 @@ $entradaController = new EntradaController();
 
     <div class="col-md-6 espaco-padrao">
         <div class="input-group">
-            <input type="hidden" id="id" value="<?=$idInstituicao?>" />
-            <input type="hidden" id="p" value="<?=$p?>" />
+            <input type="hidden" id="id" value="<?= $idInstituicao ?>" />
+            <input type="hidden" id="p" value="<?= $p ?>" />
             <input class="form-control" type="date" id="dataInicio" style="width: 50%;" value="<?= $dataInicio ?>" />
             <input class="form-control" type="date" id="dataFim" style="width: 50%;" value="<?= $dataFim ?>" />
             <div class="input-group-btn">

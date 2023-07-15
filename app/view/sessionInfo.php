@@ -15,14 +15,7 @@ $exit = "
     <span class='glyphicon glyphicon-log-out'></span> <small>Sair</small>
     </a>";
 
-$edit = "
-    <a href='./?p=5&usuario=" .$usuario->getIdUsuario() . "' 
-    title='Editar meus dados' 
-    alt='Editar meus dados' 
-    class='icones'>
-    <span class='glyphicon glyphicon-edit'></span> <small>Meus Dados</small>
-    </a>";
-$welcome = "<p>Bem vindo(a) " . $usuario->getNome() . $edit . $exit . "</p>";
+$welcome = "Bem vindo(a) " . $usuario->getNome() . $exit;
 
 $msg = isset($_GET['msg']) ? $_GET['msg'] : null;
 $error = isset($msg) ? "<div id='errorMsg' class='alert alert-success'>$msg</div>" : "";
@@ -30,7 +23,7 @@ $error = isset($msg) ? "<div id='errorMsg' class='alert alert-success'>$msg</div
 ?>
 
 <section class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12 text-right">
         <?= $welcome ?>
     </div>
 </section>

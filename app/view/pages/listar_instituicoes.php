@@ -11,6 +11,23 @@ $usuario = isset($usuario) ? $usuario : $sessao->getSessionUser();
 $instituicaoController = new InstituicaoController();
 
 ?>
+
+<?php include "./app/view/sessionInfo.php"; ?>
+
+<section class="row">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li>
+                <a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>">
+                    <i class="glyphicon glyphicon-arrow-left"></i>
+                    Home
+                </a>
+            </li>
+            <li class="active">Instituições</li>
+        </ol>
+    </div>
+</section>
+
 <section class="row">
     <div class="col-md-12">
         <h3>
@@ -62,23 +79,23 @@ $instituicaoController = new InstituicaoController();
 </div>
 
 <div id="avisoModal" style="position:fixed; z-index:9999; background-color:rgba(0, 0, 0, 0.8); display:none;">
-    <div class="alert alert-success" style="position:relative; width:80%; margin: 0 10%; top:100px;">        
+    <div class="alert alert-success" style="position:relative; width:80%; margin: 0 10%; top:100px;">
         Convite enviado com sucesso!
     </div>
 </div>
 
 <script>
     function openAvisoModal() {
-        $("#avisoModal").css("top","0");
-        $("#avisoModal").css("left","0");
-        $("#avisoModal").css("width","100%");
-        $("#avisoModal").css("height","100%");
+        $("#avisoModal").css("top", "0");
+        $("#avisoModal").css("left", "0");
+        $("#avisoModal").css("width", "100%");
+        $("#avisoModal").css("height", "100%");
         $("#avisoModal").show();
-        setTimeout("closeAvisoModal()",3000);
+        setTimeout("closeAvisoModal()", 3000);
     }
 
     function closeAvisoModal() {
-        $("#avisoModal").css("display","none");
+        $("#avisoModal").css("display", "none");
     }
 
 
