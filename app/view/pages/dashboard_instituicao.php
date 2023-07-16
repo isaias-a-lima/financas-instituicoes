@@ -52,7 +52,7 @@ $infoAddUser = "Adicionar usuários à instituição";
     </div>
 
     <div class="col-md-3 espaco-padrao">
-        <div class="menu" onclick="document.location.href='./?p=<?=$linkSaidas?>&idi=<?=$idInstituicao?>'">
+        <div class="menu" onclick="">
             <i class="glyphicon glyphicon-minus-sign text-danger"></i>
             &nbsp;
             Saídas
@@ -60,7 +60,7 @@ $infoAddUser = "Adicionar usuários à instituição";
     </div>
 
     <div class="col-md-3 espaco-padrao">
-        <div class="menu" onclick="document.location.href='./?p=<?=$linkRelatorios?>&idi=<?=$idInstituicao?>'">
+        <div class="menu" onclick="">
             <i class="glyphicon glyphicon-stats text-success"></i>
             &nbsp;
             Relatórios
@@ -68,10 +68,18 @@ $infoAddUser = "Adicionar usuários à instituição";
     </div>
 
     <div class="col-md-3 espaco-padrao">
-        <div class="menu" onclick="document.location.href='./?p=<?=$linkContas?>&idi=<?=$idInstituicao?>'">
+        <div class="menu" onclick="">
             <i class="glyphicon glyphicon-usd text-warning"></i>
             &nbsp;
             Contas
+        </div>
+    </div>
+
+    <div class="col-md-3 espaco-padrao">
+        <div class="menu" onclick="">
+            <i class="glyphicon glyphicon-cog"></i>
+            &nbsp;
+            Categorias
         </div>
     </div>
 
