@@ -100,7 +100,7 @@ $infoAddUser = "Adicionar usuários à instituição";
     </div>
 
     <div class="col-md-3 espaco-padrao">
-        <div class="menu" onclick="document.location.href='./?p=<?=$linkFaturas?>&idi=<?=$idInstituicao?>'">
+        <div class="menu" onclick="">
             <i class="glyphicon glyphicon-barcode"></i>
             &nbsp;
             Faturas

@@ -62,7 +62,7 @@ $entradaController = new EntradaController();
     </div>
 
     <div class="col-md-6 espaco-padrao">
-        <a href="./?p=<?= RenderController::PAGES['CADASTRO_ENTRADA']['cod'] ?>&id=<?= $idInstituicao ?>" class="btn btn-default" title="Adicionar entradas" alt="Adicionar entradas">
+        <a href="./?p=<?= RenderController::PAGES['CADASTRO_ENTRADA']['cod'] ?>&idi=<?= $idInstituicao ?>" class="btn btn-default" title="Adicionar entradas" alt="Adicionar entradas">
             <span class="glyphicon glyphicon-plus"></span> Adicionar Entrada
         </a>
     </div>

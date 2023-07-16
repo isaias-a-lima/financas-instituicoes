@@ -85,12 +85,14 @@ class EntradaController {
                 throw new Exception("Entrada é obrigatório.");
             }
 
+            $idi = $entrada->getInstituicao()->getIdInstituicao();
+
             $result = $this->entradaDAO->saveEntrada($entrada);
 
             if (isset($result) && $result !== false) {
                 $codPage = RenderController::PAGES['LISTAR_ENTRADAS']['cod'];
                 $msg = "Entrada cadastrada com sucesso.";
-                echo "<script>location.replace('./?p=$codPage&msg=$msg');</script>";                
+                echo "<script>location.replace('./?p=$codPage&idi=$idi&msg=$msg');</script>";                
             }
 
         } catch (Exception $e) {

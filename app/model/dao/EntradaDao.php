@@ -77,7 +77,7 @@ class EntradaDao extends DaoPattern {
         addColum("dataentrada")->
         addColum("descricao")->
         addColum("valor")->
-        INSERTVALUES(":idinstituicao, :idusuario, :idcategoria, :dataentrada", ":descricao",":valor")->
+        INSERTVALUES(":idinstituicao, :idusuario, :idcategoria, :dataentrada, :descricao, :valor")->
         getSql();
 
         $params = [
