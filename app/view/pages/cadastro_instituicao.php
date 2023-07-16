@@ -47,6 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     Home
                 </a>
             </li>
+            <li>
+                <a href="./?p=<?= RenderController::PAGES['LISTAR_INSTITUICOES']['cod'] ?>">
+                    Instituições
+                </a>
+            </li>
             <li class="active">Cadastrar Instituição</li>
         </ol>
     </div>

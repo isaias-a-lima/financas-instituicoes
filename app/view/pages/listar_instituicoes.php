@@ -38,6 +38,7 @@ $instituicaoController = new InstituicaoController();
 
 <section class="row">
     <div class="col-md-12">
+        <h3>Instituições</h3>
         <?php echo $instituicaoController->renderizeAllInstituicoes($usuario->getIdUsuario()); ?>
     </div>
 </section>
