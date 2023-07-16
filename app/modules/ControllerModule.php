@@ -10,5 +10,6 @@ class ControllerModule {
         require_once Constantes::DEFAULT_CONTROLLER_DIR . "/LoginController.php";
         require_once Constantes::DEFAULT_CONTROLLER_DIR . "/InstituicaoController.php";
         require_once Constantes::DEFAULT_CONTROLLER_DIR . "/EntradaController.php";
+        require_once Constantes::DEFAULT_CONTROLLER_DIR . "/CategoriaController.php";
     }
 }
