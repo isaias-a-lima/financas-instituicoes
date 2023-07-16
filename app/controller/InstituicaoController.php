@@ -42,9 +42,10 @@ class InstituicaoController {
             $result = $this->instituicaoDao->updateInstituicao($instituicao);
 
             if (isset($result) && $result !== false) {
-                $codPage = RenderController::PAGES['HOME']['cod'];
+                $codPage = RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'];
+                $idInstituicao = $instituicao->getIdInstituicao();
                 $msg = "Dados alterados com sucesso.";
-                echo "<script>location.replace('./?p=$codPage&msg=$msg');</script>";
+                echo "<script>location.replace('./?p=$codPage&idi=$idInstituicao&msg=$msg');</script>";
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -75,8 +76,7 @@ class InstituicaoController {
             <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Opções</th>
-                    <th>Faturas</th>
+                    <th style='width:150px;'>Opções</th>
                 </tr>
             </thead>
             <tbody>
@@ -87,6 +87,7 @@ class InstituicaoController {
 
             $pEditar = RenderController::PAGES['EDITAR_INSTITUICAO']['cod'];
             $pEntradas = RenderController::PAGES['LISTAR_ENTRADAS']['cod'];
+            $pDashboardInstituicao = RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'];
 
             $infoEditar = "Editar dados da instituição";
             $infoAddUser = "Adicionar usuários à instituição";
@@ -102,22 +103,9 @@ class InstituicaoController {
                 <tr>
                     <td>$nome</td>
                     <td>
-                        <a href='./?p=$pEntradas&id=$idInstituicao' class='text-primary' title='Entradas' alt='Entradas'><span class='glyphicon glyphicon-plus-sign'></span></a>
-
-                        <a href=''><span class='glyphicon glyphicon-dashboard'></span></a>
-
-                        <a href='#' class='text-danger' title='Saídas' alt='Saídas'><span class='glyphicon glyphicon-minus-sign'></span></a>
-
-                        <a href='#' class='text-success' title='Relatórios' alt='Relatórios'><span class='glyphicon glyphicon-stats'></span></a>
-                        
-                        <a href='#' class='text-warning' title='Contas a pagar' alt='Entradas'><span class='glyphicon glyphicon-usd'></span></a>
-                        
-                        <a href='#' onclick='openUserModal($idInstituicao)' style='display:$cssDisplay' title='$infoAddUser' alt='$infoAddUser'><span class='glyphicon glyphicon-user'></span></a>
-                        
-                        <a href='./?p=$pEditar&id=$idInstituicao' style='display:$cssDisplay' title='$infoEditar' alt='$infoEditar'><span class='glyphicon glyphicon-edit'></span></a>                        
-                    </td>
-                    <td>
-                        <a href='#' title='Faturas' alt='Faturas'><span class='glyphicon glyphicon-barcode'></span></a>
+                        <a href='./?p=$pDashboardInstituicao&idi=$idInstituicao' class='btn btn-default'>
+                            <span class='glyphicon glyphicon-dashboard text-danger'></span> Dashboard
+                        </a>
                     </td>
                 </tr>
                 ";

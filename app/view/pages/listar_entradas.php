@@ -5,7 +5,7 @@ use app\controller\InstituicaoController;
 use app\controller\RenderController;
 
 $p = isset($_GET['p']) ? $_GET['p'] : '2';
-$idInstituicao = isset($_GET['id']) ? $_GET['id'] : '';
+$idInstituicao = isset($_GET['idi']) ? $_GET['idi'] : '';
 
 $mkInicio = mktime(0, 0, 0, date("m"), 1, date("Y"));
 $mkFim = mktime(0, 0, 0, date("m"), date("t"), date("Y"));
@@ -35,11 +35,17 @@ $entradaController = new EntradaController();
             <li>
                 <a href="./?p=<?= RenderController::PAGES['LISTAR_INSTITUICOES']['cod'] ?>">Instituições</a>
             </li>
-            <li class="active"><?= $instituicao->getNome() ?></li>
+            <li>
+                <a href="./?p=<?= RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'] ?>&idi=<?=$idInstituicao?>">
+                    Dashboard
+                </a>
+            </li>
             <li class="active">Entradas</li>
         </ol>
     </div>
 </section>
+
+<h2><?= $instituicao->getNome() ?></h2>
 
 <section class="row">
 

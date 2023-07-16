@@ -32,21 +32,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "<div class='alert alert-danger'>$msg</div>";
     }
 } else {
-    $id = isset($_GET['id']) ? SecurityUtil::sanitizeString($_GET['id']) : 0;
+    $idInstituicao = isset($_GET['idi']) ? SecurityUtil::sanitizeString($_GET['idi']) : 0;
     $controller = new InstituicaoController();
-    $instituicao = $controller->getById($id);
+    $instituicao = $controller->getById($idInstituicao);
     $dataCadastro = date("d/m/Y", strtotime($instituicao->getDataCadastro()));
 }
 
+include "./app/view/sessionInfo.php";
+
 ?>
+
 <section class="row">
     <div class="col-md-12">
-        <ul class="pager">
-            <li class="previous"><a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>" class="btn btn-default">Voltar</a></li>
-        </ul>
+        <ol class="breadcrumb">
+            <li>
+                <a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>">
+                    <i class="glyphicon glyphicon-arrow-left"></i>
+                    Home
+                </a>
+            </li>
+            <li><a href="./?p=<?= RenderController::PAGES['LISTAR_INSTITUICOES']['cod'] ?>">Instituições</a></li>
+            <li>
+                <a href="./?p=<?= RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'] ?>&idi=<?=$idInstituicao?>">
+                    Dashboard
+                </a>
+            </li>
+            <li class="active">Edição de Dados da Instituição</li>
+        </ol>
     </div>
+</section>
+
+<h2><?= $instituicao->getNome() ?></h2>
+
+<section class="row">
     <div class="col-sm-6">
-        <h3>Edição de Dados da Instituição</h3>
         <?= $error ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <input type="hidden" name="idInstituicao" id="idInstituicao" value="<?=$instituicao->getIdInstituicao()?>" />

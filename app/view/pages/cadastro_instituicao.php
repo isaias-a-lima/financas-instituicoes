@@ -35,14 +35,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 ?>
+
+<?php include "./app/view/sessionInfo.php"; ?>
+
 <section class="row">
     <div class="col-md-12">
-        <ul class="pager">
-            <li class="previous"><a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>" class="btn btn-default">Voltar</a></li>
-        </ul>
+        <ol class="breadcrumb">
+            <li>
+                <a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>">
+                    <i class="glyphicon glyphicon-arrow-left"></i>
+                    Home
+                </a>
+            </li>
+            <li class="active">Cadastrar Instituição</li>
+        </ol>
     </div>
-    <div class="col-sm-6">
-        <h3>Cadastrar Instituição</h3>
+</section>
+
+<h3>Cadastrar Instituição</h3>
+
+<section class="row">
+    <div class="col-sm-6">        
         <?= $error ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <div class="form-group">
