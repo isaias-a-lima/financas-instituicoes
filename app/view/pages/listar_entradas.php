@@ -48,10 +48,9 @@ $entradaController = new EntradaController();
 <h2><?= $instituicao->getNome() ?></h2>
 
 <section class="row">
-
     <div class="col-md-6 espaco-padrao">
         <div class="input-group">
-            <input type="hidden" id="id" value="<?= $idInstituicao ?>" />
+            <input type="hidden" id="idi" value="<?= $idInstituicao ?>" />
             <input type="hidden" id="p" value="<?= $p ?>" />
             <input class="form-control" type="date" id="dataInicio" style="width: 50%;" value="<?= $dataInicio ?>" />
             <input class="form-control" type="date" id="dataFim" style="width: 50%;" value="<?= $dataFim ?>" />
@@ -59,10 +58,16 @@ $entradaController = new EntradaController();
                 <button id="btn-periodo" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
             </div>
         </div>
+    </div>    
+</section>
+
+<section class="row">
+    <div class="col-md-6">
+        <h3>Entradas</h3>
     </div>
 
-    <div class="col-md-6 espaco-padrao">
-        <a href="./?p=<?= RenderController::PAGES['CADASTRO_ENTRADA']['cod'] ?>&idi=<?= $idInstituicao ?>" class="btn btn-default" title="Adicionar entradas" alt="Adicionar entradas">
+    <div class="col-md-6 text-right espaco-padrao">
+        <a href="./?p=<?= RenderController::PAGES['CADASTRO_ENTRADA']['cod'] ?>&idi=<?= $idInstituicao ?>" class="btn btn-info" title="Adicionar entradas" alt="Adicionar entradas">
             <span class="glyphicon glyphicon-plus"></span> Adicionar Entrada
         </a>
     </div>
