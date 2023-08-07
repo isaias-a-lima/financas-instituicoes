@@ -65,6 +65,12 @@ include "./app/view/sessionInfo.php";
 <h2><?= $instituicao->getNome() ?></h2>
 
 <section class="row">
+    <div class="col-md-12">
+        <h3>Edição de Dados da Instituição</h3>
+    </div>
+</section>
+
+<section class="row">
     <div class="col-sm-6">
         <?= $error ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">

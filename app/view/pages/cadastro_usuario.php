@@ -29,16 +29,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 ?>
-<div class="row">
-    <div class="col-md-12">
-        <ul class="pager">
-            <li class="previous"><a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>" class="btn btn-default">Voltar</a></li>
-        </ul>
-    </div>
-</div>
+<p>&nbsp;</p>
+
 <section class="row">
-    <div class="col-sm-6">
-        <h3>Cadastro de usuário</h3>
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li>
+                <a href="./?p=<?= RenderController::PAGES['HOME']['cod'] ?>">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Home
+                </a>
+            </li>
+            <li class="active">Cadastro de Usuário</li>
+        </ol>
+    </div>
+</section>
+
+<section class="row">
+    <div class="col-md-6">
+        <h3>Cadastro de Usuário</h3>
         <?= $error ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <div class="form-group">

@@ -29,8 +29,12 @@ $instituicaoController = new InstituicaoController();
 </section>
 
 <section class="row">
-    <div class="col-md-6 espaco-padrao">
-        <a href="./?p=<?= RenderController::PAGES['CADASTRO_INSTITUICAO']['cod'] ?>" class="btn btn-default" title="Incluir nova instituição" alt="Incluir nova instituição">
+    <div class="col-md-3 espaco-padrao">
+        <h3>Instituições</h3>
+    </div>
+
+    <div class="col-md-9 text-right espaco-padrao">
+        <a href="./?p=<?= RenderController::PAGES['CADASTRO_INSTITUICAO']['cod'] ?>" class="btn btn-info" title="Incluir nova instituição" alt="Incluir nova instituição">
             <span class="glyphicon glyphicon-plus"></span> Adicionar Instituição
         </a>
     </div>
@@ -38,8 +42,6 @@ $instituicaoController = new InstituicaoController();
 
 <section class="row">
     <div class="col-md-12">
-        <h3>Instituições</h3>
         <?php echo $instituicaoController->renderizeAllInstituicoes($usuario->getIdUsuario()); ?>
     </div>
 </section>
-

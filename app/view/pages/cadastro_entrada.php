@@ -13,7 +13,6 @@ $msg = "";
 $error = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    echo "POST";
     try {
 
         $entrada = new Entrada();

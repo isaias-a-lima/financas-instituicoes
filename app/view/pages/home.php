@@ -17,32 +17,37 @@ $linkListarInstituicoes = RenderController::PAGES["LISTAR_INSTITUICOES"]["cod"];
 </section>
 
 <section class="row">
-    <div class="col-md-3">
+    
+    <div class="col-md-3 espaco-padrao">
         <div class="menu" onclick="document.location.href='./?p=<?=$linkListarInstituicoes?>'">
             <i class="glyphicon glyphicon-list"></i>
             &nbsp;
             Instituições
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="menu">
-            <i class="glyphicon glyphicon-question-sign"></i>
-            &nbsp;
-            Ajuda
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="menu">
-            <i class="glyphicon glyphicon-earphone"></i>
-            &nbsp;
-            Contato
-        </div>
-    </div>
-    <div class="col-md-3">
+
+    <div class="col-md-3 espaco-padrao">
         <div class="menu" onclick="document.location.href='./?p=<?=$linkEditarUsuario?>'">
             <i class="glyphicon glyphicon-user"></i>
             &nbsp;
             Meus Dados
         </div>
     </div>
+    
+    <div class="col-md-3 espaco-padrao">
+        <div class="menu">
+            <i class="glyphicon glyphicon-earphone"></i>
+            &nbsp;
+            Contato
+        </div>
+    </div>
+
+    <div class="col-md-3 espaco-padrao">
+        <div class="menu">
+            <i class="glyphicon glyphicon-question-sign"></i>
+            &nbsp;
+            Ajuda
+        </div>
+    </div>
+    
 </section>
