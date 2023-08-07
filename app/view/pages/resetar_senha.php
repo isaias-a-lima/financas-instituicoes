@@ -1,4 +1,4 @@
-<iframe name="enviar" width="10px" height="10px"></iframe>
+<iframe name="enviar" width="1px" height="1px" style="border: 0;"></iframe>
 
 <form name="enviarform" method="post" action="./app/lib/enviaMail.php" target="enviar">
     <input type="hidden" name="to">
@@ -16,7 +16,9 @@ use app\controller\UsuarioController;
 use app\lib\SecurityUtil;
 use app\model\entities\Usuario;
 
-$error = "";
+$error = isset($_GET['msg']) ? SecurityUtil::sanitizeString($_GET['msg']) : 
+    (isset($_POST['msg']) ? SecurityUtil::sanitizeString($_POST['msg']) : "");
+$error = !empty($error) ? "<div id='errorMsg' class='alert alert-warning'>$error</div>" : "";
 
 $mensagem = null;
 
@@ -46,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
     } catch (Exception $e) {
         $msg = $e->getMessage();
-        $error = "<div class='alert alert-danger'>$msg</div>";
+        $error = "<div id='errorMsg' class='alert alert-danger'>$msg</div>";
     }
 }
 
@@ -105,6 +107,8 @@ if ($step == 2) {
                 <label for="email">E-mail</label>
                 <input class="form-control" type="mail" name="email" id="email" placeholder="Digite seu e-mail" required />
             </div>
+            
+            <input type="hidden" id="resetMsg" name="msg">
             <input class="btn btn-primary" type="submit" value="Resetar" />
         </form>
     </div>
@@ -113,5 +117,5 @@ if ($step == 2) {
 }
 ?>
 
-
+<script src="./app/view/js/shared.js"></script>
 

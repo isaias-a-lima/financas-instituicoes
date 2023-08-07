@@ -4,8 +4,9 @@ use app\controller\LoginController;
 use app\controller\RenderController;
 use app\lib\SecurityUtil;
 
-$error = isset($_GET['msg']) ? SecurityUtil::sanitizeString($_GET['msg']) : "";
-$error = !empty($error) ? "<div class='alert alert-danger'>$error</div>" : "";
+$error = isset($_GET['msg']) ? SecurityUtil::sanitizeString($_GET['msg']) : 
+    (isset($_POST['msg']) ? SecurityUtil::sanitizeString($_POST['msg']) : "");
+$error = !empty($error) ? "<div id='errorMsg' class='alert alert-danger'>$error</div>" : "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = isset($_POST['email']) ? $_POST['email'] : '';
@@ -43,3 +44,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <a href="./?p=<?php echo RenderController::PAGES['RESETAR_SENHA']['cod']; ?>">Esqueci minha senha!</a>
     </div>
 </section>
+
+<script src="./app/view/js/shared.js"></script>
