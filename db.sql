@@ -54,6 +54,8 @@ CREATE TABLE `categorias` (
   PRIMARY KEY (`idcategoria`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 
+
+
 CREATE TABLE `entradas` (
   `identrada` int NOT NULL AUTO_INCREMENT,
   `idinstituicao` int NOT NULL,
