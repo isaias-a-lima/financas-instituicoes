@@ -3,7 +3,7 @@ namespace app\controller;
 
 use app\model\dao\UsuarioDao;
 use app\model\entities\Usuario;
-use EmailUtil;
+use app\model\entities\Mensagem;
 use Exception;
 
 class UsuarioController {
@@ -78,43 +78,42 @@ class UsuarioController {
         return $result;
     }
 
-    public function resetarSenhaEtapa1(string $email) {
+    public function resetarSenhaEtapa1(string $email): Mensagem {
         $result = false;
         try {
             if (!isset($email)) {
                 throw new Exception("E-mail é obrigatório.");
             }
 
-            $usuario = $this->usuarioDao->getUsuarioByEmail($email);
+            $subject = "Tesouraria Prática - Resetar senha";
 
-            if (is_object($usuario) && null != $usuario->getEmail()) {
-                $subject = "Tesouraria Virtual - Resetar senha";
-                $message = "
-                    <html>
-                    <head>
-                    <title>$subject</title>
-                    </head>
-                    <body>
-                        <h2>$subject</h2>
-                        <p>
-                            Clique no link abaixo para resetar a sua senha.<br>
-                            Você será redirecionado para a página de reset.
+            $message = "
+                <html>
+                <head>
+                <title>$subject</title>
+                </head>
+                <body>
+                <h2>$subject</h2>
+                <p>
+                Clique no link abaixo para resetar a sua senha.<br>
+                Você será redirecionado para a página de reset.
                         </p>
                         <a href='https://ikdesigns.com.br/tesouraria/?p=6&step=2'>Clique aqui para resetar sua senha.</a>
                         <p>
-                            Se você não solicitou isso favor ignorar.
-                        </p>
-                    </body>
-                    </html>
-                ";
-                $emailUtil = new EmailUtil($usuario->getEmail(), $subject, $message);                
-                if ($emailUtil->sendMail()) {
-                    $msg = "E-mail enviado com sucesso.";
-                    $link = "./?p=1&msg=$msg";
-                    echo "<script>location.replace('$link');</script>";
-                } else {
-                    throw new Exception("E-mail não enviado.");
-                }
+                Se você não solicitou isso favor ignorar.
+                </p>
+                </body>
+                </html>
+            ";
+
+            $usuario = $this->usuarioDao->getUsuarioByEmail($email);
+
+            if (isset($usuario) && !empty($usuario->getEmail())) {
+                $mensagem = new Mensagem($usuario->getEmail(), $subject, $message, "suporte@ikdesigns.com.br");
+                $result = $mensagem;
+            } else {
+                $txt = "E-mail não enviado. " . $usuario->getEmail();
+                throw new Exception($txt);
             }
 
         } catch (Exception $e) {

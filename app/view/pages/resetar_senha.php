@@ -1,3 +1,14 @@
+<iframe name="enviar" width="10px" height="10px"></iframe>
+
+<form name="enviarform" method="post" action="./app/lib/enviaMail.php" target="enviar">
+    <input type="hidden" name="to">
+    <input type="hidden" name="subject">
+    <input type="hidden" name="message">
+    <input type="hidden" name="from">
+</form>
+
+<script src="./app/view/js/resetar_senha.js"></script>
+
 <?php
 
 use app\controller\RenderController;
@@ -7,7 +18,11 @@ use app\model\entities\Usuario;
 
 $error = "";
 
+$mensagem = null;
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    
     
     try {
         if ($_POST['step'] == 2) {
@@ -22,7 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $email = isset($_POST['email']) ? SecurityUtil::sanitizeString($_POST['email']) : "";
             $usuarioController = new UsuarioController();
-            $usuarioController->resetarSenhaEtapa1($email);
+            $mensagem = $usuarioController->resetarSenhaEtapa1($email);
+            $json = json_encode($mensagem);
+            if(isset($mensagem)) {
+                echo "<script>resetarSenhaEtapa1($json)</script>";
+            }
         }
         
     } catch (Exception $e) {
@@ -43,7 +62,7 @@ if ($step == 2) {
             <input type="hidden" name="step" value="2" />
             <div class="form-group">
                 <label for="rg">RG</label>
-                <input class="form-control" type="mail" name="rg" id="rg" placeholder="Digite seu RG" required />
+                <input class="form-control" type="text" name="rg" id="rg" placeholder="Digite seu RG" required />
             </div>
             <div class="form-group">
                 <label for="email">E-mail</label>
@@ -60,13 +79,22 @@ if ($step == 2) {
 <?php
 } else {
 ?>
-<div class="row">
+
+<p>&nbsp;</p>
+
+<section class="row">
     <div class="col-md-12">
-        <ul class="pager">
-            <li class="previous"><a href="./?p=<?= RenderController::PAGES['LOGIN']['cod'] ?>" class="btn btn-default">Voltar</a></li>
-        </ul>
+        <ol class="breadcrumb">
+            <li>
+                <a href="./?p=<?= RenderController::PAGES['LOGIN']['cod'] ?>">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Voltar
+                </a>
+            </li>
+            <li class="active">Resetar Senha</li>
+        </ol>
     </div>
-</div>
+</section>
+
 <section class="row">
     <div class="col-sm-6">
         <h3>Resetar senha</h3>
@@ -84,3 +112,6 @@ if ($step == 2) {
 <?php
 }
 ?>
+
+
+

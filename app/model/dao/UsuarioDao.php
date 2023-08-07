@@ -9,7 +9,7 @@ use Exception;
 
 class UsuarioDao extends DaoPattern {
 
-    public function getUsuarioByEmail($email) {
+    public function getUsuarioByEmail($email): Usuario {
 
         $sql = SqlBuilder::build()->DATABASE(parent::getDbName())->
             SELECT()->addColum("*")->
