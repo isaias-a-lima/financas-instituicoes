@@ -78,12 +78,14 @@ class UsuarioController {
         return $result;
     }
 
-    public function resetarSenhaEtapa1(string $email): Mensagem {
-        $result = false;
+    public function resetarSenhaEtapa1(string $email, string $local): Mensagem {
+        $result = null;
         try {
-            if (!isset($email)) {
+            if (!isset($email) ) {
                 throw new Exception("E-mail é obrigatório.");
             }
+
+            $chave = rand(0, 1000);
 
             $subject = "Tesouraria Prática - Resetar senha";
 
@@ -95,12 +97,12 @@ class UsuarioController {
                 <body>
                 <h2>$subject</h2>
                 <p>
+                Você está recebendo esse e-mail por ter solicitado o resete de senha.<br>
+                Caso não tenha solicitado, favor ignorar.<br>
                 Clique no link abaixo para resetar a sua senha.<br>
-                Você será redirecionado para a página de reset.
-                        </p>
-                        <a href='https://ikdesigns.com.br/tesouraria/?p=6&step=2'>Clique aqui para resetar sua senha.</a>
-                        <p>
-                Se você não solicitou isso favor ignorar.
+                Você será redirecionado para a página de reset, e quando solicitado, deverá digitar a chave abaixo:<br>                
+                <strong style='color: red; font-size:16pt;'>$chave</strong><br>              
+                <a href='https://ikdesigns.com.br/tesouraria/?p=6&step=2'>Clique aqui para resetar sua senha.</a>                                
                 </p>
                 </body>
                 </html>
@@ -109,10 +111,15 @@ class UsuarioController {
             $usuario = $this->usuarioDao->getUsuarioByEmail($email);
 
             if (isset($usuario) && !empty($usuario->getEmail())) {
-                $mensagem = new Mensagem($usuario->getEmail(), $subject, $message, "suporte@ikdesigns.com.br");
-                $result = $mensagem;
+
+                $res = $this->usuarioDao->insertChaveResetSenha($usuario, $chave, $local);
+                
+                if (is_numeric($res)) {
+                    $mensagem = new Mensagem($usuario->getEmail(), $subject, $message, "suporte@ikdesigns.com.br");
+                    $result = $mensagem;
+                }
             } else {
-                $txt = "E-mail não enviado. " . $usuario->getEmail();
+                $txt = "E-mail " . $usuario->getEmail() . " não enviado. ";
                 throw new Exception($txt);
             }
 

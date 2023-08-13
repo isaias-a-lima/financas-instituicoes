@@ -9,6 +9,37 @@ use Exception;
 
 class UsuarioDao extends DaoPattern {
 
+    public function insertChaveResetSenha(Usuario $usuario, $chave, $localizacao) {
+        try {
+            $sql_chave = SqlBuilder::build()->DATABASE(parent::getDbName())->
+                    INSERT("historico_reset_senha")->
+                    addColum("idusuario")->
+                    addColum("chave")->
+                    addColum("datasolicitacao")->
+                    addColum("dataexpiracao")->
+                    addColum("localizacao")->
+                    INSERTVALUES(":idusuario, :chave, :datasolicitacao, :dataexpiracao, :localizacao")->
+                    getSql();
+
+            $expiracao = date("Y-m-d", strtotime("+ 1 day"));
+
+            $params_chave = [
+                [':idusuario', $usuario->getIdUsuario()],
+                [':chave', $chave],
+                [':datasolicitacao', date("Y-m-d")],
+                [':dataexpiracao', $expiracao],
+                [':localizacao', $localizacao]
+            ];
+
+            $lastId = parent::save($sql_chave, $params_chave);
+
+            return $lastId;
+
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+    }
+
     public function getUsuarioByEmail($email): Usuario {
 
         $sql = SqlBuilder::build()->DATABASE(parent::getDbName())->
@@ -24,7 +55,7 @@ class UsuarioDao extends DaoPattern {
         $result = null;
 
         try {
-            $result = parent::getOne($sql, $params, new UsuarioConverter());
+            $result = parent::getOne($sql, $params, new UsuarioConverter());            
         }catch (Exception $e) {
             throw new Exception($e);
         }

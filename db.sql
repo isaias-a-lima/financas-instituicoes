@@ -72,3 +72,15 @@ CREATE TABLE `entradas` (
   CONSTRAINT `fk_instituicoes_entradas` FOREIGN KEY (`idinstituicao`) REFERENCES `instituicoes` (`idinstituicao`) ON DELETE RESTRICT,
   CONSTRAINT `fk_usuarios_entradas` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+
+CREATE TABLE `historico_reset_senha` (
+  `idhistorico` int NOT NULL AUTO_INCREMENT,
+  `idusuario` int NOT NULL,
+  `chave` varchar(255) COLLATE utf8_bin NOT NULL,
+  `datasolicitacao` date NOT NULL,
+  `dataexpiracao` date NOT NULL,
+  `localizacao` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`idhistorico`),
+  KEY `fk_usuarios__historico_reset_idx` (`idusuario`),
+  CONSTRAINT `fk_usuarios__historico_reset` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;

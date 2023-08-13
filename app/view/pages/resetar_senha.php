@@ -38,8 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
         } else {
             $email = isset($_POST['email']) ? SecurityUtil::sanitizeString($_POST['email']) : "";
+            $local = isset($_POST['local']) ? SecurityUtil::sanitizeString($_POST['local']) : "";
             $usuarioController = new UsuarioController();
-            $mensagem = $usuarioController->resetarSenhaEtapa1($email);
+            $mensagem = $usuarioController->resetarSenhaEtapa1($email, $local);
             $json = json_encode($mensagem);
             if(isset($mensagem)) {
                 echo "<script>resetarSenhaEtapa1($json)</script>";
@@ -109,6 +110,8 @@ if ($step == 2) {
             </div>
             
             <input type="hidden" id="resetMsg" name="msg">
+            <input type="hidden" id="local" name="local">
+
             <input class="btn btn-primary" type="submit" value="Resetar" />
         </form>
     </div>
