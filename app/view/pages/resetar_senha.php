@@ -28,13 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     try {
         if ($_POST['step'] == 2) {
-            $usuario = new Usuario();            
-            $usuario->setRg(isset($_POST['rg']) ? SecurityUtil::sanitizeString($_POST['rg']) : null);            
+            $usuario = new Usuario();
             $usuario->setEmail(isset($_POST['email']) ? SecurityUtil::sanitizeString($_POST['email']) : null);
             $usuario->setSenha(isset($_POST['senha']) ? SecurityUtil::getHashPassword(SecurityUtil::sanitizeString($_POST['senha'])) : null);
 
+            $chave = isset($_POST['chave']) ? $_POST['chave'] : '';
+
             $usuarioController = new UsuarioController();
-            $usuarioController->resetarSenhaEtapa2($usuario);
+            $usuarioController->resetarSenhaEtapa2($usuario, $chave);
             
         } else {
             $email = isset($_POST['email']) ? SecurityUtil::sanitizeString($_POST['email']) : "";
@@ -63,14 +64,17 @@ if ($step == 2) {
         <?=$error?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <input type="hidden" name="step" value="2" />
-            <div class="form-group">
-                <label for="rg">RG</label>
-                <input class="form-control" type="text" name="rg" id="rg" placeholder="Digite seu RG" required />
-            </div>
+            
             <div class="form-group">
                 <label for="email">E-mail</label>
                 <input class="form-control" type="mail" name="email" id="email" placeholder="Digite seu e-mail" required />
             </div>
+
+            <div class="form-group">
+                <label for="chave">Código</label>
+                <input class="form-control" type="text" name="chave" id="chave" placeholder="Digite a chave de segurança" required />
+            </div>
+
             <div class="form-group">
                 <label for="senha">Nova senha</label>
                 <input class="form-control" type="password" name="senha" id="senha" placeholder="Digite uma nova senha" required />

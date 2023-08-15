@@ -3,6 +3,7 @@ namespace app\model\dao;
 
 use app\model\dao\patterns\DaoPattern;
 use app\model\dao\sql\SqlBuilder;
+use app\model\entities\converter\BooleanConverter;
 use app\model\entities\converter\UsuarioConverter;
 use app\model\entities\Usuario;
 use Exception;
@@ -63,25 +64,25 @@ class UsuarioDao extends DaoPattern {
         return $result;
     }
 
-    public function getUsuarioByRgAndEmail(string $rg, string $email) {
-        
+    public function verifyChave(int $idUsuario) {
+
         $sql = SqlBuilder::build()->
         DATABASE(parent::getDbName())->
-        SELECT()->addColum("*")->
-        FROM("usuarios u")->        
-        WHERE("u.rg = :rg")->
-        AND("u.email = :email")->
+        SELECT()->addColum("hrs.chave")->
+        FROM("historico_reset_senha hrs")->        
+        WHERE("hrs.idusuario = :idusuario")->
+        AND("curdate() between hrs.datasolicitacao and hrs.dataexpiracao")->
+        ORDERBY("hrs.idhistorico desc")->
         getSql();
 
         $params = [
-            [':rg', $rg],
-            [':email', $email]
+            [':idusuario', $idUsuario]
         ];
 
         $result = false;
 
         try {
-            $result = parent::getOne($sql, $params, new UsuarioConverter());
+            $result = parent::getOne($sql, $params, new BooleanConverter());
         }catch (Exception $e) {
             throw new Exception($e);
         }

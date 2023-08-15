@@ -1,6 +1,7 @@
 <?php
 namespace app\controller;
 
+use app\lib\SecurityUtil;
 use app\model\dao\UsuarioDao;
 use app\model\entities\Usuario;
 use app\model\entities\Mensagem;
@@ -85,7 +86,8 @@ class UsuarioController {
                 throw new Exception("E-mail é obrigatório.");
             }
 
-            $chave = rand(0, 1000);
+            $chave = SecurityUtil::getHashPassword(rand(0, 1000));
+            //$chave = SecurityUtil::getHashPassword(323);
 
             $subject = "Tesouraria Prática - Resetar senha";
 
@@ -130,20 +132,26 @@ class UsuarioController {
         return $result;
     }
 
-    public function resetarSenhaEtapa2(Usuario $usuario) {
+    public function resetarSenhaEtapa2(Usuario $usuario, string $chave) {
         $result = false;
         try {
-            if(!isset($usuario)) {
-                throw new Exception("Usuário é obrigatório.");
+            if(!isset($usuario) || !isset($chave)) {
+                throw new Exception("Usuário e chave são obrigatórios.");
             }
 
-            $usuario2 = $this->usuarioDao->getUsuarioByRgAndEmail($usuario->getRg(), $usuario->getEmail());
+            $usuario2 = $this->usuarioDao->getUsuarioByEmail($usuario->getEmail());
 
-            if (false == $usuario2) {              
+            if (!is_object($usuario2) || false == $usuario2) {              
                 throw new Exception("Usuário não encontrado com essas informações. Favor tente novamente.");
             }
+
+            $chaveAux = $this->usuarioDao->verifyChave($usuario2->getIdUsuario());
+
+            if (!SecurityUtil::comparePassword($chave, $chaveAux)) {
+                throw new Exception("Chave inválida. Por favor, faça o reset de senha novamente.");
+            }
             
-            if (is_object($usuario2) && null != $usuario2->getIdUsuario() && null != $usuario->getSenha()) {
+            if (null != $usuario->getSenha()) {
                 $result = $this->usuarioDao->updateSenha($usuario2->getIdUsuario(), $usuario->getSenha());
                 if (is_int($result) && $result > 0) {
                     $msg = "Senha alterada com sucesso.";                    
