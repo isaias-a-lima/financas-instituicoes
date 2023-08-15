@@ -86,8 +86,9 @@ class UsuarioController {
                 throw new Exception("E-mail é obrigatório.");
             }
 
-            $chave = SecurityUtil::getHashPassword(rand(0, 1000));
+            $chave = rand(0, 1000);
             //$chave = SecurityUtil::getHashPassword(323);
+            $chaveHash = SecurityUtil::getHashPassword($chave);
 
             $subject = "Tesouraria Prática - Resetar senha";
 
@@ -114,7 +115,7 @@ class UsuarioController {
 
             if (isset($usuario) && !empty($usuario->getEmail())) {
 
-                $res = $this->usuarioDao->insertChaveResetSenha($usuario, $chave, $local);
+                $res = $this->usuarioDao->insertChaveResetSenha($usuario, $chaveHash, $local);
                 
                 if (is_numeric($res)) {
                     $mensagem = new Mensagem($usuario->getEmail(), $subject, $message, "suporte@ikdesigns.com.br");
