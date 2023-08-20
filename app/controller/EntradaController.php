@@ -33,6 +33,7 @@ class EntradaController {
                 <tbody>
         ";
         $soma = 0.0;
+        $codPage = RenderController::PAGES['EDITAR_ENTRADA']['cod'];
 
         try {
             
@@ -54,7 +55,7 @@ class EntradaController {
                     <td>$categoria</td>
                     <td>$descricao</td>
                     <td>$valorFomatado</td>
-                    <td><span class='glyphicon glyphicon-edit'></span></td>
+                    <td style='width:100px;'><a href='./?p=$codPage&ide=$idEntrada' title='Editar' alt='Editar'><span class='glyphicon glyphicon-edit'></span> Editar</a></td>
                 </tr>
                 ";
             }
@@ -108,10 +109,11 @@ class EntradaController {
 
             $result = $this->entradaDAO->updateEntrada($entrada);
 
-            if (isset($result) && $result !== false) {
+            if (isset($result)) {
                 $codPage = RenderController::PAGES['LISTAR_ENTRADAS']['cod'];
-                $msg = "Entrada cadastrada com sucesso.";
-                echo "<script>location.replace('./?p=$codPage&msg=$msg');</script>";                
+                $idInstituicao = $entrada->getInstituicao()->getIdInstituicao();
+                $msg = "Entrada alterada com sucesso.";
+                echo "<script>location.replace('./?p=$codPage&idi=$idInstituicao&msg=$msg');</script>";                
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
