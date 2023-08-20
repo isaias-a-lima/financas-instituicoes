@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <dataBase>
+        <dbServerName>localhost</dbServerName>
+        <dbSchemaName>financas_instituicoes</dbSchemaName>
+        <dbUserName>teste</dbUserName>
+        <dbPassword>teste</dbPassword>
+    </dataBase>
+    <daysToExpireResetKey>1</daysToExpireResetKey>
+</config>
