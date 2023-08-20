@@ -108,14 +108,14 @@ class EntradaDao extends DaoPattern {
         $sql = SqlBuilder::build()->
         DATABASE(parent::getDbName())->
         UPDATE("entradas")->
-        addColum("idusuario = :idusuario")->
+        addColum("categoria = :categoria")->
         addColum("descricao = :descricao")->
         addColum("valor = :valor")->
         WHERE("identrada = :identrada")->
         getSql();
 
         $params = [
-            [":idusuario", $entrada->getUsuario()->getIdUsuario()],
+            [":categoria", $entrada->getCategoria()],
             [":descricao", $entrada->getDescricao()],
             [":valor", $entrada->getValor()],
             [":identrada", $entrada->getIdEntrada()]
