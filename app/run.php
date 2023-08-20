@@ -5,6 +5,7 @@ use app\modules\Modules;
 
 require_once Constantes::DEFAULT_MODULES_DIR . "/Modules.php";
 require_once Constantes::DEFAULT_LIB_DIR . "/SecurityUtil.php";
+require_once Constantes::DEFAULT_LIB_DIR . "/Validacoes.php";
 require_once Constantes::DEFAULT_EXCEPTIONS_DIR . "/ExceptionUtil.php";
 
 new Modules();
