@@ -21,7 +21,8 @@ class RenderController {
         "LISTAR_RELATORIOS"=>["cod"=>13, "page"=>"/listar_relatorios.php"],
         "LISTAR_CONTAS"=>["cod"=>14, "page"=>"/listar_contas.php"],
         "LISTAR_FATURAS"=>["cod"=>15, "page"=>"/listar_faturas.php"],
-        "ERRO_404"=>["cod"=>16, "page"=>"/erro404.php"]
+        "ERRO_404"=>["cod"=>16, "page"=>"/erro404.php"],
+        "EDITAR_ENTRADA"=>["cod"=>17, "page"=>"/editar_entrada.php"]
     ];
 
     private SessionController $sessao;
