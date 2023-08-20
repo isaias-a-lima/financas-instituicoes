@@ -84,3 +84,16 @@ CREATE TABLE `historico_reset_senha` (
   KEY `fk_usuarios__historico_reset_idx` (`idusuario`),
   CONSTRAINT `fk_usuarios__historico_reset` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+
+CREATE TABLE `fechamentos` (
+  `idfechamento` bigint NOT NULL AUTO_INCREMENT,
+  `idinstituicao` int NOT NULL,
+  `dataInicio` date NOT NULL,
+  `dataFim` date NOT NULL,
+  `saldoInicial` decimal(10,2) NOT NULL,
+  `entradas` decimal(10,2) NOT NULL,
+  `saidas` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`idfechamento`),
+  KEY `fk_fechamentos_instituicoes_idx` (`idinstituicao`),
+  CONSTRAINT `fk_fechamentos_instituicoes` FOREIGN KEY (`idinstituicao`) REFERENCES `instituicoes` (`idinstituicao`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
