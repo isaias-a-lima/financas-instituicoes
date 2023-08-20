@@ -9,16 +9,20 @@ use Exception;
 
 class EntradaDao extends DaoPattern {
 
-    public function getById(int $idEntrada) {
+    public function getById(int $idEntrada): Entrada {
         
         $sql = SqlBuilder::build()->DATABASE(parent::getDbName())->
-        SELECT()->addColum("e.identrada, e.dataentrada, e.descricao, e.valor")->
-        addColum("i.idinstituicao, i.cnpj, i.nome, i.email, i.emailcontab, i.datacadastro, i.idusuarioresp")->
-        addColum("u.idusuario, u.rg, u.nome, u.email, u.datacadastro")->
-        addColum("c.idcategoria, c.descricao, c.tipo")->
+        SELECT()->addColum("e.identrada, e.dataentrada, e.descricao as desc_entrada, e.valor")->
+        addColum("i.idinstituicao, i.cnpj, i.nome as nome_instituicao, i.email as email_instituicao, i.emailcontab, 
+            i.datacadastro as data_cadastro_instituicao, i.idusuarioresp")->
+        addColum("u.idusuario, u.rg, u.nome as nome_user, u.email as email_user, u.datacadastro as data_cadastro_user")->
+        addColum("ti.idusuario as idtitular, ti.rg as rgtitular, ti.nome as nometitular, ti.email as emailtitular, 
+            ti.datacadastro as datacadastrotitular")->
+        addColum("c.idcategoria, c.descricao as desc_categoria, c.tipo")->
         FROM("entradas e")->
         INNERJOIN("instituicoes i")->ON("i.idinstituicao = e.idinstituicao")->
         INNERJOIN("usuarios u")->ON("u.idusuario = e.idusuario")->
+        LEFTJOIN("usuarios ti")->ON("ti.idusuario = i.idusuarioresp")->
         INNERJOIN("categorias c")->ON("c.idcategoria = e.idcategoria")->
         WHERE("e.identrada = :identrada")->getSql();
 
@@ -40,13 +44,17 @@ class EntradaDao extends DaoPattern {
     public function getByInstituicao(int $idInstituicao, string $dataInicio, string $dataFim) {
         
         $sql = SqlBuilder::build()->DATABASE(parent::getDbName())->
-        SELECT()->addColum("e.identrada, e.dataentrada, e.descricao, e.valor")->
-        addColum("i.idinstituicao, i.cnpj, i.nome, i.email, i.emailcontab, i.datacadastro, i.idusuarioresp")->
-        addColum("u.idusuario, u.rg, u.nome as nome_user, u.email as email_user, u.datacadastro")->
+        SELECT()->addColum("e.identrada, e.dataentrada, e.descricao as desc_entrada, e.valor")->
+        addColum("i.idinstituicao, i.cnpj, i.nome as nome_instituicao, i.email as email_instituicao, i.emailcontab, 
+            i.datacadastro as data_cadastro_instituicao, i.idusuarioresp")->
+        addColum("u.idusuario, u.rg, u.nome as nome_user, u.email as email_user, u.datacadastro as data_cadastro_user")->
+        addColum("ti.idusuario as idtitular, ti.rg as rgtitular, ti.nome as nometitular, ti.email as emailtitular, 
+            ti.datacadastro as datacadastrotitular")->
         addColum("c.idcategoria, c.descricao as desc_categoria, c.tipo")->
         FROM("entradas e")->
         INNERJOIN("instituicoes i")->ON("i.idinstituicao = e.idinstituicao")->
         INNERJOIN("usuarios u")->ON("u.idusuario = e.idusuario")->
+        LEFTJOIN("usuarios ti")->ON("ti.idusuario = i.idusuarioresp")->
         INNERJOIN("categorias c")->ON("c.idcategoria = e.idcategoria")->
         WHERE("e.idinstituicao = :idinstituicao AND dataentrada BETWEEN :dataInicio AND :dataFim")->getSql();
 
@@ -108,14 +116,16 @@ class EntradaDao extends DaoPattern {
         $sql = SqlBuilder::build()->
         DATABASE(parent::getDbName())->
         UPDATE("entradas")->
-        addColum("categoria = :categoria")->
+        addColum("idusuario = :idusuario")->
+        addColum("idcategoria = :idcategoria")->
         addColum("descricao = :descricao")->
         addColum("valor = :valor")->
         WHERE("identrada = :identrada")->
         getSql();
 
         $params = [
-            [":categoria", $entrada->getCategoria()],
+            [":idusuario", $entrada->getUsuario()->getIdUsuario()],
+            [":idcategoria", $entrada->getCategoria()->getIdCategoria()],
             [":descricao", $entrada->getDescricao()],
             [":valor", $entrada->getValor()],
             [":identrada", $entrada->getIdEntrada()]

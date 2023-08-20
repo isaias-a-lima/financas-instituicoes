@@ -13,7 +13,7 @@ class EntradaController {
         $this->entradaDAO = new EntradaDao();
     }
 
-    public function getById(int $idEntrada) {
+    public function getById(int $idEntrada):Entrada {
         try {
             return $this->entradaDAO->getById($idEntrada);
         } catch (Exception $e) {
