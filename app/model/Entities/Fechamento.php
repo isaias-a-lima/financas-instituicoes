@@ -5,7 +5,7 @@ use app\lib\Validacoes;
 
 class Fechamento {
 
-    private int|null $idFechamento;
+    private int $idFechamento;
     private int $idInstituicao;
     private string $dataInicio;
     private string $dataFim;
@@ -36,7 +36,9 @@ class Fechamento {
 
     public function buildByArray(array $fechamentoArray) {
         Validacoes::validParam($fechamentoArray, "fechamentoArray");
-        $this->idFechamento = isset($fechamentoArray['idFechamento']) ? $fechamentoArray['idFechamento'] : null;
+        if (isset($fechamentoArray['idFechamento'])) {
+            $this->idFechamento = $fechamentoArray['idFechamento'];
+        }        
         $this->idInstituicao = $fechamentoArray['idInstituicao'];
         $this->dataInicio = $fechamentoArray['dataInicio'];
         $this->dataFim = $fechamentoArray['dataFim'];
