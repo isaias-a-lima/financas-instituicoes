@@ -11,7 +11,7 @@ use app\model\entities\Instituicao;
 use app\model\entities\Usuario;
 
 $msg = "";
-$error = "";
+$msgError = "";
 const ENTRADA = "E";
 
 try {
@@ -29,6 +29,7 @@ try {
         Validacoes::validParam($_POST['idinstituicao'], "ID Instituição");
 
         $instituicao->setIdInstituicao($_POST['idinstituicao']);
+        $instituicao->setNome($_POST['nomeinstituicao']);
         $entrada->setInstituicao($instituicao);
 
         $entrada->setIdEntrada($_POST['identrada']);
@@ -50,11 +51,17 @@ try {
         }
 
         $entrada = $controller->getById($idEntrada);
-
     }
 } catch (Exception $e) {
     $msg = $e->getMessage();
-    $error = "<div class='alert alert-danger'>$msg</div>";
+    $msgError = "<div class='alert alert-danger'>$msg</div>";
+
+    $idEntrada = isset($_GET['ide']) ? $_GET['ide'] : 0;
+    if ($idEntrada == 0) {
+        throw new Exception("ID de entrada inválido.");
+    }
+
+    $entrada = $controller->getById($idEntrada);
 }
 
 include "./app/view/sessionInfo.php";
@@ -91,7 +98,7 @@ include "./app/view/sessionInfo.php";
 <section class="row">
     <div class="col-md-12">
         <h3>Editar Entrada</h3>
-        <?= $error ?>
+        <?php echo $msgError; ?>
     </div>
 </section>
 
@@ -131,6 +138,7 @@ include "./app/view/sessionInfo.php";
             <input type="hidden" name="idusuario" id="idusuario" value="<?=$usuario->getIdUsuario()?>" />
             <input type="hidden" name="identrada" id="identrada" value="<?=$entrada->getIdEntrada()?>" />
             <input type="hidden" name="idinstituicao" id="idinstituicao" value="<?=$entrada->getInstituicao()->getIdInstituicao()?>" />
+            <input type="hidden" name="nomeinstituicao" id="nomeinstituicao" value="<?=$entrada->getInstituicao()->getNome()?>" />
 
             <input class="btn btn-primary" type="submit" value="Salvar" />
 

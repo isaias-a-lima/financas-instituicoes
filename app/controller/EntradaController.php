@@ -1,16 +1,22 @@
 <?php
 namespace app\controller;
 
+use app\lib\Constantes;
+use app\lib\Validacoes;
 use app\model\dao\EntradaDao;
 use app\model\entities\Entrada;
 use Exception;
 
 class EntradaController {
 
+    
+
     private EntradaDao $entradaDAO;
+    private FechamentoController $fechamentoController;
 
     public function __construct() {
         $this->entradaDAO = new EntradaDao();
+        $this->fechamentoController = new FechamentoController();
     }
 
     public function getById(int $idEntrada):Entrada {
@@ -102,16 +108,19 @@ class EntradaController {
     }
 
     public function updateEntrada(Entrada $entrada) {
-        try {
-            if (!isset($entrada)) {
-                throw new Exception("Entrada é obrigatório.");
-            }
+        try {            
+            Validacoes::validParamAndRiseMessage($entrada, "Entrada é obrigatório.");
+
+            $idInstituicao = $entrada->getInstituicao()->getIdInstituicao();
+
+            $hasFechamento = $this->fechamentoController->hasFechamento($idInstituicao, date("Y-m-d"));
+            
+            Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_UPDATE_ENTRADA);
 
             $result = $this->entradaDAO->updateEntrada($entrada);
 
             if (isset($result)) {
-                $codPage = RenderController::PAGES['LISTAR_ENTRADAS']['cod'];
-                $idInstituicao = $entrada->getInstituicao()->getIdInstituicao();
+                $codPage = RenderController::PAGES['LISTAR_ENTRADAS']['cod'];                
                 $msg = "Entrada alterada com sucesso.";
                 echo "<script>location.replace('./?p=$codPage&idi=$idInstituicao&msg=$msg');</script>";                
             }
