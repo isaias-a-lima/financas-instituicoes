@@ -8,4 +8,7 @@ class Constantes{
     const DEFAULT_MODEL_DIR = "./app/model";
     const DEFAULT_EXCEPTIONS_DIR = "./app/exceptions";
     const DEFAULT_MODULES_DIR = "./app/modules";
+
+    // Mensagens
+    const CAN_NOT_UPDATE_ENTRADA = "Não será possível editar essa Entrada visto que já foi realizado o fechamento do mês.";
 }
