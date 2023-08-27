@@ -2,8 +2,10 @@
 
 use app\controller\CategoriaController;
 use app\controller\EntradaController;
+use app\controller\FechamentoController;
 use app\controller\RenderController;
 use app\exceptions\ExceptionUtil;
+use app\lib\Constantes;
 use app\lib\Validacoes;
 use app\model\entities\Categoria;
 use app\model\entities\Entrada;
@@ -13,6 +15,8 @@ use app\model\entities\Usuario;
 $msg = "";
 $msgError = "";
 const ENTRADA = "E";
+$hasFechamento = false;
+$style = "";
 
 try {
     $entrada = null;
@@ -51,10 +55,15 @@ try {
         }
 
         $entrada = $controller->getById($idEntrada);
+
+        $fechamentoController = new FechamentoController();
+        $hasFechamento = $fechamentoController->hasFechamento($entrada->getInstituicao()->getIdInstituicao(), date("Y-m-d"));
+        Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_UPDATE_ENTRADA);
     }
 } catch (Exception $e) {
     $msg = $e->getMessage();
     $msgError = "<div class='alert alert-danger'>$msg</div>";
+    $style = $hasFechamento == true ? "display: none;" : "";
 
     $idEntrada = isset($_GET['ide']) ? $_GET['ide'] : 0;
     if ($idEntrada == 0) {
@@ -102,46 +111,48 @@ include "./app/view/sessionInfo.php";
     </div>
 </section>
 
-<form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
-
-    <section class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="dataentrada">Data</label>
-                <input class="form-control" type="date" name="dataentrada" id="dataentrada" value="<?=$entrada->getDataEntrada()?>" readonly required />
+<section style="<?=$style?>">
+    <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
+    
+        <section class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="dataentrada">Data</label>
+                    <input class="form-control" type="date" name="dataentrada" id="dataentrada" value="<?=$entrada->getDataEntrada()?>" readonly required />
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="valor">Valor</label>
-                <input class="form-control" type="number" name="valor" id="valor" min="0" step="0.01" value="<?=$entrada->getValor();?>" required />
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="valor">Valor</label>
+                    <input class="form-control" type="number" name="valor" id="valor" min="0" step="0.01" value="<?=$entrada->getValor();?>" required />
+                </div>
             </div>
-        </div>
-    </section>
-
-    <section class="row">
-        <div class="col-md-6">
-
-            <div class="form-group">
-                <label for="categoria">Categoria</label>
-                <select class="form-control" name="idcategoria" id="idcategoria" required>
-                    <option value="<?=$entrada->getCategoria()->getIdCategoria();?>"><?=$entrada->getCategoria()->getDescricao();?></option>
-                    <?=$categoriaController->renderizeSelectOptions(ENTRADA)?>
-                </select>
+        </section>
+    
+        <section class="row">
+            <div class="col-md-6">
+    
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <select class="form-control" name="idcategoria" id="idcategoria" required>
+                        <option value="<?=$entrada->getCategoria()->getIdCategoria();?>"><?=$entrada->getCategoria()->getDescricao();?></option>
+                        <?=$categoriaController->renderizeSelectOptions(ENTRADA)?>
+                    </select>
+                </div>
+    
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <input class="form-control" type="text" name="descricao" id="descricao" value="<?=$entrada->getDescricao()?>" required />
+                </div>
+    
+                <input type="hidden" name="idusuario" id="idusuario" value="<?=$usuario->getIdUsuario()?>" />
+                <input type="hidden" name="identrada" id="identrada" value="<?=$entrada->getIdEntrada()?>" />
+                <input type="hidden" name="idinstituicao" id="idinstituicao" value="<?=$entrada->getInstituicao()->getIdInstituicao()?>" />
+                <input type="hidden" name="nomeinstituicao" id="nomeinstituicao" value="<?=$entrada->getInstituicao()->getNome()?>" />
+    
+                <input class="btn btn-primary" type="submit" value="Salvar" />
+    
             </div>
-
-            <div class="form-group">
-                <label for="descricao">Descrição</label>
-                <input class="form-control" type="text" name="descricao" id="descricao" value="<?=$entrada->getDescricao()?>" required />
-            </div>
-
-            <input type="hidden" name="idusuario" id="idusuario" value="<?=$usuario->getIdUsuario()?>" />
-            <input type="hidden" name="identrada" id="identrada" value="<?=$entrada->getIdEntrada()?>" />
-            <input type="hidden" name="idinstituicao" id="idinstituicao" value="<?=$entrada->getInstituicao()->getIdInstituicao()?>" />
-            <input type="hidden" name="nomeinstituicao" id="nomeinstituicao" value="<?=$entrada->getInstituicao()->getNome()?>" />
-
-            <input class="btn btn-primary" type="submit" value="Salvar" />
-
-        </div>
-    </section>
-</form>
+        </section>
+    </form>
+</section>

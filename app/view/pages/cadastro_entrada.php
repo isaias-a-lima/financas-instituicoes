@@ -2,19 +2,24 @@
 
 use app\controller\CategoriaController;
 use app\controller\EntradaController;
+use app\controller\FechamentoController;
 use app\controller\InstituicaoController;
 use app\controller\RenderController;
+use app\lib\Constantes;
+use app\lib\Validacoes;
 use app\model\entities\Categoria;
 use app\model\entities\Entrada;
 use app\model\entities\Instituicao;
 use app\model\entities\Usuario;
 
 $msg = "";
-$error = "";
+$msgError = "";
+const ENTRADA = "E";
+$hasFechamento = false;
+$style = "";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    try {
-
+try {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $entrada = new Entrada();
         
         $instituicao = new Instituicao();
@@ -36,17 +41,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $controller = new EntradaController();
         $controller->saveEntrada($entrada);
-    } catch (Exception $e) {
-        $msg = $e->getMessage();
-        $error = "<div class='alert alert-danger'>$msg</div>";
+
+    } else {
+
+        $idInstituicao = isset($_GET['idi']) ? $_GET['idi'] : "";
+
+        $dataEntrada = date("Y-m-d");
+
+        $fechamentoController = new FechamentoController();
+        $hasFechamento = $fechamentoController->hasFechamento($idInstituicao, $dataEntrada);
+        Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_RECORD_ENTRADA);
+        
     }
+
+} catch(Exception $e) {
+    $msg = $e->getMessage();
+    $msgError = "<div class='alert alert-danger'>$msg</div>";
+    $style = $hasFechamento == true ? "display: none;" : "";
 }
-
-$idInstituicao = isset($_GET['idi']) ? $_GET['idi'] : "";
-
-$dataEntrada = date("Y-m-d");
-
-const ENTRADA = "E";
 
 $instituicaoController = new InstituicaoController();
 
@@ -91,48 +103,50 @@ include "./app/view/sessionInfo.php";
 <section class="row">
     <div class="col-md-12">
         <h3>Registrar Entrada</h3>
-        <?= $error ?>
+        <?= $msgError ?>
     </div>
 </section>
 
-<form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
-
-    <section class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="dataentrada">Data</label>
-                <input class="form-control" type="date" name="dataentrada" id="dataentrada" value="<?= $dataEntrada ?>" readonly required />
+<section style="<?=$style?>">
+    <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
+    
+        <section class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="dataentrada">Data</label>
+                    <input class="form-control" type="date" name="dataentrada" id="dataentrada" value="<?= $dataEntrada ?>" readonly required />
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="valor">Valor</label>
-                <input class="form-control" type="number" name="valor" id="valor" min="0" step="0.01" required />
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="valor">Valor</label>
+                    <input class="form-control" type="number" name="valor" id="valor" min="0" step="0.01" required />
+                </div>
             </div>
-        </div>
-    </section>
-
-    <section class="row">
-        <div class="col-md-6">
-
-            <div class="form-group">
-                <label for="categoria">Categoria</label>
-                <select class="form-control" name="idcategoria" id="idcategoria" required>
-                    <option value="">Escolha uma Categoria...</option>
-                    <?= $categoriaController->renderizeSelectOptions(ENTRADA) ?>
-                </select>
+        </section>
+    
+        <section class="row">
+            <div class="col-md-6">
+    
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <select class="form-control" name="idcategoria" id="idcategoria" required>
+                        <option value="">Escolha uma Categoria...</option>
+                        <?= $categoriaController->renderizeSelectOptions(ENTRADA) ?>
+                    </select>
+                </div>
+    
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <input class="form-control" type="text" name="descricao" id="descricao" required />
+                </div>
+    
+                <input type="hidden" name="idusuario" id="idusuario" value="<?= $usuario->getIdUsuario() ?>" required />
+                <input type="hidden" name="idinstituicao" id="idinstituicao" value="<?= $idInstituicao ?>" required />
+    
+                <input class="btn btn-primary" type="submit" value="Salvar" />
+    
             </div>
-
-            <div class="form-group">
-                <label for="descricao">Descrição</label>
-                <input class="form-control" type="text" name="descricao" id="descricao" required />
-            </div>
-
-            <input type="hidden" name="idusuario" id="idusuario" value="<?= $usuario->getIdUsuario() ?>" required />
-            <input type="hidden" name="idinstituicao" id="idinstituicao" value="<?= $idInstituicao ?>" required />
-
-            <input class="btn btn-primary" type="submit" value="Salvar" />
-
-        </div>
-    </section>
-</form>
+        </section>
+    </form>
+</section>

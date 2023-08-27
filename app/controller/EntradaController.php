@@ -88,11 +88,13 @@ class EntradaController {
 
     public function saveEntrada(Entrada $entrada) {
         try {
-            if (!isset($entrada)) {
-                throw new Exception("Entrada é obrigatório.");
-            }
+            Validacoes::validParamAndRiseMessage($entrada, "Entrada é obrigatório.");
 
             $idi = $entrada->getInstituicao()->getIdInstituicao();
+
+            $hasFechamento = $this->fechamentoController->hasFechamento($idi, date("Y-m-d"));
+
+            Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_SAVE_ENTRADA);
 
             $result = $this->entradaDAO->saveEntrada($entrada);
 
