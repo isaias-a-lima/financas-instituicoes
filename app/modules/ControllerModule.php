@@ -12,5 +12,6 @@ class ControllerModule {
         require_once Constantes::DEFAULT_CONTROLLER_DIR . "/EntradaController.php";
         require_once Constantes::DEFAULT_CONTROLLER_DIR . "/CategoriaController.php";
         require_once Constantes::DEFAULT_CONTROLLER_DIR . "/FechamentoController.php";
+        require_once Constantes::DEFAULT_CONTROLLER_DIR . "/SaidaController.php";
     }
 }
