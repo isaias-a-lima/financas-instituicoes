@@ -97,3 +97,21 @@ CREATE TABLE `fechamentos` (
   KEY `fk_fechamentos_instituicoes_idx` (`idinstituicao`),
   CONSTRAINT `fk_fechamentos_instituicoes` FOREIGN KEY (`idinstituicao`) REFERENCES `instituicoes` (`idinstituicao`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+
+CREATE TABLE `saidas` (
+  `idsaida` bigint NOT NULL AUTO_INCREMENT,
+  `idinstituicao` int NOT NULL,
+  `idusuario` int NOT NULL,
+  `idcategoria` int NOT NULL,
+  `datasaida` date NOT NULL,
+  `descricao` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `valor` decimal(7,2) NOT NULL,
+  `numdoc` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`idsaida`),
+  KEY `fk_saidas_instituicoes_idx` (`idinstituicao`),
+  KEY `fk_saidas_usuarios_idx` (`idusuario`),
+  KEY `fk_saidas_categorias_idx` (`idcategoria`),
+  CONSTRAINT `fk_saidas_categorias` FOREIGN KEY (`idcategoria`) REFERENCES `categorias` (`idcategoria`) ON DELETE RESTRICT,
+  CONSTRAINT `fk_saidas_instituicoes` FOREIGN KEY (`idinstituicao`) REFERENCES `instituicoes` (`idinstituicao`) ON DELETE RESTRICT,
+  CONSTRAINT `fk_saidas_usuarios` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
