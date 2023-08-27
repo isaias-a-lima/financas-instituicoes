@@ -13,4 +13,8 @@ class Constantes{
     const CAN_NOT_RECORD_ENTRADA = "Não será possível Registrar um nova Entrada visto que já foi realizado o fechamento do mês.";
     const CAN_NOT_SAVE_ENTRADA = "Não será possível Salvar essa Entrada visto que já foi realizado o fechamento do mês.";
     const CAN_NOT_UPDATE_ENTRADA = "Não será possível Editar essa Entrada visto que já foi realizado o fechamento do mês.";
+
+    const CAN_NOT_RECORD_SAIDA = "Não será possível Registrar um nova Saída visto que já foi realizado o fechamento do mês.";
+    const CAN_NOT_SAVE_SAIDA = "Não será possível Salvar essa Saída visto que já foi realizado o fechamento do mês.";
+    const CAN_NOT_UPDATE_SAIDA = "Não será possível Editar essa Saída visto que já foi realizado o fechamento do mês.";
 }

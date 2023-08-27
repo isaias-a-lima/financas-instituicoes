@@ -22,7 +22,9 @@ class RenderController {
         "LISTAR_CONTAS"=>["cod"=>14, "page"=>"/listar_contas.php"],
         "LISTAR_FATURAS"=>["cod"=>15, "page"=>"/listar_faturas.php"],
         "ERRO_404"=>["cod"=>16, "page"=>"/erro404.php"],
-        "EDITAR_ENTRADA"=>["cod"=>17, "page"=>"/editar_entrada.php"]
+        "EDITAR_ENTRADA"=>["cod"=>17, "page"=>"/editar_entrada.php"],
+        "CADASTRO_SAIDA"=>["cod"=>18, "page"=>"/cadastro_saida.php"],
+        "EDITAR_SAIDA"=>["cod"=>19, "page"=>"/editar_saida.php"]
     ];
 
     private SessionController $sessao;

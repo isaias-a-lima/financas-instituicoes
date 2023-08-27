@@ -45,12 +45,16 @@ class SaidaConverter implements ConverterInterface {
                     $saida->setIdSaida($result['idsaida']);
                 }
                 $saida->setDataSaida($result['datasaida']);
-                $saida->setDescricao($result['desc_saida']);
+                if(isset($result['desc_saida'])) {
+                    $saida->setDescricao($result['desc_saida']);
+                }
                 $saida->setValor($result['valor']);
                 $saida->setInstituicao($instituicao);
                 $saida->setUsuario($usuario);
                 $saida->setCategoria($categoria);
-                $saida->setNumDoc($result['numDoc']);
+                if(isset($result['numDoc'])) {
+                    $saida->setNumDoc($result['numDoc']);
+                }
     
                 return $saida;
             } catch (Exception $e) {

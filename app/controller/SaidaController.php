@@ -37,7 +37,7 @@ class SaidaController {
                 <tbody>
         ";
         $soma = 0.0;
-        $codPage = RenderController::PAGES['EDITAR_ENTRADA']['cod'];
+        $codPage = RenderController::PAGES['EDITAR_SAIDA']['cod'];
 
         try {
             
@@ -97,7 +97,7 @@ class SaidaController {
             $result = $this->saidaDAO->saveSaida($saida);
 
             if (isset($result) && $result !== false) {
-                $codPage = RenderController::PAGES['LISTAR_ENTRADAS']['cod'];
+                $codPage = RenderController::PAGES['LISTAR_SAIDAS']['cod'];
                 $msg = "Saída cadastrada com sucesso.";
                 echo "<script>location.replace('./?p=$codPage&idi=$idi&msg=$msg');</script>";                
             }
@@ -120,7 +120,7 @@ class SaidaController {
             $result = $this->saidaDAO->updateSaida($saida);
 
             if (isset($result)) {
-                $codPage = RenderController::PAGES['LISTAR_ENTRADAS']['cod'];                
+                $codPage = RenderController::PAGES['LISTAR_SAIDAS']['cod'];                
                 $msg = "Saída alterada com sucesso.";
                 echo "<script>location.replace('./?p=$codPage&idi=$idInstituicao&msg=$msg');</script>";                
             }
