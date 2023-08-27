@@ -18,13 +18,14 @@ class RenderController {
         "LISTAR_INSTITUICOES"=>["cod"=>10, "page"=>"/listar_instituicoes.php"],
         "DASHBOARD_INSTITUICAO"=>["cod"=>11, "page"=>"/dashboard_instituicao.php"],
         "LISTAR_SAIDAS"=>["cod"=>12, "page"=>"/listar_saidas.php"],
-        "LISTAR_RELATORIOS"=>["cod"=>13, "page"=>"/listar_relatorios.php"],
+        "LISTAR_FECHAMENTOS"=>["cod"=>13, "page"=>"/listar_fechamentos.php"],
         "LISTAR_CONTAS"=>["cod"=>14, "page"=>"/listar_contas.php"],
         "LISTAR_FATURAS"=>["cod"=>15, "page"=>"/listar_faturas.php"],
         "ERRO_404"=>["cod"=>16, "page"=>"/erro404.php"],
         "EDITAR_ENTRADA"=>["cod"=>17, "page"=>"/editar_entrada.php"],
         "CADASTRO_SAIDA"=>["cod"=>18, "page"=>"/cadastro_saida.php"],
-        "EDITAR_SAIDA"=>["cod"=>19, "page"=>"/editar_saida.php"]
+        "EDITAR_SAIDA"=>["cod"=>19, "page"=>"/editar_saida.php"],
+        "EDITAR_FECHAMENTO"=>["cod"=>20, "page"=>"/editar_fechamento.php"]
     ];
 
     private SessionController $sessao;

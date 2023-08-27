@@ -7,7 +7,7 @@ include "./app/view/sessionInfo.php";
 
 $linkEntradas = RenderController::PAGES['LISTAR_ENTRADAS']['cod'];
 $linkSaidas = RenderController::PAGES['LISTAR_SAIDAS']['cod'];
-$linkRelatorios = RenderController::PAGES['LISTAR_RELATORIOS']['cod'];
+$linkFechamentos = RenderController::PAGES['LISTAR_FECHAMENTOS']['cod'];
 $linkContas = RenderController::PAGES['LISTAR_CONTAS']['cod'];
 $linkEditar = RenderController::PAGES['EDITAR_INSTITUICAO']['cod'];
 $linkFaturas = RenderController::PAGES['LISTAR_FATURAS']['cod'];
@@ -60,10 +60,10 @@ $infoAddUser = "Adicionar usuários à instituição";
     </div>
 
     <div class="col-md-3 espaco-padrao">
-        <div class="menu" onclick="">
+        <div class="menu" onclick="document.location.href='./?p=<?=$linkFechamentos?>&idi=<?=$idInstituicao?>'">
             <i class="glyphicon glyphicon-stats text-success"></i>
             &nbsp;
-            Relatórios
+            Fechamentos
         </div>
     </div>
 
