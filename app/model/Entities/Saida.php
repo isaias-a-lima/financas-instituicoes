@@ -15,6 +15,10 @@ class Saida {
     private float $valor;
     private string $numdoc;
 
+    public function __construct() {
+        $this->numdoc = "";
+    }
+
     public function getIdSaida() {
         return $this->idSaida;
     }
