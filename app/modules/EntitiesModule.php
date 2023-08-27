@@ -19,5 +19,7 @@ class EntitiesModule {
         require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/BooleanConverter.php";
         require_once Constantes::DEFAULT_MODEL_DIR . "/entities/Fechamento.php";
         require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/FechamentoConverter.php";
+        require_once Constantes::DEFAULT_MODEL_DIR . "/entities/Saida.php";
+        require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/SaidaConverter.php";
     }
 }
