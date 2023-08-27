@@ -2,6 +2,8 @@
 namespace app\model\entities\converter;
 
 use app\model\entities\Fechamento;
+use app\model\entities\Instituicao;
+use app\model\entities\Usuario;
 
 class FechamentoConverter implements ConverterInterface {
 
@@ -13,10 +15,27 @@ class FechamentoConverter implements ConverterInterface {
             if (isset($result['idfechamento'])) {
                 $fechamento->setIdFechamento($result['idfechamento']);
             }
-            $fechamento->setIdInstituicao($result['idinstituicao']);
-            $fechamento->setDataInicio($result['dataInicio']);
-            $fechamento->setDataFim($result['dataFim']);
-            $fechamento->setSaldoInicial($result['saldoInicial']);
+
+            $titularInstituicao = new Usuario();
+            $titularInstituicao->setIdUsuario($result['idtitular']);
+            $titularInstituicao->setRg($result['rgtitular']);
+            $titularInstituicao->setNome($result['nometitular']);
+            $titularInstituicao->setEmail($result['emailtitular']);
+            $titularInstituicao->setDataCadastro($result['datacadastrotitular']);
+
+            $instituicao = new Instituicao();
+            $instituicao->setIdInstituicao($result['idinstituicao']);
+            $instituicao->setCnpj($result['cnpj']);
+            $instituicao->setNome($result['nome_instituicao']);
+            $instituicao->setEmail($result['email_instituicao']);
+            $instituicao->setEmailContab($result['emailcontab']);
+            $instituicao->setDataCadastro($result['data_cadastro_instituicao']);
+            $instituicao->setTitular($titularInstituicao);
+
+            $fechamento->setInstituicao($instituicao);
+            $fechamento->setDataInicio($result['datainicio']);
+            $fechamento->setDataFim($result['datafim']);
+            $fechamento->setSaldoInicial($result['saldoinicial']);
             $fechamento->setEntradas($result['entradas']);
             $fechamento->setSaidas($result['saidas']);
 
