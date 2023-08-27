@@ -17,5 +17,6 @@ class DaoModule {
         require_once Constantes::DEFAULT_MODEL_DIR . "/dao/EntradaDao.php";
         require_once Constantes::DEFAULT_MODEL_DIR . "/dao/CategoriaDAO.php";
         require_once Constantes::DEFAULT_MODEL_DIR . "/dao/FechamentoDAO.php";
+        require_once Constantes::DEFAULT_MODEL_DIR . "/dao/SaidaDAO.php";
     }
 }
