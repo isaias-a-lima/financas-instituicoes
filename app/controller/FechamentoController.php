@@ -1,8 +1,10 @@
 <?php
 namespace app\controller;
 
+use app\lib\Constantes;
 use app\lib\Validacoes;
 use app\model\dao\FechamentoDAO;
+use app\model\entities\Fechamento;
 use Exception;
 
 class FechamentoController {
@@ -13,12 +15,12 @@ class FechamentoController {
         $this->fechamentoDAO = new FechamentoDAO();
     }    
 
-    public function hasFechamento(int $idInstituicao,string $dataAtual):bool {
+    public function hasFechamento(int $idInstituicao, string $data):bool {
         $result = false;
         try {
             Validacoes::validParam($idInstituicao, "ID Instituição");
-            Validacoes:: validParam($dataAtual, "Data atual");
-            $result = $this->fechamentoDAO->hasFechamento($idInstituicao, $dataAtual);
+            Validacoes:: validParam($data, "Data");
+            $result = $this->fechamentoDAO->hasFechamento($idInstituicao, $data);
         } catch(Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -45,7 +47,6 @@ class FechamentoController {
 
             for($i=0; $i < count($result); $i++) {
                 $idFechamento = $result[$i]->getIdFechamento();
-                $instituicao = $result[$i]->getInstituicao();
                 $dataInicio = $result[$i]->getDataInicio();
                 $dataInicioFormatada = date("d/m/Y", strtotime($dataInicio));
                 $dataFim = $result[$i]->getDataFim();
@@ -63,7 +64,7 @@ class FechamentoController {
                     <td>$entradas</td>
                     <td>$saidas</td>
                     <td>$saldoFinal</td>
-                    <td style='width:100px;'><a href='./?p=$codPage&ide=$idFechamento' title='Editar' alt='Editar'><span class='glyphicon glyphicon-edit'></span> Editar</a></td>
+                    <td><!--<a href='#' title='Editar' alt='Editar'><span class='glyphicon glyphicon-edit'></span> Editar</a>-->&nbsp;</td>
                 </tr>
                 ";
             }
@@ -79,6 +80,51 @@ class FechamentoController {
         }
 
         return $html;
+    }
+
+    public function saveFechamento(Fechamento $fechamento) {
+        $result = null;
+        try {
+            //Validações
+            Validacoes::validParam($fechamento, "Fechamento");
+            
+            $mes = (int) date("m", strtotime($fechamento->getDataInicio()));
+            Validacoes::isValidMonthForClosing($mes);
+            
+            $this->validHasClosing($fechamento->getInstituicao()->getIdInstituicao(), $fechamento->getDataInicio());
+
+            $idi = $fechamento->getInstituicao()->getIdInstituicao();
+
+            if($fechamento->getSaldoInicial() == 0 && $fechamento->getEntradas() == 0 && $fechamento->getSaidas() == 0) {
+                throw new Exception(Constantes::HAS_NOT_MOVIMENTACOES);
+            }
+            
+            //save
+            $result = $this->fechamentoDAO->saveFechamento($fechamento);
+            if (isset($result) && $result !== false) {
+                $codPage = RenderController::PAGES['LISTAR_FECHAMENTOS']['cod'];
+                $msg = "Fechamento registrado com sucesso.";
+                echo "<script>location.replace('./?p=$codPage&idi=$idi&msg=$msg');</script>";                
+            }
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
+        return $result;
+    }
+
+    private function validHasClosing($idInstituicao, $data) {
+        $hasFechamento = $this->hasFechamento($idInstituicao, $data);
+        if($hasFechamento) {
+            throw new Exception(Constantes::HAS_FECHAMENTOS);
+        }
+    }
+
+    public function getFechamentoAnterior(int $idInstituicao, string $data) {
+        Validacoes::validParam($idInstituicao, "ID Instituição");
+        Validacoes::validParam($data, "Data");
+        return $this->fechamentoDAO->getFechamentoAnterior($idInstituicao, $data);
     }
     
 }

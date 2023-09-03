@@ -129,5 +129,12 @@ class SaidaController {
         }
     }
 
+    public function getSomaById(int $idInstituicao, string $dataInicio, string $dataFim) {
+        Validacoes::validParam($idInstituicao, "ID instituição");
+        Validacoes::validParam($dataInicio, "Data início");
+        Validacoes::validParam($dataFim, "Data fim");
+        return $this->saidaDAO->getSomaById($idInstituicao, $dataInicio, $dataFim);
+    }
+
 }
 ?>

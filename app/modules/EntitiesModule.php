@@ -21,5 +21,6 @@ class EntitiesModule {
         require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/FechamentoConverter.php";
         require_once Constantes::DEFAULT_MODEL_DIR . "/entities/Saida.php";
         require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/SaidaConverter.php";
+        require_once Constantes::DEFAULT_MODEL_DIR . "/entities/converter/GenericConverter.php";
     }
 }

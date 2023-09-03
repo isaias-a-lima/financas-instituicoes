@@ -4,6 +4,7 @@ namespace app\model\dao;
 use app\model\dao\patterns\DaoPattern;
 use app\model\dao\sql\SqlBuilder;
 use app\model\entities\converter\EntradaConverter;
+use app\model\entities\converter\GenericConverter;
 use app\model\entities\Entrada;
 use Exception;
 
@@ -135,6 +136,31 @@ class EntradaDao extends DaoPattern {
 
         try {
             $result = parent::update($sql, $params);
+        }catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        return $result;
+    }
+
+    public function getSomaById(int $idInstituicao, string $dataInicio, string $dataFim) {
+        $sql = SqlBuilder::build()->DATABASE(parent::getDbName())->
+        SELECT()->
+        addColum("SUM(valor) as coluna")->
+        FROM("entradas e")->
+        WHERE("e.idinstituicao = :idinstituicao AND dataentrada BETWEEN :dataInicio AND :dataFim")->
+        getSql();
+
+        $params = [
+            [':idinstituicao', $idInstituicao],
+            [':dataInicio', $dataInicio],
+            [':dataFim', $dataFim]
+        ];
+
+        $result = null;
+
+        try {
+            $result = parent::getOne($sql, $params, new GenericConverter());
         }catch (Exception $e) {
             throw new Exception($e);
         }

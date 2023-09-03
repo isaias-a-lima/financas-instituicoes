@@ -59,7 +59,7 @@ class Query
     }
 
     public function createSave (string $sql, array $params, int $sqlConst) {
-        $result = null;
+        $result = 0;
 
         try {
             $conn = $this->conexao->getConn();
@@ -74,7 +74,16 @@ class Query
 
             $stmt->execute();
 
-            $result = $sqlConst == SqlConsts::INCLUDE ? $conn->lastInsertId() : $stmt->rowCount();
+            if (SqlConsts::INCLUDE == $sqlConst) {
+                $resAux = $conn->lastInsertId();
+                if (is_string($resAux)) {
+                    $result = (int) $resAux;
+                }
+            } else {
+                $result = $stmt->rowCount();
+            }
+
+            //$result = $sqlConst == SqlConsts::INCLUDE ? $conn->lastInsertId() : $stmt->rowCount();
 
         } catch (Exception $e) {
             throw new Exception($e);

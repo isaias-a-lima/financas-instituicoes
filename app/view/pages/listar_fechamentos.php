@@ -8,12 +8,18 @@ $p = isset($_GET['p']) ? $_GET['p'] : '2';
 $idInstituicao = isset($_GET['idi']) ? $_GET['idi'] : '';
 
 $ano = isset($_GET['ano']) ? $_GET['ano'] : date("Y");
+$anoAtual = (int) date("Y");
+$mesAtual = (int) date("m");
 
 $instituicaoController = new InstituicaoController();
 
 $instituicao = $instituicaoController->getById($idInstituicao);
 
 $fechamentoController = new FechamentoController();
+
+$dataFechamento = date("Y-m-d", mktime(0, 0, 0, ($mesAtual-1), 1, $anoAtual));
+$hasFechamento = $fechamentoController->hasFechamento($idInstituicao, $dataFechamento);
+$btnDisabledStyle = $hasFechamento ? "disabled" : "";
 
 
 ?>
@@ -63,7 +69,7 @@ $fechamentoController = new FechamentoController();
     </div>
 
     <div class="col-md-6 text-right espaco-padrao">
-        <a href="./?p=<?= RenderController::PAGES['CADASTRO_ENTRADA']['cod'] ?>&idi=<?= $idInstituicao ?>" class="btn btn-info" title="Adicionar fechamentos" alt="Adicionar fechamentos">
+        <a href="./?p=<?= RenderController::PAGES['CADASTRO_FECHAMENTO']['cod'] ?>&idi=<?= $idInstituicao ?>" class="btn btn-info <?=$btnDisabledStyle?>" title="Adicionar fechamentos" alt="Adicionar fechamentos">
             <span class="glyphicon glyphicon-plus"></span> Adicionar Fechamento
         </a>
     </div>

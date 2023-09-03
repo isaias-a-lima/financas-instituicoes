@@ -31,5 +31,18 @@ class Validacoes {
             throw new Exception("Condição verdadeira.");
         }
     }
+
+    /**
+     * Verifica se é um mês válido para registrar o fechamento.
+     * O mês selecionado deve estar encerrado.
+     */
+    public static function isValidMonthForClosing(int $mes) {
+        $msg = Constantes::MONTH_ENDED;
+        Validacoes::validParamAndRiseMessage($mes, $msg);
+        $mesAtual = (int) date("m");
+        if($mes >= $mesAtual) {
+            throw new Exception($msg);
+        }
+    }
 }
 ?>

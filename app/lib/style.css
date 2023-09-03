@@ -31,6 +31,7 @@ header>h1, h2, h3 {
 footer {
     position: absolute;
     background-color: skyblue;
+    margin-top: 20px;
     padding: 10px;
     width: 100%;
 }
