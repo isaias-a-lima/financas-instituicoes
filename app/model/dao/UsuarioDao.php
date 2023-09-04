@@ -41,7 +41,7 @@ class UsuarioDao extends DaoPattern {
         }
     }
 
-    public function getUsuarioByEmail($email): Usuario {
+    public function getUsuarioByEmail($email) {
 
         $sql = SqlBuilder::build()->DATABASE(parent::getDbName())->
             SELECT()->addColum("*")->

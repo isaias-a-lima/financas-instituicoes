@@ -36,6 +36,10 @@ footer {
     width: 100%;
 }
 
+section {
+    padding: 5px 0;
+}
+
 .icones {
     font-size: 14pt;
     padding-left: 15px;
