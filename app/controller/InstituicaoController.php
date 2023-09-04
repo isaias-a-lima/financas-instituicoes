@@ -87,7 +87,7 @@ class InstituicaoController {
 
             $pEditar = RenderController::PAGES['EDITAR_INSTITUICAO']['cod'];
             $pEntradas = RenderController::PAGES['LISTAR_ENTRADAS']['cod'];
-            $pDashboardInstituicao = RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'];
+            $pPainelInstituicao = RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'];
 
             $infoEditar = "Editar dados da instituição";
             $infoAddUser = "Adicionar usuários à instituição";
@@ -103,8 +103,8 @@ class InstituicaoController {
                 <tr>
                     <td>$nome</td>
                     <td>
-                        <a href='./?p=$pDashboardInstituicao&idi=$idInstituicao' class='btn btn-default'>
-                            <span class='glyphicon glyphicon-dashboard text-danger'></span> Dashboard
+                        <a href='./?p=$pPainelInstituicao&idi=$idInstituicao' class='btn btn-default'>
+                            <span class='glyphicon glyphicon-dashboard text-danger'></span> Painel
                         </a>
                     </td>
                 </tr>

@@ -95,7 +95,7 @@ include "./app/view/sessionInfo.php";
             </li>
             <li>
                 <a href="./?p=<?= RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'] ?>&idi=<?= $saida->getInstituicao()->getIdInstituicao();?>">
-                    Dashboard
+                    Painel
                 </a>
             </li>
             <li>

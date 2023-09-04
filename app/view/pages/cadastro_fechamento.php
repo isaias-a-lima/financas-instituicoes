@@ -112,7 +112,7 @@ include "./app/view/sessionInfo.php";
             </li>
             <li>
                 <a href="./?p=<?= RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'] ?>&idi=<?= $idInstituicao ?>">
-                    Dashboard
+                    Painel
                 </a>
             </li>
             <li>

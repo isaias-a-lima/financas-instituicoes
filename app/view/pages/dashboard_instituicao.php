@@ -35,7 +35,7 @@ $infoAddUser = "Adicionar usuários à instituição";
                 </a>
             </li>
             <li><a href="./?p=<?= RenderController::PAGES['LISTAR_INSTITUICOES']['cod'] ?>">Instituições</a></li>
-            <li class="active">Dashboard</li>
+            <li class="active">Painel</li>
         </ol>
     </div>
 </section>

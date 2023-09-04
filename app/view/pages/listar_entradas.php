@@ -37,7 +37,7 @@ $entradaController = new EntradaController();
             </li>
             <li>
                 <a href="./?p=<?= RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'] ?>&idi=<?=$idInstituicao?>">
-                    Dashboard
+                    Painel
                 </a>
             </li>
             <li class="active">Entradas</li>

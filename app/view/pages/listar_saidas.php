@@ -37,7 +37,7 @@ $saidaController = new SaidaController();
             </li>
             <li>
                 <a href="./?p=<?= RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'] ?>&idi=<?=$idInstituicao?>">
-                    Dashboard
+                    Painel
                 </a>
             </li>
             <li class="active">Saídas</li>
