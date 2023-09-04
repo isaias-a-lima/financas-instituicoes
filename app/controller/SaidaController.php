@@ -113,9 +113,9 @@ class SaidaController {
 
             $idInstituicao = $saida->getInstituicao()->getIdInstituicao();
 
-            $hasFechamento = $this->fechamentoController->hasFechamento($idInstituicao, date("Y-m-d"));
+            $hasFechamento = $this->fechamentoController->hasFechamento($idInstituicao, date("Y-m-d", strtotime($saida->getDataSaida())));
             
-            Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_UPDATE_ENTRADA);
+            Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_UPDATE_SAIDA);
 
             $result = $this->saidaDAO->updateSaida($saida);
 

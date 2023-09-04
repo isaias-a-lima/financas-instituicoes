@@ -17,6 +17,7 @@ const SAIDA = "S";
 $hasFechamento = false;
 $numDoc = "";
 $style = "";
+$disabledStyle = "";
 
 try {
     $saida = null;
@@ -37,6 +38,7 @@ try {
         $saida->setInstituicao($instituicao);
 
         $saida->setIdSaida($_POST['idsaida']);
+        $saida->setDataSaida($_POST['datasaida']);
         
         $user->setIdUsuario(isset($_POST['idusuario']) ? $_POST['idusuario'] : null);
         $saida->setUsuario($user);
@@ -47,6 +49,8 @@ try {
         $saida->setDescricao(isset($_POST['descricao']) ? $_POST['descricao'] : null);
         $saida->setValor(isset($_POST['valor']) ? $_POST['valor'] : null);
         $saida->setNumDoc(isset($_POST['numdoc']) ? $_POST['numdoc'] : null);
+
+        $disabledStyle = "disabled";
         
         $controller->updateSaida($saida);
     } else {
@@ -156,7 +160,7 @@ include "./app/view/sessionInfo.php";
                 <input type="hidden" name="idinstituicao" id="idinstituicao" value="<?=$saida->getInstituicao()->getIdInstituicao()?>" />
                 <input type="hidden" name="nomeinstituicao" id="nomeinstituicao" value="<?=$saida->getInstituicao()->getNome()?>" />
     
-                <input class="btn btn-primary" type="submit" value="Salvar" />
+                <input class="btn btn-primary" type="submit" value="Salvar" <?=$disabledStyle?> />
     
             </div>
         </section>

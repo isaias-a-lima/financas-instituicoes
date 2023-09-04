@@ -115,7 +115,7 @@ class EntradaController {
 
             $idInstituicao = $entrada->getInstituicao()->getIdInstituicao();
 
-            $hasFechamento = $this->fechamentoController->hasFechamento($idInstituicao, date("Y-m-d"));
+            $hasFechamento = $this->fechamentoController->hasFechamento($idInstituicao, date("Y-m-d", strtotime($entrada->getDataEntrada())));
             
             Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_UPDATE_ENTRADA);
 

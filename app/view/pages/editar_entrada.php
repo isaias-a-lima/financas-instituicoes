@@ -17,6 +17,7 @@ $msgError = "";
 const ENTRADA = "E";
 $hasFechamento = false;
 $style = "";
+$disabledStyle = "";
 
 try {
     $entrada = null;
@@ -37,6 +38,7 @@ try {
         $entrada->setInstituicao($instituicao);
 
         $entrada->setIdEntrada($_POST['identrada']);
+        $entrada->setDataEntrada($_POST['dataentrada']);
         
         $user->setIdUsuario(isset($_POST['idusuario']) ? $_POST['idusuario'] : null);
         $entrada->setUsuario($user);
@@ -47,6 +49,8 @@ try {
         $entrada->setDescricao(isset($_POST['descricao']) ? $_POST['descricao'] : null);
         $entrada->setValor(isset($_POST['valor']) ? $_POST['valor'] : null);        
         
+        $disabledStyle = "disabled";
+
         $controller->updateEntrada($entrada);
     } else {
         $idEntrada = isset($_GET['ide']) ? $_GET['ide'] : 0;
@@ -150,7 +154,7 @@ include "./app/view/sessionInfo.php";
                 <input type="hidden" name="idinstituicao" id="idinstituicao" value="<?=$entrada->getInstituicao()->getIdInstituicao()?>" />
                 <input type="hidden" name="nomeinstituicao" id="nomeinstituicao" value="<?=$entrada->getInstituicao()->getNome()?>" />
     
-                <input class="btn btn-primary" type="submit" value="Salvar" />
+                <input class="btn btn-primary" type="submit" value="Salvar" <?=$disabledStyle?> />
     
             </div>
         </section>
