@@ -52,8 +52,8 @@ class SaidaConverter implements ConverterInterface {
                 $saida->setInstituicao($instituicao);
                 $saida->setUsuario($usuario);
                 $saida->setCategoria($categoria);
-                if(isset($result['numDoc'])) {
-                    $saida->setNumDoc($result['numDoc']);
+                if(isset($result['numdoc'])) {
+                    $saida->setNumDoc($result['numdoc']);
                 }
     
                 return $saida;

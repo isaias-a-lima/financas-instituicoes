@@ -45,7 +45,8 @@ try {
         $saida->setCategoria($categoria);
 
         $saida->setDescricao(isset($_POST['descricao']) ? $_POST['descricao'] : null);
-        $saida->setValor(isset($_POST['valor']) ? $_POST['valor'] : null);        
+        $saida->setValor(isset($_POST['valor']) ? $_POST['valor'] : null);
+        $saida->setNumDoc(isset($_POST['numdoc']) ? $_POST['numdoc'] : null);
         
         $controller->updateSaida($saida);
     } else {
@@ -54,10 +55,7 @@ try {
             throw new Exception("ID de saida inválido.");
         }
 
-        $saida = $controller->getById($idSaida);
-        if(isset($saida) && $saida->getNumDoc() !== null) {
-            $numDoc = $saida->getNumDoc();
-        }        
+        $saida = $controller->getById($idSaida);       
 
         $fechamentoController = new FechamentoController();
         $hasFechamento = $fechamentoController->hasFechamento($saida->getInstituicao()->getIdInstituicao(), date("Y-m-d"));
@@ -74,9 +72,6 @@ try {
     }
 
     $saida = $controller->getById($idSaida);
-    if(isset($saida) && $saida->getNumDoc() !== null) {
-        $numDoc = $saida->getNumDoc();
-    }
 }
 
 include "./app/view/sessionInfo.php";
@@ -153,7 +148,7 @@ include "./app/view/sessionInfo.php";
 
                 <div class="form-group">
                     <label for="numdoc">Número do Documento</label>
-                    <input class="form-control" type="text" name="numdoc" id="numdoc" value="<?=$numDoc?>" />
+                    <input class="form-control" type="text" name="numdoc" id="numdoc" value="<?=$saida->getNumDoc()?>" />
                 </div>
     
                 <input type="hidden" name="idusuario" id="idusuario" value="<?=$usuario->getIdUsuario()?>" />
