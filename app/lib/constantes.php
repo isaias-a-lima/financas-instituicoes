@@ -22,6 +22,8 @@ class Constantes{
     const HAS_FECHAMENTOS = "Já existe fechamento registrado para o Mês selecionado.";
     const MONTH_ENDED = "O Mês selecionado deve estar encerrado.";
 
+    const EMAIL_NOT_FOUND = "E-mail não encontrado.";
+
     const SEMANA = [
         0 => "Domingo",
         1 => "Segunda-feira",

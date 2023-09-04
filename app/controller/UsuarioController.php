@@ -1,6 +1,7 @@
 <?php
 namespace app\controller;
 
+use app\lib\Constantes;
 use app\lib\SecurityUtil;
 use app\model\dao\UsuarioDao;
 use app\model\entities\Usuario;
@@ -113,6 +114,10 @@ class UsuarioController {
 
             $usuario = $this->usuarioDao->getUsuarioByEmail($email);
 
+            if (is_bool($usuario)) {
+                throw new Exception(Constantes::EMAIL_NOT_FOUND);
+            }
+
             if (isset($usuario) && !empty($usuario->getEmail())) {
 
                 $res = $this->usuarioDao->insertChaveResetSenha($usuario, $chaveHash, $local);
@@ -127,7 +132,7 @@ class UsuarioController {
             }
 
         } catch (Exception $e) {
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
         }
 
         return $result;
