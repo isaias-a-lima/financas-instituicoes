@@ -1,7 +1,11 @@
 <?php
 
 use app\controller\RenderController;
+use app\controller\SessionController;
 use app\lib\SecurityUtil;
+
+$sessao = SessionController::getInstance();
+$usuario = isset($usuario) ? $usuario : $sessao->getSessionUser();
 $msg = "";
 $msgError = "";
 
@@ -100,12 +104,12 @@ include "./app/view/sessionInfo.php";
             <div class="form-group row">
                 <div class="col-md-6">
                     <label for="nome">Nome</label>
-                    <input class="form-control" type="mail" name="nome" id="nome" maxlength="15" placeholder="Digite o seu Nome" required />
+                    <input class="form-control" type="mail" name="nome" id="nome" value="<?=$usuario->getNome()?>" readonly required />
                 </div>
 
                 <div class="col-md-6">
                     <label for="email">E-mail</label>
-                    <input class="form-control" type="mail" name="email" id="email" placeholder="Digite o seu e-mail" required />
+                    <input class="form-control" type="mail" name="email" id="email" value="<?=$usuario->getEmail()?>" readonly required />
                 </div>
             </div>
 

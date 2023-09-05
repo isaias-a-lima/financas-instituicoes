@@ -7,13 +7,14 @@ class SessionController {
     const ID_USUARIO = "idUsuario";
     const NOME_USUARIO = "nomeUsuario";
     const INSTITUICOES = "instituicoes";
+    const EMAIL = "emailUsuario";
     const SESSION_NOT_STARTED = false;
     const SESSION_STARTED = true;
     
     private $sessionState = self::SESSION_NOT_STARTED;
     private static $instance;
 
-    public static function getInstance() {
+    public static function getInstance():SessionController {
         if (!isset(self::$instance)) {
             self::$instance = new self;
         }
@@ -41,6 +42,7 @@ class SessionController {
         }        
         $_SESSION[self::ID_USUARIO] = $usuario->getIdUsuario();
         $_SESSION[self::NOME_USUARIO] = $usuario->getNome();
+        $_SESSION[self::EMAIL] = $usuario->getEmail();
         $_SESSION[self::INSTITUICOES] = $usuario->getInstituicoes();        
         return $this->sessionState;
     }
@@ -54,6 +56,7 @@ class SessionController {
             $user = new Usuario();
             $user->setIdUsuario($_SESSION[self::ID_USUARIO]);
             $user->setNome($_SESSION[self::NOME_USUARIO]);
+            $user->setEmail($_SESSION[self::EMAIL]);
             $user->setInstituicoes($_SESSION[self::INSTITUICOES]);
             return $user;
         }
