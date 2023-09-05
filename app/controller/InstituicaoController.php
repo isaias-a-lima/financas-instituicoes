@@ -76,7 +76,7 @@ class InstituicaoController {
             <thead>
                 <tr>
                     <th>Nome</th>
-                    <th style='width:150px;'>Opções</th>
+                    <th style='width:100px;'>Opções</th>
                 </tr>
             </thead>
             <tbody>

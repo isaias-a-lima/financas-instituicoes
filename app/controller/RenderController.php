@@ -26,7 +26,9 @@ class RenderController {
         "CADASTRO_SAIDA"=>["cod"=>18, "page"=>"/cadastro_saida.php"],
         "EDITAR_SAIDA"=>["cod"=>19, "page"=>"/editar_saida.php"],
         "EDITAR_FECHAMENTO"=>["cod"=>20, "page"=>"/editar_fechamento.php"],
-        "CADASTRO_FECHAMENTO"=>["cod"=>21, "page"=>"/cadastro_fechamento.php"]
+        "CADASTRO_FECHAMENTO"=>["cod"=>21, "page"=>"/cadastro_fechamento.php"],
+        "CONTATO"=>["cod"=>22, "page"=>"/contato.php"],
+        "AJUDA"=>["cod"=>23, "page"=>"/ajuda.php"]
     ];
 
     private SessionController $sessao;

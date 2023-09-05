@@ -6,9 +6,7 @@ use Exception;
 class SecurityUtil {
 
     public static function sanitizeString($str) {
-        if (!isset($str)) {
-            throw new Exception("É obrigatório infomar um texto.");
-        }
+        Validacoes::validParam($str, "Texto");        
         $str = filter_var($str, FILTER_SANITIZE_SPECIAL_CHARS);
         return $str;
     }

@@ -67,7 +67,7 @@ $infoAddUser = "Adicionar usuários à instituição";
         </div>
     </div>
 
-    <div class="col-md-3 espaco-padrao">
+    <div class="col-md-3 espaco-padrao" style="display: none;">
         <div class="menu" onclick="">
             <i class="glyphicon glyphicon-usd text-warning"></i>
             &nbsp;
@@ -75,14 +75,14 @@ $infoAddUser = "Adicionar usuários à instituição";
         </div>
     </div>
 
-    <div class="col-md-3 espaco-padrao">
+    <div class="col-md-3 espaco-padrao" style="display: none;">
         <div class="menu" onclick="">
             <i class="glyphicon glyphicon-cog"></i>
             &nbsp;
             Categorias
         </div>
     </div>
-
+    <!--Provisorio--><div style="display: none;">
     <div class="col-md-3 espaco-padrao" style="display:<?=$cssDisplay?>" title="<?=$infoAddUser?>" alt="<?=$infoAddUser?>">
         <div class="menu" onclick="openUserModal(<?=$idInstituicao?>)">
             <i class="glyphicon glyphicon-user"></i>
@@ -90,7 +90,7 @@ $infoAddUser = "Adicionar usuários à instituição";
             Adicionar usuário
         </div>
     </div>
-
+    </div><!--Provisorio-->
     <div class="col-md-3 espaco-padrao" style="display:<?=$cssDisplay?>" title="<?=$infoEditar?>" alt="<?=$infoEditar?>">
         <div class="menu" onclick="document.location.href='./?p=<?=$linkEditar?>&idi=<?=$idInstituicao?>'">
             <i class="glyphicon glyphicon-edit"></i>
@@ -99,7 +99,7 @@ $infoAddUser = "Adicionar usuários à instituição";
         </div>
     </div>
 
-    <div class="col-md-3 espaco-padrao">
+    <div class="col-md-3 espaco-padrao" style="display: none;">
         <div class="menu" onclick="">
             <i class="glyphicon glyphicon-barcode"></i>
             &nbsp;

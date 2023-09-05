@@ -6,6 +6,8 @@ include "./app/view/sessionInfo.php";
 
 $linkEditarUsuario = RenderController::PAGES["EDITAR_USUARIO"]["cod"];
 $linkListarInstituicoes = RenderController::PAGES["LISTAR_INSTITUICOES"]["cod"];
+$linkContato = RenderController::PAGES["CONTATO"]["cod"];
+$linkAjuda = RenderController::PAGES["AJUDA"]["cod"];
 ?>
 
 <section class="row">
@@ -35,15 +37,15 @@ $linkListarInstituicoes = RenderController::PAGES["LISTAR_INSTITUICOES"]["cod"];
     </div>
     
     <div class="col-md-3 espaco-padrao">
-        <div class="menu">
-            <i class="glyphicon glyphicon-earphone"></i>
+        <div class="menu" onclick="document.location.href='./?p=<?=$linkContato?>'">
+            <i class="glyphicon glyphicon-send"></i>
             &nbsp;
             Contato
         </div>
     </div>
 
     <div class="col-md-3 espaco-padrao">
-        <div class="menu">
+        <div class="menu" onclick="document.location.href='./?p=<?=$linkAjuda?>'">
             <i class="glyphicon glyphicon-question-sign"></i>
             &nbsp;
             Ajuda
