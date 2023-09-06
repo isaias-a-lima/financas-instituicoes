@@ -27,6 +27,17 @@ class FechamentoController {
         return $result;
     }
 
+    public function isFirstClosing(int $idInstituicao):bool {
+        $result = false;
+        try {
+            Validacoes::validParam($idInstituicao, "ID Instituição");
+            $result = $this->fechamentoDAO->isFirstClosing($idInstituicao);
+        } catch(Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+        return $result;
+    }
+
     public function getByInstituicao(int $idInstituicao, string $ano) {
         $html = "
         <div class='table-responsive'>

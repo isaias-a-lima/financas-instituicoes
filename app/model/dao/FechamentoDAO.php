@@ -37,6 +37,29 @@ class FechamentoDAO extends DaoPattern {
         return $result;
     }
 
+    public function isFirstClosing(int $idInstituicao):bool {
+        $sql = SqlBuilder::build()->DATABASE(parent::getDbName())->
+            SELECT()->
+            addColum("count(f.idinstituicao) = 0 as chave")->
+            FROM("fechamentos f")->
+            WHERE("f.idinstituicao = :idinstituicao")->
+        getSql();
+
+        $params = [
+            [':idinstituicao', $idInstituicao]
+        ];
+
+        $result = false;
+
+        try {
+            $result = (bool) parent::getOne($sql, $params, new BooleanConverter());
+        } catch(Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
+        return $result;
+    }
+
     public function getByInstituicao(int $idInstituicao, string $ano) {
         
         $sql = SqlBuilder::build()->DATABASE(parent::getDbName())->

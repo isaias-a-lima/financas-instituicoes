@@ -6,6 +6,7 @@ use app\controller\InstituicaoController;
 use app\controller\RenderController;
 use app\controller\SaidaController;
 use app\lib\Constantes;
+use app\lib\SecurityUtil;
 use app\model\entities\Fechamento;
 use app\model\entities\Instituicao;
 
@@ -48,13 +49,19 @@ try {
 
 try {
     
-    $ano = isset($_GET['ano']) ? $_GET['ano'] : date("Y");
-    $mes = isset($_GET['mes']) ? $_GET['mes'] : date("m") - 1;
+    $ano = isset($_GET['ano']) ? SecurityUtil::sanitizeString($_GET['ano']) : date("Y");
+    $mes = isset($_GET['mes']) ? SecurityUtil::sanitizeString($_GET['mes']) : date("m") - 1;
 
     $dataInicio = date("Y-m-d", mktime(0, 0, 0, $mes, 1, $ano));
     $dataFim = date("Y-m-t", mktime(0, 0, 0, $mes, 1, $ano));
 
-    $idInstituicao = isset($_GET['idi']) ? $_GET['idi'] : "";
+    $idInstituicao = isset($_GET['idi']) ? SecurityUtil::sanitizeString($_GET['idi']) : "";
+
+    $isFirstClosing = $fechamentoController->isFirstClosing($idInstituicao);
+    $isInputMesDisabled = $isFirstClosing ? "disabled" : "";
+    $isInputSaldoInicialTypeHidden = !$isFirstClosing ? "hidden" : "number";
+    $isWithStep = $isFirstClosing ? 'step="0.1"' : '';
+    $isDivSaldoInicialVisible = $isFirstClosing ? '' : 'style="display:none;"';
 
     $instituicaoController = new InstituicaoController();
     $instituicao = $instituicaoController->getById($idInstituicao);
@@ -79,11 +86,13 @@ try {
     $saldoFinal = $saldoInicial + $entradas - $saidas;
 
     //Calculos para o gráfico
+    //Qual o maior valor
     $maiorValorGrafico = $saldoInicial > $entradas ? $saldoInicial : $entradas;
     $maiorValorGrafico = $maiorValorGrafico > $saidas ? $maiorValorGrafico : $saidas;
     $maiorValorGrafico = $maiorValorGrafico > $fluxoCaixa ? $maiorValorGrafico : $fluxoCaixa;
     $maiorValorGrafico = $maiorValorGrafico > $saldoFinal ? $maiorValorGrafico : $saldoFinal;
 
+    //Calculo de percentuais para definir tamanho das barras do gráfico
     $saldoInicialGrafico = $saldoInicial > 0 ? round($saldoInicial / $maiorValorGrafico * 100, 0) : 0;
     $entradasGrafico = $entradas > 0 ? round($entradas / $maiorValorGrafico * 100, 0) : 0;
     $saidasGrafico = $saidas > 0 ? round($saidas / $maiorValorGrafico * 100, 0) : 0;
@@ -130,11 +139,11 @@ include "./app/view/sessionInfo.php";
 <section class="row">
     <div class="col-md-12">
         <h3>Registrar Fechamento</h3>
-        <?= $msgError ?>
+        <?= $msgError ?>        
     </div>
 </section>
 
-<form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
+<form id="formfechamento" method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
 
     <section class="row">
         <div class="col-md-6">
@@ -145,7 +154,7 @@ include "./app/view/sessionInfo.php";
                 </div>
                 <div class="col-md-6">
                     <label for="mes">Mês</label>
-                    <select name="mes" id="mes" class="form-control">
+                    <select name="mes" id="mes" class="form-control" <?=$isInputMesDisabled?>>
                         <option value="<?= $mes ?>"><?= Constantes::MES[$mes] ?></option>
                         <?php
                         foreach (Constantes::MES as $i => $value) {
@@ -161,49 +170,58 @@ include "./app/view/sessionInfo.php";
         </div>
     </section>
 
+    <div class="form-group row" id="divSaldoInicial" <?=$isDivSaldoInicialVisible?>>
+        <div class="col-md-6">
+            <label for="saldoInicial">Saldo Inicial</label> <span id="errorAlert" style="color: red;"></span>
+            <input class="form-control" type="<?=$isInputSaldoInicialTypeHidden?>" <?=$isWithStep?> name="saldoInicial" id="saldoInicial" value="<?=$saldoInicial?>" required />
+        </div>
+    </div>
+
     <input type="hidden" name="p" id="p" value="<?=$p?>" required />
     <input type="hidden" name="idInstituicao" id="idInstituicao" value="<?=$instituicao->getIdInstituicao()?>" required />
     <input type="hidden" name="nomeInstituicao" id="nomeInstituicao" value="<?=$instituicao->getNome()?>" required />
     <input type="hidden" name="dataInicio" id="dataInicio" value="<?=$dataInicio?>" required />
     <input type="hidden" name="dataFim" id="dataFim" value="<?=$dataFim?>" required />
-    <input type="hidden" name="saldoInicial" id="saldoInicial" value="<?= $saldoInicial ?>" required />
+    
     <input type="hidden" name="entradas" id="entradas" value="<?= $entradas ?>" required />
     <input type="hidden" name="saidas" id="saidas" value="<?= $saidas ?>" required />
     <input type="hidden" name="saldoFinal" id="saldoFinal" value="<?= $saldoFinal ?>" required />
 
+    <input type="hidden" name="isFirstClosing" id="isFirstClosing" value="<?= $isFirstClosing ?>" />
+
     <section class="row">
         <div class="col-md-6">
-            <span class="small">Saldo Inicial: </span><?= "R$ " . number_format($saldoInicial, 2, ",", ".") ?>
+            <span class="small">Saldo Inicial: </span><span id="saldoInicialBarra"><?= "R$ " . number_format($saldoInicial, 2, ",", ".") ?></span>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="<?= $saldoInicialGrafico ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $saldoInicialGrafico ?>%">
+                <div id="saldoInicialBarra2" class="progress-bar" role="progressbar" aria-valuenow="<?= $saldoInicialGrafico ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $saldoInicialGrafico ?>%">
                     &nbsp;
                 </div>
             </div>
 
-            <span class="small">Entradas: </span> <?= "R$ " . number_format($entradas, 2, ",", ".") ?>
+            <span class="small">Entradas: </span> <span id="entradasBarra"><?= "R$ " . number_format($entradas, 2, ",", ".") ?></span>
             <div class="progress">
-                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="<?= $entradasGrafico ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $entradasGrafico ?>%">
+                <div id="entradasBarra2" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="<?= $entradasGrafico ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $entradasGrafico ?>%">
                     &nbsp;
                 </div>
             </div>
 
-            <span class="small">Saídas: </span> <?= "R$ " . number_format($saidas, 2, ",", ".") ?>
+            <span class="small">Saídas: </span> <span id="saidasBarra"><?= "R$ " . number_format($saidas, 2, ",", ".") ?></span>
             <div class="progress">
-                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="<?= $saidasGrafico ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $saidasGrafico ?>%">
+                <div id="saidasBarra2" class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="<?= $saidasGrafico ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $saidasGrafico ?>%">
                     &nbsp;
                 </div>
             </div>
 
-            <span class="small">Fluxo de Caixa: </span> <?= "R$ " . number_format($fluxoCaixa, 2, ",", ".") ?>
+            <span class="small">Fluxo de Caixa: </span> <span id="fluxoCaixaBarra"><?= "R$ " . number_format($fluxoCaixa, 2, ",", ".") ?></span>
             <div class="progress">
-                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="<?= $fluxoCaixaGrafico ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $fluxoCaixaGrafico ?>%">
+                <div id="fluxoCaixaBarra2" class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="<?= $fluxoCaixaGrafico ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $fluxoCaixaGrafico ?>%">
                     &nbsp;
                 </div>
             </div>
 
-            <span class="small">Saldo Final: </span><?= "R$ " . number_format($saldoFinal, 2, ",", ".") ?>
+            <span class="small">Saldo Final: </span> <span id="saldoFinalBarra"><?= "R$ " . number_format($saldoFinal, 2, ",", ".") ?></span>
             <div class="progress">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?= $saldoFinalGrafico ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $saldoFinalGrafico ?>%">
+                <div id="saldoFinalBarra2" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?= $saldoFinalGrafico ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $saldoFinalGrafico ?>%">
                     &nbsp;
                 </div>
             </div>
@@ -213,7 +231,7 @@ include "./app/view/sessionInfo.php";
 
     <section class="row">
         <div class="col-md-6">
-            <input class="btn btn-primary" type="submit" value="Salvar" <?=$disabledStyle?> />
+            <input class="btn btn-primary" type="button" id="btnSalvar" value="Salvar" <?=$disabledStyle?> />
         </div>
     </section>
 
