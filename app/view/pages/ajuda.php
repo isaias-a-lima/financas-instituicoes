@@ -48,7 +48,7 @@ include "./app/view/sessionInfo.php";
         </ul>
         <hr>
 
-        <h4>O que significa cada categoria de Saída?</h4>
+        <h4>O que significam as categorias de Saída?</h4>
         <ul class="ajuda">
             <li><a href="#help8">Custos Administrativos.</a></li>
             <li><a href="#help9">Salários Eclesiásticos.</a></li>
