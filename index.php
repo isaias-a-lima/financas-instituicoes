@@ -1,4 +1,3 @@
-<script src="./app/view/js/app.js"></script>
 <?php
 
 require "./app/lib/constantes.php";
