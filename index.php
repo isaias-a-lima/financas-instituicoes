@@ -1,3 +1,4 @@
+<script src="./app/view/js/app.js"></script>
 <?php
 
 require "./app/lib/constantes.php";
@@ -8,3 +9,5 @@ require_once Constantes::DEFAULT_CONTROLLER_DIR . "/SessionController.php";
 SessionController::getInstance();
 
 include Constantes::DEFAULT_DIR . "/run.php";
+
+?>
