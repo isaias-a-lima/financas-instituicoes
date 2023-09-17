@@ -9,7 +9,7 @@ class ExceptionUtil {
     const RESETAR = RenderController::PAGES['RESETAR_SENHA']['cod'];
 
     const MESSAGES = [
-        "1062"=>"Usuário já cadastrado. Caso tenha esquecido sua senha <a href='?p=6'>clique aqui para resetar</a>."
+        "1062"=>"Esse registro já existe no sistema.<br>Se estiver com problemas utilize a página de <a href='./?p=22'>contato</a> para falar conosco."
     ];
 
     public static function getError(Exception $e) {

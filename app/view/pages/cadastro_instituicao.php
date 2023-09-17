@@ -3,10 +3,11 @@
 use app\controller\InstituicaoController;
 use app\controller\RenderController;
 use app\controller\SessionController;
+use app\exceptions\ExceptionUtil;
 use app\model\entities\Instituicao;
 use app\model\entities\Usuario;
 
-$error = "";
+$msgError = "";
 
 $sessao = SessionController::getInstance();
 
@@ -28,9 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $controller = new InstituicaoController();
         $controller->saveInstituicao($instituicao);
-    } catch (Exception $e) {
-        $msg = $e->getMessage();
-        $error = "<div class='alert alert-danger'>$msg</div>";
+    } catch (Exception $e) {        
+        $msg = ExceptionUtil::handleError($e);
+        $msgError = "<div class='alert alert-danger'>$msg</div>";
     }
 }
 
@@ -61,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <section class="row">
     <div class="col-sm-6">        
-        <?= $error ?>
+        <?=$msgError?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <div class="form-group">
                 <label for="cnpj">CNPJ da instituição</label>
