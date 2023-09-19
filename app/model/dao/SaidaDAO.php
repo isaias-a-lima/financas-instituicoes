@@ -57,7 +57,9 @@ class SaidaDao extends DaoPattern {
         INNERJOIN("usuarios u")->ON("u.idusuario = s.idusuario")->
         LEFTJOIN("usuarios ti")->ON("ti.idusuario = i.idusuarioresp")->
         INNERJOIN("categorias c")->ON("c.idcategoria = s.idcategoria")->
-        WHERE("s.idinstituicao = :idinstituicao AND datasaida BETWEEN :dataInicio AND :dataFim")->getSql();
+        WHERE("s.idinstituicao = :idinstituicao AND datasaida BETWEEN :dataInicio AND :dataFim")->
+        ORDERBY("s.datasaida")->
+        getSql();
 
         $params = [
             [':idinstituicao', $idInstituicao],

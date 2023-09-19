@@ -57,7 +57,9 @@ class EntradaDao extends DaoPattern {
         INNERJOIN("usuarios u")->ON("u.idusuario = e.idusuario")->
         LEFTJOIN("usuarios ti")->ON("ti.idusuario = i.idusuarioresp")->
         INNERJOIN("categorias c")->ON("c.idcategoria = e.idcategoria")->
-        WHERE("e.idinstituicao = :idinstituicao AND dataentrada BETWEEN :dataInicio AND :dataFim")->getSql();
+        WHERE("e.idinstituicao = :idinstituicao AND dataentrada BETWEEN :dataInicio AND :dataFim")->
+        ORDERBY("e.dataentrada")->
+        getSql();
 
         $params = [
             [':idinstituicao', $idInstituicao],
