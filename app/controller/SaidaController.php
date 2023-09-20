@@ -31,7 +31,7 @@ class SaidaController {
             <table class='table table-hover'>
                 <thead>
                     <tr>
-                        <th>Data</th><th>Categoria</th><th>Descrição</th><th>Valor (R$)</th><th>&nbsp;</th>
+                        <th>Data</th><th>Categoria</th><th>Descrição</th><th style='text-align:right;'>Valor (R$)</th><th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,8 +58,8 @@ class SaidaController {
                     <td>$dataFormatada</td>
                     <td>$categoria</td>
                     <td>$descricao</td>
-                    <td>$valorFomatado</td>
-                    <td style='width:100px;'><a href='./?p=$codPage&ide=$idSaida' title='Editar' alt='Editar'><span class='glyphicon glyphicon-edit'></span> Editar</a></td>
+                    <td style='text-align:right;'>$valorFomatado</td>
+                    <td style='text-align:right;'><a href='./?p=$codPage&ide=$idSaida' title='Editar' alt='Editar'><span class='glyphicon glyphicon-edit'></span> Editar</a></td>
                 </tr>
                 ";
             }
@@ -70,7 +70,7 @@ class SaidaController {
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>&nbsp;</th><th>&nbsp;</th><th class='text-right'>TOTAL</th><th>$somaFormatada</th><th>&nbsp;</th>
+                        <th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th style='text-align:right;'>TOTAL &nbsp; $somaFormatada</th><th>&nbsp;</th>
                     </tr>
                 </tfoot>
             </table>
