@@ -49,8 +49,8 @@ class FechamentoController {
                 </thead>
                 <tbody>
         ";
-        $soma = 0.0;
-        $codPage = RenderController::PAGES['EDITAR_FECHAMENTO']['cod'];
+        
+        $pageVerFechamento = RenderController::PAGES['VER_FECHAMENTO']['cod'];
 
         try {
             
@@ -75,7 +75,8 @@ class FechamentoController {
                     <td>$entradas</td>
                     <td>$saidas</td>
                     <td>$saldoFinal</td>
-                    <td><!--<a href='#' title='Editar' alt='Editar'><span class='glyphicon glyphicon-edit'></span> Editar</a>-->&nbsp;</td>
+                    <td><a href='./?p=$pageVerFechamento&idf=$idFechamento&idi=$idInstituicao' title='Ver Fechamento' alt='Ver Fechamento'><span class='glyphicon glyphicon-file'></span> Ver</a>&nbsp;</td>
+                    <!--<td><a href='#' title='Editar' alt='Editar'><span class='glyphicon glyphicon-edit'></span> Editar</a>&nbsp;</td>-->
                 </tr>
                 ";
             }
@@ -136,6 +137,11 @@ class FechamentoController {
         Validacoes::validParam($idInstituicao, "ID Instituição");
         Validacoes::validParam($data, "Data");
         return $this->fechamentoDAO->getFechamentoAnterior($idInstituicao, $data);
+    }
+
+    public function getById(int $idFechamento):Fechamento {
+        Validacoes::validParam($idFechamento, "ID Fechamento");
+        return $this->fechamentoDAO->getById($idFechamento);
     }
     
 }

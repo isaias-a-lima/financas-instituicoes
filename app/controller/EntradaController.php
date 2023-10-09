@@ -27,19 +27,45 @@ class EntradaController {
         }
     }
 
-    public function getByInstituicao(int $idInstituicao, string $dataInicio, string $dataFim) {
-        $html = "
-        <div class='table-responsive'>
-            <table class='table table-hover'>
-                <thead>
-                    <tr>
-                        <th>Data</th><th>Categoria</th><th>Descrição</th><th style='text-align:right;'>Valor (R$)</th><th>&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-        ";
+    public function getByInstituicao(int $idInstituicao, string $dataInicio, string $dataFim, bool $exibirBotaoEditar) {
+        
+        $html = "";
+
+        if ($exibirBotaoEditar) {
+            $html = "
+            <div class='table-responsive'>
+                <table class='table table-hover'>
+                    <thead>
+                        <tr>
+                            <th style='width: 10%;'>Data</th>
+                            <th style='width: 33%;'>Categoria</th>
+                            <th style='width: 33%;'>Descrição</th>
+                            <th style='text-align:right; width: 15%;'>Valor (R$)</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            ";
+        } else {
+            $html = "
+            <div class='table-responsive'>
+                <table class='table table-hover'>
+                    <thead>
+                        <tr>
+                            <th style='width: 10%;'>Data</th>
+                            <th style='width: 35%;'>Categoria</th>
+                            <th style='width: 35%;'>Descrição</th>
+                            <th style='text-align:right; width: 20%;'>Valor (R$)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            ";
+        }
+
         $soma = 0.0;
         $codPage = RenderController::PAGES['EDITAR_ENTRADA']['cod'];
+        $botaoEditarHTML = "";        
+        $thVazia = $exibirBotaoEditar ? "<th>&nbsp;</th>" : "";
 
         try {
             
@@ -55,13 +81,19 @@ class EntradaController {
                 $valorFomatado = number_format($valor,2,",",".");
                 $soma += $valor;
 
+                if ($exibirBotaoEditar) {
+                    $botaoEditarHTML = "<td style='text-align:right;'><a href='./?p=$codPage&ide=$idEntrada' title='Editar' alt='Editar'><span class='glyphicon glyphicon-edit'></span> Editar</a></td>";
+                } else {
+                    $botaoEditarHTML = "";
+                }
+
                 $html .= "
                 <tr>
                     <td>$dataFormatada</td>
                     <td>$categoria</td>
                     <td>$descricao</td>
                     <td style='text-align:right;'>$valorFomatado</td>
-                    <td style='text-align:right;'><a href='./?p=$codPage&ide=$idEntrada' title='Editar' alt='Editar'><span class='glyphicon glyphicon-edit'></span> Editar</a></td>
+                    $botaoEditarHTML
                 </tr>
                 ";
             }
@@ -72,7 +104,11 @@ class EntradaController {
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th style='text-align:right;'>TOTAL &nbsp; $somaFormatada</th><th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th style='text-align:right;'>TOTAL &nbsp; $somaFormatada</th>
+                        $thVazia
                     </tr>
                 </tfoot>
             </table>
@@ -136,6 +172,67 @@ class EntradaController {
         Validacoes::validParam($dataInicio, "Data início");
         Validacoes::validParam($dataFim, "Data fim");
         return $this->entradaDAO->getSomaById($idInstituicao, $dataInicio, $dataFim);
+    }
+
+    public function getByInstituicaoForPDF(int $idInstituicao, string $dataInicio, string $dataFim) {
+        
+        $html = "
+            <table class='pdf-table'>
+                <thead>
+                    <tr>
+                        <th style='width: 10%;'>Data</th>
+                        <th style='width: 35%;'>Categoria</th>
+                        <th style='width: 35%;'>Descrição</th>
+                        <th style='text-align:right; width: 20%;'>Valor (R$)</th>
+                    </tr>
+                </thead>
+                <tbody>            
+            ";
+
+        $soma = 0.0;
+
+        try {
+            
+            $result =  $this->entradaDAO->getByInstituicao($idInstituicao, $dataInicio, $dataFim);           
+
+            for($i=0; $i < count($result); $i++) {
+                $idEntrada = $result[$i]->getIdEntrada();
+                $dataEntrada = $result[$i]->getDataEntrada();
+                $dataFormatada = date("d/m/Y", strtotime($dataEntrada));
+                $categoria = $result[$i]->getCategoria()->getDescricao();
+                $descricao = $result[$i]->getDescricao();
+                $valor = floatval($result[$i]->getValor());
+                $valorFomatado = number_format($valor,2,",",".");
+                $soma += $valor;
+
+                $html .= "
+                <tr>
+                    <td>$dataFormatada</td>
+                    <td>$categoria</td>
+                    <td>$descricao</td>
+                    <td style='text-align:right;'>$valorFomatado</td>
+                </tr>
+                ";
+            }
+
+            $somaFormatada = number_format($soma,2,",",".");
+
+            $html .= "
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan='3' style='text-align:right;'>TOTAL</th>
+                        <th style='text-align:right;'>$somaFormatada</th>
+                    </tr>
+                </tfoot>
+            </table>
+            ";
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
+        return $html;
     }
 
 }
