@@ -162,5 +162,36 @@ class FechamentoDAO extends DaoPattern {
 
     }
 
+    public function getById(int $idFechamento) {       
+
+        $sql = SqlBuilder::build()->DATABASE(parent::getDbName())->
+            SELECT()->
+            addColum("f.idfechamento, f.datainicio, f.datafim, f.saldoinicial, f.entradas, f.saidas")->
+            addColum("i.idinstituicao, i.cnpj, i.nome as nome_instituicao, i.email as email_instituicao, i.emailcontab, 
+                i.datacadastro as data_cadastro_instituicao, i.idusuarioresp")->
+            addColum("ti.idusuario as idtitular, ti.rg as rgtitular, ti.nome as nometitular, ti.email as emailtitular, 
+                ti.datacadastro as datacadastrotitular")->
+            FROM("fechamentos f")->
+            INNERJOIN("instituicoes i")->ON("i.idinstituicao = f.idinstituicao")->
+            INNERJOIN("usuarios ti")->ON("ti.idusuario = i.idusuarioresp")->
+            WHERE("f.idfechamento = :idfechamento")->
+        getSql();
+
+        $params = [
+            [':idfechamento', $idFechamento]
+        ];
+
+        $result = null;
+
+        try {
+            $result = parent::getOne($sql, $params, new FechamentoConverter());
+        } catch(Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
+        return $result;
+
+    }
+
 }
 ?>
