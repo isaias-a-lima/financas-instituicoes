@@ -27,11 +27,12 @@ $saidas = $fechamento->getSaidas();
 $saidasFormatado = number_format($saidas, 2, ",", ".");
 $fluxoCaixa = $entradas - $saidas;
 $fluxoCaixaFormatado = number_format($fluxoCaixa, 2, ",", ".");
-$saldoFinal = $saldoInicial - $fluxoCaixa;
+$saldoFinal = $saldoInicial + $entradas - $saidas;
 $saldoFinalFormatado = number_format($saldoFinal, 2, ",", ".");
 
 $mesFechamento = DateUtil::getMonth(intval(date("m", strtotime($fechamento->getDataInicio()))));
 $anoFechamento = date("Y", strtotime($fechamento->getDataInicio()));
+$anoMesFechamento = date("Y_m", strtotime($fechamento->getDataInicio()));
 
 //Grafico
 //Calculos para o gráfico
@@ -58,14 +59,17 @@ $htmlSaidasPDF = $saidaController->getByInstituicaoForPDF($idInstituicao, $fecha
 //Define nome do PDF
 $rest = $nomeInstituicao;
 $pdfName = "";
-$countWords = (int) str_word_count($nomeInstituicao);
+
+$countWords = (int) str_word_count(StringUtil::removeCaracteresEspeciais($nomeInstituicao));
+
 while ($countWords > 0) {
     $str = substr($rest, 0, strpos($rest, " "));
     $pdfName .= strtoupper(substr($rest, 0, 1));
     $rest = substr($rest, strpos($rest, " ")+1);
     $countWords--;    
 }
-$pdfName .= '_Fechamento_Mensal_' . $mesFechamento .'_' . $anoFechamento . '.pdf';
+$pdfName .= '_Fechamento_Mensal_' . $anoMesFechamento . '.pdf';
+
 
 //Define o conteudo do PDF
 $htmlToPDF .= "
