@@ -75,7 +75,7 @@ $saidaController = new SaidaController();
 
 <section class="row">
     <div class="col-md-12">
-        <?php echo $saidaController->getByInstituicao($idInstituicao, $dataInicio, $dataFim); ?>
+        <?php echo $saidaController->getByInstituicao($idInstituicao, $dataInicio, $dataFim, true); ?>
     </div>
 </section>
 <script src="./app/view/js/listar_saidas.js"></script>

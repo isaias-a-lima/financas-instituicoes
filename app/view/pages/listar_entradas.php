@@ -75,7 +75,7 @@ $entradaController = new EntradaController();
 
 <section class="row">
     <div class="col-md-12">
-        <?php echo $entradaController->getByInstituicao($idInstituicao, $dataInicio, $dataFim); ?>
+        <?php echo $entradaController->getByInstituicao($idInstituicao, $dataInicio, $dataFim, true); ?>
     </div>
 </section>
 <script src="./app/view/js/listar_entradas.js"></script>

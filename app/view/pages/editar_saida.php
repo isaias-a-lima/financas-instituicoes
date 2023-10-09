@@ -54,7 +54,7 @@ try {
         
         $controller->updateSaida($saida);
     } else {
-        $idSaida = isset($_GET['ide']) ? $_GET['ide'] : 0;
+        $idSaida = isset($_GET['ids']) ? $_GET['ids'] : 0;
         if ($idSaida == 0) {
             throw new Exception("ID de saida inválido.");
         }
@@ -70,7 +70,7 @@ try {
     $msgError = "<div class='alert alert-danger'>$msg</div>";
     $style = $hasFechamento == true ? "display: none;" : "";
 
-    $idSaida = isset($_GET['ide']) ? $_GET['ide'] : 0;
+    $idSaida = isset($_GET['ids']) ? $_GET['ids'] : 0;
     if ($idSaida == 0) {
         throw new Exception("ID de saida inválido.");
     }
