@@ -71,6 +71,17 @@ section {
     margin: 10px 0;
 }
 
+.tools {    
+    padding: 5px 10px;
+    margin: 0;
+    box-shadow: 2px 2px 4px #ccc;
+    cursor: pointer;
+}
+
+.tools:hover {
+    box-shadow: 0 0 2px #ccc;
+}
+
 td>a {
     padding: 5px;
     color: black;
