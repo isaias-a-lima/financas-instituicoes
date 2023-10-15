@@ -128,7 +128,7 @@ class EntradaController {
 
             $idi = $entrada->getInstituicao()->getIdInstituicao();
 
-            $hasFechamento = $this->fechamentoController->hasFechamento($idi, date("Y-m-d"));
+            $hasFechamento = $this->fechamentoController->hasFechamento($idi, date("Y-m-d", strtotime($entrada->getDataEntrada())));
 
             Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_SAVE_MOVIMENTACOES);
 

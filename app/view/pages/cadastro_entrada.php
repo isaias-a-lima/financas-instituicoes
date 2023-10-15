@@ -12,6 +12,8 @@ use app\model\entities\Entrada;
 use app\model\entities\Instituicao;
 use app\model\entities\Usuario;
 
+$instituicao = null;
+
 $msg = "";
 $msgError = "";
 const ENTRADA = "E";
@@ -19,11 +21,18 @@ $hasFechamento = false;
 $style = "";
 
 try {
+    $instituicaoController = new InstituicaoController();
+    $categoriaController = new CategoriaController();
+    $entradaController = new EntradaController();
+
+    $dataEntrada = date("Y-m-d");
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $entrada = new Entrada();
         
-        $instituicao = new Instituicao();
-        $instituicao->setIdInstituicao(isset($_POST['idinstituicao']) ? $_POST['idinstituicao'] : null);
+        $idInstituicao = isset($_POST['idinstituicao']) ? $_POST['idinstituicao'] : "";
+        $instituicao = $instituicaoController->getById($idInstituicao);
+
         $entrada->setInstituicao($instituicao);
 
         $usuario = new Usuario();
@@ -46,7 +55,7 @@ try {
 
         $idInstituicao = isset($_GET['idi']) ? $_GET['idi'] : "";
 
-        $dataEntrada = date("Y-m-d");
+        $instituicao = $instituicaoController->getById($idInstituicao);
 
         $fechamentoController = new FechamentoController();
         $hasFechamento = $fechamentoController->hasFechamento($idInstituicao, $dataEntrada);
@@ -59,14 +68,6 @@ try {
     $msgError = "<div class='alert alert-danger'>$msg</div>";
     $style = $hasFechamento == true ? "display: none;" : "";
 }
-
-$instituicaoController = new InstituicaoController();
-
-$instituicao = $instituicaoController->getById($idInstituicao);
-
-$categoriaController = new CategoriaController();
-
-$entradaController = new EntradaController();
 
 include "./app/view/sessionInfo.php";
 
