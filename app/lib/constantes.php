@@ -11,6 +11,7 @@ class Constantes{
 
     // Mensagens
     const CAN_NOT_SAVE_MOVIMENTACOES = "Não foi possível salvar essa Movimentação. Verifique os fechamentos.";
+    const CAN_NOT_UPDATE_MOVIMENTACOES = "Não foi possível alterar essa Movimentação. Verifique os fechamentos.";
 
     const HAS_NOT_MOVIMENTACOES = "Não existem movimentações para o mês selecionado.";
     const HAS_FECHAMENTOS = "Já existe fechamento registrado para o Mês selecionado.";

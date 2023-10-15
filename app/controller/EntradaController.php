@@ -153,7 +153,7 @@ class EntradaController {
 
             $hasFechamento = $this->fechamentoController->hasFechamento($idInstituicao, date("Y-m-d", strtotime($entrada->getDataEntrada())));
             
-            Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_SAVE_MOVIMENTACOES);
+            Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_UPDATE_MOVIMENTACOES);
 
             $result = $this->entradaDAO->updateEntrada($entrada);
 
