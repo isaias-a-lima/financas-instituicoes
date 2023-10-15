@@ -94,6 +94,11 @@ class SqlBuilder {
         return $this;
     }
 
+    public function OR(string $condition) {
+        $this->sql .= " OR $condition ";
+        return $this;
+    }
+
     public function ORDERBY(string $orderby) {
         $this->sql .= "ORDER BY $orderby ";
         return $this;
