@@ -9,8 +9,9 @@ use app\lib\Constantes;
 use app\lib\Validacoes;
 use app\model\entities\Categoria;
 use app\model\entities\Saida;
-use app\model\entities\Instituicao;
 use app\model\entities\Usuario;
+
+$instituicao = null;
 
 $msg = "";
 $msgError = "";
@@ -19,11 +20,18 @@ $hasFechamento = false;
 $style = "";
 
 try {
+    $instituicaoController = new InstituicaoController();
+    $categoriaController = new CategoriaController();
+    $saidaController = new SaidaController();
+
+    $dataSaida = date("Y-m-d");
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $saida = new Saida();
+        $saida = new Saida();        
         
-        $instituicao = new Instituicao();
-        $instituicao->setIdInstituicao(isset($_POST['idinstituicao']) ? $_POST['idinstituicao'] : null);
+        $idInstituicao = isset($_POST['idinstituicao']) ? $_POST['idinstituicao'] : "";
+        $instituicao = $instituicaoController->getById($idInstituicao);
+
         $saida->setInstituicao($instituicao);
 
         $usuario = new Usuario();
@@ -46,8 +54,8 @@ try {
     } else {
 
         $idInstituicao = isset($_GET['idi']) ? $_GET['idi'] : "";
-
-        $dataSaida = date("Y-m-d");
+        
+        $instituicao = $instituicaoController->getById($idInstituicao);
 
         $fechamentoController = new FechamentoController();
         $hasFechamento = $fechamentoController->hasFechamento($idInstituicao, $dataSaida);
@@ -60,14 +68,6 @@ try {
     $msgError = "<div class='alert alert-danger'>$msg</div>";
     $style = $hasFechamento == true ? "display: none;" : "";
 }
-
-$instituicaoController = new InstituicaoController();
-
-$instituicao = $instituicaoController->getById($idInstituicao);
-
-$categoriaController = new CategoriaController();
-
-$saidaController = new SaidaController();
 
 include "./app/view/sessionInfo.php";
 
