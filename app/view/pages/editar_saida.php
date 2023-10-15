@@ -63,7 +63,7 @@ try {
 
         $fechamentoController = new FechamentoController();
         $hasFechamento = $fechamentoController->hasFechamento($saida->getInstituicao()->getIdInstituicao(), date("Y-m-d"));
-        Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_UPDATE_SAIDA);
+        Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_SAVE_MOVIMENTACOES);
     }
 } catch (Exception $e) {
     $msg = $e->getMessage();

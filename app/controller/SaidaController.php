@@ -128,7 +128,7 @@ class SaidaController {
 
             $hasFechamento = $this->fechamentoController->hasFechamento($idi, date("Y-m-d", strtotime($saida->getDataSaida())));
 
-            Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_SAVE_SAIDA);
+            Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_SAVE_MOVIMENTACOES);
 
             $result = $this->saidaDAO->saveSaida($saida);
 
@@ -151,7 +151,7 @@ class SaidaController {
 
             $hasFechamento = $this->fechamentoController->hasFechamento($idInstituicao, date("Y-m-d", strtotime($saida->getDataSaida())));
             
-            Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_UPDATE_SAIDA);
+            Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_SAVE_MOVIMENTACOES);
 
             $result = $this->saidaDAO->updateSaida($saida);
 

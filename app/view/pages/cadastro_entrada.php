@@ -50,7 +50,7 @@ try {
 
         $fechamentoController = new FechamentoController();
         $hasFechamento = $fechamentoController->hasFechamento($idInstituicao, $dataEntrada);
-        Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_RECORD_ENTRADA);
+        Validacoes::isTrueThenRiseMessage($hasFechamento, Constantes::CAN_NOT_SAVE_MOVIMENTACOES);
         
     }
 
