@@ -17,7 +17,8 @@ class FechamentoDAO extends DaoPattern {
             addColum("count(f.idinstituicao) > 0 as chave")->
             FROM("fechamentos f")->
             WHERE("f.idinstituicao = :idinstituicao")->
-            AND(":data between f.datainicio and f.datafim")->
+            AND("f.datainicio > :data")->
+            OR(":data between f.datainicio and f.datafim")->
         getSql();
 
 
