@@ -25,9 +25,10 @@ class ExceptionUtil {
     }
 
     public static function handleError(Exception $e) {
-        if (strpos($e->getMessage(), "violation: 1062") >= 0) {
+        if (strpos($e->getMessage(), "violation: 1062") !== false) {
             return self::MESSAGES["1062"];
         }
+        return $e->getMessage();
     }
 
 }
