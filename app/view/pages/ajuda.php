@@ -60,7 +60,7 @@ include "./app/view/sessionInfo.php";
     </div>
 
     <div class="col-md-12">
-        <ol class="ajuda">
+        <ol class="ajuda" start="1">
             <li>
                 <a name="help1">Cadastrar uma Instituição.</a>
                 <ol type="a">
@@ -82,7 +82,7 @@ include "./app/view/sessionInfo.php";
 
         <hr>
 
-        <ol class="ajuda">
+        <ol class="ajuda" start="2">
             <li>
                 <a name="help2">Cadastrar Entradas e Saídas.</a>
                 <ol type="a">
@@ -108,7 +108,7 @@ include "./app/view/sessionInfo.php";
 
         <hr>
 
-        <ol class="ajuda">
+        <ol class="ajuda" start="3">
             <li>
                 <a name="help3">Realizar Fechamento do Mês.</a>
                 <ol type="a">
