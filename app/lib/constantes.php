@@ -44,4 +44,16 @@ class Constantes{
         11 => "Novembro",
         12 => "Dezembro"
     ];
+
+    //PROPERTIES    
+    //const MAIL_FROM = self::getXML();
+
+    public static function getMailFromByXML() {
+        $xml = simplexml_load_file("../../lib/properties.xml");
+        if ($xml) {
+            return $xml->envioMail->from;
+        } else {
+            return "";
+        }
+    }
 }

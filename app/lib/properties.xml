@@ -7,4 +7,7 @@
         <dbPassword>teste</dbPassword>
     </dataBase>
     <daysToExpireResetKey>1</daysToExpireResetKey>
+    <envioMail>
+        <from>contato@ikdesigns.com.br</from>        
+    </envioMail>
 </config>

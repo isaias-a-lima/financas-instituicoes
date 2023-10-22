@@ -18,6 +18,8 @@ $fechamento = $fechamentoController->getById($idFechamento);
 
 $nomeInstituicao = $fechamento->getInstituicao()->getNome();
 $cnpjInstituicao = $fechamento->getInstituicao()->getCnpj();
+$emailInstituicao = $fechamento->getInstituicao()->getEmail();
+$emailContabilidade = $fechamento->getInstituicao()->getEmailContab();
 
 $saldoInicial = $fechamento->getSaldoInicial();
 $saldoInicialFormatado = number_format($saldoInicial, 2, ",", ".");
@@ -69,6 +71,31 @@ while ($countWords > 0) {
     $countWords--;    
 }
 $pdfName .= '_Fechamento_Mensal_' . $anoMesFechamento . '.pdf';
+
+$mailSubject = substr($pdfName, 0, strpos($pdfName, "_")) . " - Fechamento $anoFechamento/$mesFechamento";
+
+//Define o conteúdo do e-mail
+$mailContent = "
+    <html>
+    <head>
+    <title>Fechamento Mensal - $mesFechamento/$anoFechamento</title>
+    </head>
+    <body>
+    <h1>Fechamento Mensal - $mesFechamento/$anoFechamento</h1>
+    <h2>$nomeInstituicao</h2>
+    <h3>$cnpjInstituicao</h3>
+    <p>
+        Segue em anexo o fechamento mensal referente a $mesFechamento/$anoFechamento.                      
+    </p>
+    <p>
+        <i>
+            Favor não responder a esse e-mail, pois foi enviado automaticamente pela aplicação Tesouraria Prática.<br>
+            Caso queira contatar a instituição entre contato através do e-mail: $emailInstituicao.
+        </i>.
+    </p>
+    </body>
+    </html>
+";
 
 
 //Define o conteudo do PDF
@@ -216,7 +243,7 @@ $htmlToPDF .= "
 
     <div class="col-md-6 text-right espaco-padrao">
         <span class="tools glyphicon glyphicon-file" title="PDF" alt="PDF" id="btn-gerar-pdf"></span>
-        <span class="tools glyphicon glyphicon-send" title="Enviar ao contador" alt="Enviar ao contador"></span>
+        <span class="tools glyphicon glyphicon-send" title="Enviar ao contador" alt="Enviar ao contador" id="btn-enviar-mail"></span>
         &nbsp;
         &nbsp;
     </div>
@@ -284,6 +311,11 @@ $htmlToPDF .= "
 <form id="form-pdf" method="post" action="./app/view/pages/pdf.php" target="_new">
     <input type="hidden" name="html-to-pdf" value="<?=$htmlToPDF?>">
     <input type="hidden" name="file-name" value="<?=$pdfName?>">
+    <input type="hidden" name="is-mail" id="is-mail" value="0">
+    <input type="hidden" name="mail-to" id="mail-to" value="<?=$emailContabilidade?>">
+    <input type="hidden" name="reply-to" id="reply-to" value="<?=$emailInstituicao?>">
+    <input type="hidden" name="mail-subject" id="mail-subject" value="<?=$mailSubject?>">
+    <input type="hidden" name="mail-content" id="mail-content" value="<?=$mailContent?>">
 </form>
 
 <script src="./app/view/js/ver_fechamento.js"></script>
