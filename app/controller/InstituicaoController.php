@@ -54,7 +54,17 @@ class InstituicaoController {
 
     public function saveUsuariosInstituicao(int $idUsuario, int $idInstituicao, $funcao) {
         try {
-            return $this->instituicaoDao->saveUsuariosInstituicao($idUsuario, $idInstituicao, $funcao);            
+
+            $result = $this->instituicaoDao->saveUsuariosInstituicao($idUsuario, $idInstituicao, $funcao);
+            
+            if (isset($result) && is_int($result)) {
+                $codPage = RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'];
+                $msg = "Permissão de acesso concedida.";
+                echo "<script>location.replace('./?p=$codPage&idi=$idInstituicao&msg=$msg');</script>";
+            }
+
+            return $result;
+
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -124,6 +134,15 @@ class InstituicaoController {
         }
 
         return $html;
+    }
+
+    public function hasPermissao($idUsuario, $idInstituicao) {
+        try {
+            $result = $this->instituicaoDao->hasPermissao($idUsuario, $idInstituicao);
+            return $result;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
 }

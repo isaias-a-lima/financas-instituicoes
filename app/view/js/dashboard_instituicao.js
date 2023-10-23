@@ -15,14 +15,14 @@ function closeAvisoModal() {
 
 function openUserModal(idIntituicao) {
     resetModal();
-    $("#idInstituicao").val(idIntituicao);
+    $("#idi").val(idIntituicao);
     $("#userModal").modal();
 }
 
 function convidar() {
     let email = $("#e-mail").val();
     let funcao = $("#funcao").val();
-    let idInstituicao = $("#idInstituicao").val();
+    let idInstituicao = $("#idi").val();
 
     if (email.length == 0) {
         $("#e-mail").css("border-color", "red");
@@ -35,9 +35,11 @@ function convidar() {
         $("#errorModel").text("ID da instituição é obrigatório.");
         $("#errorModel").css("display", "block");
     } else {
-        const msg = email + " | " + funcao + " | " + idInstituicao;
-        $("#userModal").modal("hide");
-        openAvisoModal()
+        $("#form-permitir-user").submit();
+
+        //const msg = email + " | " + funcao + " | " + idInstituicao;
+        //$("#userModal").modal("hide");
+        //openAvisoModal()
     }
 }
 
@@ -46,8 +48,8 @@ function resetModal() {
     $("#e-mail").val("");
     $("#funcao").css("border-color", "");
     $("#funcao").val("");
-    $("#idInstituicao").css("border-color", "");
-    $("#idInstituicao").val("");
+    $("#idi").css("border-color", "");
+    $("#idi").val("");
     $("#errorModel").text("");
     $("#errorModel").css("display", "none");
 }

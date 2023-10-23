@@ -36,6 +36,22 @@ class UsuarioController {
         return $result;
     }
 
+    public function getUsuarioByEmail($email) {
+        $result = null;
+        try {
+            if (!isset($email)) {
+                throw new Exception("Nenhum usuário selecionado.");
+            }
+
+            $result = $this->usuarioDao->getUsuarioByEmail($email);
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
+        return $result;
+    }
+
     public function saveUsuario(Usuario $usuario) {
         
         try {

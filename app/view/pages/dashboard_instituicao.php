@@ -11,6 +11,7 @@ $linkFechamentos = RenderController::PAGES['LISTAR_FECHAMENTOS']['cod'];
 $linkContas = RenderController::PAGES['LISTAR_CONTAS']['cod'];
 $linkEditar = RenderController::PAGES['EDITAR_INSTITUICAO']['cod'];
 $linkFaturas = RenderController::PAGES['LISTAR_FATURAS']['cod'];
+$linkPermitirUser = RenderController::PAGES['PERMITIR_USUARIO']['cod'];
 
 $idInstituicao = isset($_GET['idi']) ? $_GET['idi'] : '';
 
@@ -22,7 +23,7 @@ $isTitular = $usuario->getIdUsuario() == $instituicao->getTitular()->getIdUsuari
 $cssDisplay = $isTitular ? "block" : "none";
 
 $infoEditar = "Editar dados da instituição";
-$infoAddUser = "Adicionar usuários à instituição";
+$infoAddUser = "Permitir acesso de usuário à instituição";
 ?>
 
 <section class="row">
@@ -82,15 +83,15 @@ $infoAddUser = "Adicionar usuários à instituição";
             Categorias
         </div>
     </div>
-    <!--Provisorio--><div style="display: none;">
+    
     <div class="col-md-3 espaco-padrao" style="display:<?=$cssDisplay?>" title="<?=$infoAddUser?>" alt="<?=$infoAddUser?>">
         <div class="menu" onclick="openUserModal(<?=$idInstituicao?>)">
             <i class="glyphicon glyphicon-user"></i>
             &nbsp;
-            Adicionar usuário
+            Permitir usuário
         </div>
     </div>
-    </div><!--Provisorio-->
+    
     <div class="col-md-3 espaco-padrao" style="display:<?=$cssDisplay?>" title="<?=$infoEditar?>" alt="<?=$infoEditar?>">
         <div class="menu" onclick="document.location.href='./?p=<?=$linkEditar?>&idi=<?=$idInstituicao?>'">
             <i class="glyphicon glyphicon-edit"></i>
@@ -116,20 +117,21 @@ $infoAddUser = "Adicionar usuários à instituição";
                 <h4>Convidar alguém para ter acesso à instituição</h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="form-permitir-user" action="<?php $_SERVER['PHP_SELF'] ?>">
                     <div class="form-group">
                         <label>E-mail</label>
-                        <input type="email" id="e-mail" class="form-control" required>
+                        <input type="email" name="e-mail" id="e-mail" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Função</label>
-                        <select id="funcao" class="form-control">
+                        <select name="funcao" id="funcao" class="form-control">
                             <option value="">...</option>
                             <option value="Tesoureiro">Tesoureiro(a)</option>
                             <option value="Fiscal">Fiscal</option>
                         </select>
                     </div>
-                    <input type="hidden" id="idInstituicao" placeholder="instituição">
+                    <input type="hidden" name="p" id="p" value="<?=$linkPermitirUser?>" />
+                    <input type="hidden" name="idi" id="idi" />
                 </form>
                 <div class="alert alert-danger" id="errorModel" style="display: none;">
                 </div>

@@ -3,6 +3,7 @@ namespace app\model\dao;
 
 use app\model\dao\patterns\DaoPattern;
 use app\model\dao\sql\SqlBuilder;
+use app\model\entities\converter\BooleanConverter;
 use app\model\entities\converter\InstituicaoConverter;
 use app\model\entities\Instituicao;
 use Exception;
@@ -94,11 +95,11 @@ class InstituicaoDao extends DaoPattern {
             [":funcao", (isset($funcao) ? $funcao : "Titular")]
         ];
 
-        $result = false;
+        $result = null;
 
         try {
             $lastId = parent::save($sql, $params);
-            if (isset($lastId) && $lastId !== false) {
+            if (isset($lastId) && $lastId !== null) {
                 $result = (int) $lastId;
             }
         } catch (Exception $e) {
@@ -154,6 +155,34 @@ class InstituicaoDao extends DaoPattern {
 
         try {
             $result = parent::update($sql, $params);
+        }catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Verifica se um usuário tem permissão de acesso a uma instituição
+     * 
+     */
+    public function hasPermissao($idUsuario, $idInstituicao) {
+        $sql = SqlBuilder::build()->
+            DATABASE(parent::getDbName())->
+            SELECT()->addColum("count(idusuario) > 0 as chave")->FROM("usuarios_instituicoes ui")->
+            WHERE("ui.idusuario = :idusuario")->
+            AND("idinstituicao = :idinstituicao")->
+            getSql();
+
+        $params = [
+            [":idusuario", $idUsuario],
+            [":idinstituicao", $idInstituicao]
+        ];
+
+        $result = false;
+
+        try {
+            $result = parent::getOne($sql, $params, new BooleanConverter());
         }catch (Exception $e) {
             throw new Exception($e);
         }

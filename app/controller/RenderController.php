@@ -29,7 +29,8 @@ class RenderController {
         "CADASTRO_FECHAMENTO"=>["cod"=>21, "page"=>"/cadastro_fechamento.php"],
         "CONTATO"=>["cod"=>22, "page"=>"/contato.php"],
         "AJUDA"=>["cod"=>23, "page"=>"/ajuda.php"],
-        "VER_FECHAMENTO"=>["cod"=>24, "page"=>"/ver_fechamento.php"]
+        "VER_FECHAMENTO"=>["cod"=>24, "page"=>"/ver_fechamento.php"],
+        "PERMITIR_USUARIO"=>["cod"=>25, "page"=>"/permitir_usuario.php"]
     ];
 
     private SessionController $sessao;
