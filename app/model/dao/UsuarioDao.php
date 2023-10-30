@@ -3,7 +3,7 @@ namespace app\model\dao;
 
 use app\model\dao\patterns\DaoPattern;
 use app\model\dao\sql\SqlBuilder;
-use app\model\entities\converter\BooleanConverter;
+use app\model\entities\converter\GenericConverter;
 use app\model\entities\converter\UsuarioConverter;
 use app\model\entities\Usuario;
 use Exception;
@@ -68,7 +68,7 @@ class UsuarioDao extends DaoPattern {
 
         $sql = SqlBuilder::build()->
         DATABASE(parent::getDbName())->
-        SELECT()->addColum("hrs.chave")->
+        SELECT()->addColum("hrs.chave as coluna")->
         FROM("historico_reset_senha hrs")->        
         WHERE("hrs.idusuario = :idusuario")->
         AND("curdate() between hrs.datasolicitacao and hrs.dataexpiracao")->
@@ -82,7 +82,7 @@ class UsuarioDao extends DaoPattern {
         $result = false;
 
         try {
-            $result = parent::getOne($sql, $params, new BooleanConverter());
+            $result = parent::getOne($sql, $params, new GenericConverter());
         }catch (Exception $e) {
             throw new Exception($e);
         }
