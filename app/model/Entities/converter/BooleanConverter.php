@@ -4,16 +4,16 @@ namespace app\model\entities\converter;
 class BooleanConverter implements ConverterInterface {
 
     public function assocArrayToObject(array $result) {
-        $flag = null;
+        $flag = false;
 
         if (isset($result)) {
             if (isset($result['chave'])) {
-               $flag = $result['chave'];
+               $flag = filter_var($result['chave'], FILTER_VALIDATE_BOOLEAN);
             }
 
             return $flag;
         }
-        return null;
+        return false;
     }
 
     public function arrayListToObjectList(array $array) {

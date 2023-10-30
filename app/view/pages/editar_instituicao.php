@@ -3,19 +3,20 @@
 use app\controller\InstituicaoController;
 use app\controller\RenderController;
 use app\controller\SessionController;
+use app\lib\Constantes;
 use app\lib\SecurityUtil;
 use app\model\entities\Instituicao;
 use app\model\entities\Usuario;
 
-$error = "";
+$errorMsg = "";
 
 $sessao = SessionController::getInstance();
 
 $usuario = $sessao->getSessionUser();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+try {
 
-    try {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $instituicao = new Instituicao();
         $instituicao->setIdInstituicao(isset($_POST['idInstituicao']) ? $_POST['idInstituicao'] : null);
@@ -24,18 +25,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $instituicao->setEmail(isset($_POST['email']) ? $_POST['email'] : null);
         $instituicao->setEmailContab(isset($_POST['emailcontab']) ? $_POST['emailcontab'] : null);
         $instituicao->setDataCadastro(isset($_POST['datacadastro']) ? $_POST['datacadastro'] : null);
+        $instituicao->setTitular($usuario);
+
+        $idInstituicao = $instituicao->getIdInstituicao();
 
         $controller = new InstituicaoController();
         $controller->updateInstituicao($instituicao);
-    } catch (Exception $e) {
-        $msg = $e->getMessage();
-        $error = "<div class='alert alert-danger'>$msg</div>";
+    
+    } else {
+        $idInstituicao = isset($_GET['idi']) ? SecurityUtil::sanitizeString($_GET['idi']) : 0;
+        
+        $controller = new InstituicaoController();
+        
+        $res = $controller->isTitularUser($usuario->getIdUsuario(), $idInstituicao);
+        
+        if(!isset($res) || isset($res) && !$res) {
+            throw new Exception(Constantes::JUST_TITULAR_CAN_UPDATE);
+        }
+
+        $instituicao = $controller->getById($idInstituicao);
+        $dataCadastro = date("d/m/Y", strtotime($instituicao->getDataCadastro()));
     }
-} else {
-    $idInstituicao = isset($_GET['idi']) ? SecurityUtil::sanitizeString($_GET['idi']) : 0;
-    $controller = new InstituicaoController();
-    $instituicao = $controller->getById($idInstituicao);
-    $dataCadastro = date("d/m/Y", strtotime($instituicao->getDataCadastro()));
+
+} catch (Exception $e) {
+    $msg = $e->getMessage();
+    $errorMsg = "<div class='alert alert-danger'>$msg</div>";
+    $instituicao = new Instituicao();
+    $instituicao->setNome("");
 }
 
 include "./app/view/sessionInfo.php";
@@ -72,7 +88,7 @@ include "./app/view/sessionInfo.php";
 
 <section class="row">
     <div class="col-sm-6">
-        <?= $error ?>
+        <?= $errorMsg ?>
         <form method="post" action="<?php $_SERVER['PHP_SELF'] ?>">
             <input type="hidden" name="idInstituicao" id="idInstituicao" value="<?=$instituicao->getIdInstituicao()?>" />
 

@@ -19,6 +19,8 @@ class Constantes{
 
     const EMAIL_NOT_FOUND = "E-mail não encontrado.";
 
+    const JUST_TITULAR_CAN_UPDATE = "Somente o titular da instituição pode fazer alterações";
+
     const SEMANA = [
         0 => "Domingo",
         1 => "Segunda-feira",
@@ -56,4 +58,10 @@ class Constantes{
             return "";
         }
     }
+
+    const USER_FUNCTIONS = [
+        "TITULAR"=>["cod"=>1, "funcao"=>"titular"],
+        "TESOUREIRO"=>["cod"=>2, "funcao"=>"tesoureiro"],
+        "FISCAL"=>["cod"=>3, "funcao"=>"fiscal"]
+    ];
 }

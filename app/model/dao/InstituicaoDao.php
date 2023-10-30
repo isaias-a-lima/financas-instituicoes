@@ -1,6 +1,7 @@
 <?php
 namespace app\model\dao;
 
+use app\lib\Constantes;
 use app\model\dao\patterns\DaoPattern;
 use app\model\dao\sql\SqlBuilder;
 use app\model\entities\converter\BooleanConverter;
@@ -183,6 +184,42 @@ class InstituicaoDao extends DaoPattern {
 
         try {
             $result = parent::getOne($sql, $params, new BooleanConverter());
+            if (!isset($result) || !is_bool($result)) {
+                $result = false;
+            }
+        }catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Verifica se um usuário é o titular de uma instituição
+     * 
+     */
+    public function isTitularUser($idUsuario, $idInstituicao) {
+        $sql = SqlBuilder::build()->
+            DATABASE(parent::getDbName())->
+            SELECT()->addColum("count(idusuario) > 0 as chave")->FROM("usuarios_instituicoes ui")->
+            WHERE("ui.idusuario = :idusuario")->
+            AND("idinstituicao = :idinstituicao")->
+            AND("lower(funcao) = :funcao")->
+            getSql();
+
+        $params = [
+            [":idusuario", $idUsuario],
+            [":idinstituicao", $idInstituicao],
+            [":funcao", Constantes::USER_FUNCTIONS['TITULAR']['funcao']]
+        ];
+
+        $result = false;
+
+        try {
+            $result = parent::getOne($sql, $params, new BooleanConverter());
+            if (!isset($result) || !is_bool($result)) {
+                $result = false;
+            }
         }catch (Exception $e) {
             throw new Exception($e);
         }

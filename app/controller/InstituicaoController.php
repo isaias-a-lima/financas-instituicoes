@@ -1,6 +1,7 @@
 <?php
 namespace app\controller;
 
+use app\lib\Constantes;
 use app\model\dao\InstituicaoDao;
 use app\model\entities\Instituicao;
 use Exception;
@@ -37,6 +38,14 @@ class InstituicaoController {
         try {
             if(!isset($instituicao)) {
                 throw new Exception("Instituição é obrigatória.");
+            }
+
+            $result = false;
+
+            $isTitularUser = $this->isTitularUser($instituicao->getTitular()->getIdUsuario(), $instituicao->getIdInstituicao());
+
+            if (!$isTitularUser) {
+                throw new Exception(Constantes::JUST_TITULAR_CAN_UPDATE);
             }
 
             $result = $this->instituicaoDao->updateInstituicao($instituicao);
@@ -138,8 +147,16 @@ class InstituicaoController {
 
     public function hasPermissao($idUsuario, $idInstituicao) {
         try {
-            $result = $this->instituicaoDao->hasPermissao($idUsuario, $idInstituicao);
-            return $result;
+            return $this->instituicaoDao->hasPermissao($idUsuario, $idInstituicao);
+            
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function isTitularUser($idUsuario, $idInstituicao) {
+        try {
+            return $this->instituicaoDao->isTitularUser($idUsuario, $idInstituicao);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
