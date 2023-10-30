@@ -115,7 +115,7 @@ include "./app/view/sessionInfo.php";
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="datasaida">Data</label>
-                    <input class="form-control" type="date" name="datasaida" id="datasaida" value="<?= $dataSaida ?>" readonly required />
+                    <input class="form-control" type="date" name="datasaida" id="datasaida" value="<?= $dataSaida ?>" required />
                 </div>
             </div>
             <div class="col-md-3">
