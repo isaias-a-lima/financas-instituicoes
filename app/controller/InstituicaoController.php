@@ -67,7 +67,7 @@ class InstituicaoController {
             $result = $this->instituicaoDao->saveUsuariosInstituicao($idUsuario, $idInstituicao, $funcao);
             
             if (isset($result) && is_int($result)) {
-                $codPage = RenderController::PAGES['DASHBOARD_INSTITUICAO']['cod'];
+                $codPage = RenderController::PAGES['USUARIOS_INSTITUICOES']['cod'];
                 $msg = "Permissão de acesso concedida.";
                 echo "<script>location.replace('./?p=$codPage&idi=$idInstituicao&msg=$msg');</script>";
             }

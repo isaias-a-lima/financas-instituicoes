@@ -52,6 +52,66 @@ class UsuarioController {
         return $result;
     }
 
+    public function getUsuarioByInstituicao(int $idInstituicao) {
+        $result = null;
+
+        $html = "
+        <div class='table-responsive'>
+            <table class='table table-hover'>
+                <thead>
+                    <tr>
+                        <th style='width: 35%;'>Nome</th>
+                        <th style='width: 35%;'>E-mail</th>
+                        <th style='width: 20%;'>Função</th>
+                        <th style='width: 10%;'>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+        ";
+
+        try {
+            if (!isset($idInstituicao)) {
+                throw new Exception("Nenhuma instituição foi selecionada.");
+            }
+
+            $result = $this->usuarioDao->getUsuarioByInstituicao($idInstituicao);
+
+            for($i=0; $i < count($result); $i++) {
+                $nomeUser = $result[$i]->getNome();
+                $emailUser = $result[$i]->getEmail();
+                $funcaoUser = $result[$i]->getFuncao();
+
+                $html .= "
+                <tr>
+                    <td>$nomeUser</td>
+                    <td>$emailUser</td>
+                    <td>$funcaoUser</td>
+                    <td>-</td>
+                </tr>
+                ";
+            }
+
+            $html .= "
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+            ";
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
+        return $html;
+    }
+
     public function saveUsuario(Usuario $usuario) {
         
         try {

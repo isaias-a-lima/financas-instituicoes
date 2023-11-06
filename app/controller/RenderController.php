@@ -30,7 +30,8 @@ class RenderController {
         "CONTATO"=>["cod"=>22, "page"=>"/contato.php"],
         "AJUDA"=>["cod"=>23, "page"=>"/ajuda.php"],
         "VER_FECHAMENTO"=>["cod"=>24, "page"=>"/ver_fechamento.php"],
-        "PERMITIR_USUARIO"=>["cod"=>25, "page"=>"/permitir_usuario.php"]
+        "PERMITIR_USUARIO"=>["cod"=>25, "page"=>"/permitir_usuario.php"],
+        "USUARIOS_INSTITUICOES"=>["cod"=>26, "page"=>"/usuarios_instituicoes.php"]
     ];
 
     private SessionController $sessao;

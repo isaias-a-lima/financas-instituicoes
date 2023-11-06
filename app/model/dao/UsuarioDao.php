@@ -64,6 +64,31 @@ class UsuarioDao extends DaoPattern {
         return $result;
     }
 
+    public function getUsuarioByInstituicao(int $idInstituicao) {
+        $sql = SqlBuilder::build()->DATABASE(parent::getDbName())->
+            SELECT()->addColum("u.idusuario, u.rg, u.nome, u.email, u.datacadastro, ui.idinstituicao, ui.funcao")->
+            FROM("usuarios u")->
+            INNERJOIN("usuarios_instituicoes ui")->ON("ui.idusuario = u.idusuario")->
+            WHERE("ui.idinstituicao = :idinstituicao")->
+            AND("LOWER(ui.funcao) != 'titular'")->
+            ORDERBY("u.nome")->
+            getSql();
+
+        $params = [
+            [':idinstituicao', $idInstituicao]
+        ];
+
+        $result = null;
+
+        try {
+            $result = parent::getAll($sql, $params, new UsuarioConverter());            
+        }catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        return $result;
+    }
+
     public function verifyChave(int $idUsuario) {
 
         $sql = SqlBuilder::build()->

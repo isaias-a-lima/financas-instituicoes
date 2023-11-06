@@ -12,6 +12,7 @@ $linkContas = RenderController::PAGES['LISTAR_CONTAS']['cod'];
 $linkEditar = RenderController::PAGES['EDITAR_INSTITUICAO']['cod'];
 $linkFaturas = RenderController::PAGES['LISTAR_FATURAS']['cod'];
 $linkPermitirUser = RenderController::PAGES['PERMITIR_USUARIO']['cod'];
+$linkUsuariosInstituicoes = RenderController::PAGES['USUARIOS_INSTITUICOES']['cod'];
 
 $idInstituicao = isset($_GET['idi']) ? $_GET['idi'] : '';
 
@@ -67,7 +68,10 @@ $infoAddUser = "Permitir acesso de usuário à instituição";
             Fechamentos
         </div>
     </div>
-
+    <?php
+    //Oculta botões caso não seja o titular
+    if ($isTitular) {    
+    ?>
     <div class="col-md-3 espaco-padrao" style="display: none;">
         <div class="menu" onclick="">
             <i class="glyphicon glyphicon-usd text-warning"></i>
@@ -83,12 +87,12 @@ $infoAddUser = "Permitir acesso de usuário à instituição";
             Categorias
         </div>
     </div>
-    
-    <div class="col-md-3 espaco-padrao" style="display:<?=$cssDisplay?>" title="<?=$infoAddUser?>" alt="<?=$infoAddUser?>">
-        <div class="menu" onclick="openUserModal(<?=$idInstituicao?>)">
+
+    <div class="col-md-3 espaco-padrao"  style="display:<?=$cssDisplay?>">
+        <div class="menu" onclick="document.location.href='./?p=<?=$linkUsuariosInstituicoes?>&idi=<?=$idInstituicao?>'">
             <i class="glyphicon glyphicon-user"></i>
             &nbsp;
-            Permitir usuário
+            Usuários
         </div>
     </div>
     
@@ -107,46 +111,10 @@ $infoAddUser = "Permitir acesso de usuário à instituição";
             Faturas
         </div>
     </div>
+
+    <?php
+    }
+    ?>
 </section>
-
-<div id="userModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close glyphicon glyphicon-remove" data-dismiss="modal"></span>
-                <h4>Convidar alguém para ter acesso à instituição</h4>
-            </div>
-            <div class="modal-body">
-                <form id="form-permitir-user" action="<?php $_SERVER['PHP_SELF'] ?>">
-                    <div class="form-group">
-                        <label>E-mail</label>
-                        <input type="email" name="e-mail" id="e-mail" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Função</label>
-                        <select name="funcao" id="funcao" class="form-control">
-                            <option value="">...</option>
-                            <option value="Tesoureiro">Tesoureiro(a)</option>
-                            <option value="Fiscal">Fiscal</option>
-                        </select>
-                    </div>
-                    <input type="hidden" name="p" id="p" value="<?=$linkPermitirUser?>" />
-                    <input type="hidden" name="idi" id="idi" />
-                </form>
-                <div class="alert alert-danger" id="errorModel" style="display: none;">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button onclick="convidar()" class="btn btn-primary"><span class="glyphicon glyphicon-log-out"></span> Convidar </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="avisoModal" style="position:fixed; z-index:9999; background-color:rgba(0, 0, 0, 0.8); display:none;">
-    <div class="alert alert-success" style="position:relative; width:80%; margin: 0 10%; top:100px;">
-        Convite enviado com sucesso!
-    </div>
-</div>
 
 <script src="./app/view/js/dashboard_instituicao.js"></script>
